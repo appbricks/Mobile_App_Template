@@ -124,7 +124,7 @@ export default StyleSheet.create({
  */
 export function getCheckBoxColor(asStyleObject, disabled?) {
 
-  if (asStyle) {
+  if (asStyleObject) {
     if (disabled) {
       return { color: DIALOG.checkBoxDisabledColor };
     } else {
