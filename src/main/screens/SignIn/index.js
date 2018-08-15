@@ -243,6 +243,7 @@ class SignIn extends AuthBase {
             autoCorrect={false}
             spellCheck={false}
             textContentType="username"
+            returnKeyType="done"
 
             containerStyle={dialogStyles.textContainer}
             labelStyle={dialogStyles.textLabel}
@@ -266,6 +267,7 @@ class SignIn extends AuthBase {
               />}
             secureTextEntry={true}
             textContentType="password"
+            returnKeyType="done"
 
             containerStyle={dialogStyles.textContainer}
             labelStyle={dialogStyles.textLabel}
