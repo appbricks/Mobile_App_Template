@@ -2,7 +2,7 @@
  * Copyright 2018-2018 AppBricks, Inc. or its affiliates. All Rights Reserved.
  */
 import React, { Component } from "react";
-import { View, Text, Alert } from 'react-native';
+import { View, Alert } from 'react-native';
 import { Icon, Input, Button } from "react-native-elements";
 
 import { connect } from "react-redux";

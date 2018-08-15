@@ -8,8 +8,6 @@ import { Icon, Button, Badge } from "react-native-elements";
 import { connect } from "react-redux";
 import { resetUser } from "../../redux/actions/creators"
 
-import User from "../../../lib/model/User"
-
 import Dialog from "../../components/Dialog"
 import TextInput from "../../components/TextInput"
 
