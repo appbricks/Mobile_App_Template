@@ -114,3 +114,28 @@ export default StyleSheet.create({
     fontSize: common.baseFontSize * 0.8
   }
 });
+
+/**
+ * Returns the color for a checkbox element 
+ * as a style object or color value.
+ * 
+ * @param {*} asStyleObject 
+ * @param {*} disabled 
+ */
+export function getCheckBoxColor(asStyleObject, disabled?) {
+
+  if (asStyle) {
+    if (disabled) {
+      return { color: DIALOG.checkBoxDisabledColor };
+    } else {
+      return { color: DIALOG.checkBoxEnabledColor };
+    }
+
+  } else {
+    if (disabled) {
+      return DIALOG.checkBoxDisabledColor;
+    } else {
+      return DIALOG.checkBoxEnabledColor;
+    }
+  }
+}

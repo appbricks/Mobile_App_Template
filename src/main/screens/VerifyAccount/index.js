@@ -14,7 +14,7 @@ import IconButtonGroup from "../../components/IconButtonGroup"
 import Logger from "../../../lib/utils/Logger";
 
 import common, { COLORS } from "../../styles/common";
-import dialogStyles, { DIALOG } from "../../components/Dialog/dialogStyles";
+import dialogStyles, { DIALOG, getCheckBoxColor } from "../../components/Dialog/dialogStyles";
 
 import styles from "./styles";
 
@@ -135,24 +135,6 @@ class VerifyAccount extends Component<Props> {
     navigation.navigate("SignIn");
   }
 
-  _getCheckBoxColor(style, disabled?) {
-
-    if (style) {
-      if (disabled) {
-        return { color: DIALOG.checkBoxDisabledColor };
-      } else {
-        return { color: DIALOG.checkBoxEnabledColor };
-      }
-
-    } else {
-      if (disabled) {
-        return DIALOG.checkBoxDisabledColor;
-      } else {
-        return DIALOG.checkBoxEnabledColor;
-      }
-    }
-  }
-
   render() {
     Logger.logRender(this);
 
@@ -241,9 +223,9 @@ class VerifyAccount extends Component<Props> {
             title='Remember me for 24 hours'
             checked={this.state.rememberFor24h}
             disabled={!this.state.enableMFA}
-            checkedColor={this._getCheckBoxColor(COLOR, !this.state.enableMFA)}
-            uncheckedColor={this._getCheckBoxColor(COLOR, !this.state.enableMFA)}
-            textStyle={this._getCheckBoxColor(STYLE, !this.state.enableMFA)}
+            checkedColor={getCheckBoxColor(COLOR, !this.state.enableMFA)}
+            uncheckedColor={getCheckBoxColor(COLOR, !this.state.enableMFA)}
+            textStyle={getCheckBoxColor(STYLE, !this.state.enableMFA)}
             containerStyle={dialogStyles.checkBoxContainer}
             onPress={this.onRememberFor24h.bind(this)}
           />
