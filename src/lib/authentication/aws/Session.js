@@ -74,7 +74,8 @@ export default class Session {
       Auth.userAttributes(cognitoUser)
         .then(
           attributes => {
-            logger.trace("user attributes: ", attributes);
+            logger.trace("reading attributes", attribNames,
+              " from user attributes:", attributes);
 
             attributes
               .filter(
@@ -106,6 +107,8 @@ export default class Session {
                     break;
                 }
               })
+
+            logger.trace("read user: ", user);
             resolve(user);
           },
           error => {
@@ -126,9 +129,9 @@ export default class Session {
 
     let attributes = {
       email: user.emailAddress,
-      email_verified: user.emailAddressVerified ? "true" : "false",
+      email_verified: user.emailAddressVerified,
       phone_number: user.mobilePhone,
-      phone_number_verified: user.mobilePhoneVerified ? "true" : "false",
+      phone_number_verified: user.mobilePhoneVerified,
       "custom:preferences": JSON.stringify({
         enableBiometric: user.enableBiometric,
         enableMFA: user.enableMFA,
