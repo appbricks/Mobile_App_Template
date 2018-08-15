@@ -44,7 +44,6 @@ export default class MySpaces extends Component<Props> {
             }
           }
         />
-        <Text style={common.bigText}>My Spaces</Text>
       </View>
     );
   }

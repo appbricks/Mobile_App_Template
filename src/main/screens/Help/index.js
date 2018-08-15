@@ -29,7 +29,7 @@ class Help extends Component<Props> {
 
     return (
       <StackView backgroundImage={backgroundImage}>
-        <Text style={common.bigText}>Help Screen...</Text>
+
       </StackView>
     );
   }

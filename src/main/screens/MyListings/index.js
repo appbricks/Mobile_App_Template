@@ -44,7 +44,6 @@ export default class MyListings extends Component<Props> {
             }
           }
         />
-        <Text style={common.bigText}>My Listings</Text>
       </View>
     );
   }

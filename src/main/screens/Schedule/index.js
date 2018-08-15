@@ -44,7 +44,6 @@ export default class SignIn extends Component<Props> {
             }
           }
         />
-        <Text style={common.bigText}>Schedule</Text>
       </View>
     );
   }

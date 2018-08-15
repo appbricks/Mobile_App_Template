@@ -29,7 +29,7 @@ class Account extends Component<Props> {
 
     return (
       <StackView backgroundImage={backgroundImage}>
-        <Text style={common.bigText}>Account Screen...</Text>
+
       </StackView>
     );
   }

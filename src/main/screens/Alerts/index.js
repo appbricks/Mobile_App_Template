@@ -29,7 +29,7 @@ export default class Alerts extends Component<Props> {
           onMenu={mainNavigator.openDrawer}
           title="Alerts"
         />
-        <Text style={common.bigText}>Alerts</Text>
+
       </View>
     );
   }
