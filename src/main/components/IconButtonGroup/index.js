@@ -13,7 +13,7 @@ type Props = {};
 export default class IconButtonGroup extends Component<Props> {
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       selectedIndex: this.props.selectedIndex

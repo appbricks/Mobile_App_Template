@@ -11,7 +11,7 @@ type Props = {};
 export default class HomeHeader extends Component<Props> {
 
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {

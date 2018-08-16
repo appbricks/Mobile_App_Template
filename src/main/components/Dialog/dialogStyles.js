@@ -94,7 +94,7 @@ export default StyleSheet.create({
     width: 105,
     paddingLeft: 10,
     paddingRight: 10,
-    justifyContent: "flex-start",
+    justifyContent: "center",
     borderWidth: 1,
     borderColor: COLORS.black,
     borderRadius: 0,

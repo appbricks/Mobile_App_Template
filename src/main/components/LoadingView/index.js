@@ -13,7 +13,7 @@ type Props = {};
 export default class LoadingView extends Component<Props> {
 
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
