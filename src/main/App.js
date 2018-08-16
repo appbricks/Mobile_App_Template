@@ -62,6 +62,7 @@ const AppNav = createSwitchNavigator(
         Main: (props) => {
 
             const { navigation, screenProps } = props;
+            screenProps.drawerLockMode = "unlocked";
 
             return (<MainNav screenProps={
                 {
