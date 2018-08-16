@@ -35,22 +35,22 @@ export const COLORS = {
 
   // Colors picked from App Icon
 
-  iconShade1: "#c7b3b5",
-  iconShade2: "#e8ddc9",
-  iconShade3: "#ebebeb",
+  iconShade1: "#C7B3B5",
+  iconShade2: "#E8DDC9",
+  iconShade3: "#EBEBEB",
 
-  iconWhite: "#f8ffff",
-  iconRed: "#ec121e",
-  iconBlue: "#78bfd6",
-  iconLightBlue: "#afe5f7",
-  iconGray: "#70696a",
-  iconLightGray: "#ebebeb",
+  iconWhite: "#F8FFFF",
+  iconRed: "#EC121E",
+  iconBlue: "#78BFD6",
+  iconLightBlue: "#AFE5F7",
+  iconGray: "#70696A",
+  iconLightGray: "#EBEBEB",
 
   // Social Icon colors
-  google: "#dd4b39",
-  linkedin: "#007bb6",
-  twitter: "#00aced",
-  facebook: "#3b5998",
+  google: "#DD4B39",
+  linkedin: "#007BB6",
+  twitter: "#00ACED",
+  facebook: "#3B5998",
 };
 
 export const THEME = {
@@ -59,6 +59,8 @@ export const THEME = {
 
   disabledColor: COLORS.gray,
   textInputColor: COLORS.darkdarkGray,
+
+  contextButtonColor: COLORS.mattBlueLight,
 
   dialogBackground: COLORS.white,
   dialogOpacity: 0.9,
@@ -72,6 +74,9 @@ export const THEME = {
 
   stackViewImageBlur: { type: "light", amount: 10 },
   stackViewStatusBar: "light-content",
+
+  cardBackground: COLORS.white,
+  cardSectionBorderColor: COLORS.silver,
 
   avatarViewHeight: 200,
   avatarBackground: COLORS.iconShade1,
@@ -119,9 +124,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "stretch"
   },
 });
 

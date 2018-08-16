@@ -23,6 +23,7 @@ export default class User {
 
     this.firstName = "";
     this.familyName = "";
+    this.address = "";
 
     this.profilePictureUrl = null;
 
@@ -41,6 +42,9 @@ export default class User {
     return {
       emailAddress: this.emailAddress,
       mobilePhone: this.mobilePhone,
+      firstName: this.firstName,
+      familyName: this.familyName,
+      address: this.address,
       enableBiometric: this.enableBiometric,
       enableMFA: this.enableMFA,
       enableTOTP: this.enableTOTP,
@@ -53,6 +57,9 @@ export default class User {
   fromJSON(data) {
     this.emailAddress = data["emailAddress"];
     this.mobilePhone = data["mobilePhone"];
+    this.firstName = data["firstName"];
+    this.familyName = data["familyName"];
+    this.address = data["this.address"];
     this.enableBiometric = data["enableBiometric"];
     this.enableMFA = data["enableMFA"];
     this.enableTOTP = data["enableTOTP"];
@@ -266,11 +273,14 @@ export default class User {
   /**
    * Username validation
    * 
-   * @param {*} username 
+   * @param {*} username  the user's login name
+   * @param {*} set          updates the property if valid else resets it
    */
-  validateUsername(username) {
+  validateUsername(username, set = true) {
 
-    this.username = "";
+    if (set) {
+      this.username = "";
+    }
 
     if (username.length == 0) {
       return {
@@ -286,7 +296,9 @@ export default class User {
       };
     }
 
-    this.username = username;
+    if (set) {
+      this.username = username;
+    }
     return null;
   }
 
@@ -294,10 +306,13 @@ export default class User {
    * Email address validation and setting
    * 
    * @param {*} emailAddress  email address
+   * @param {*} set          updates the property if valid else resets it
    */
-  validateEmailAddress(emailAddress) {
+  validateEmailAddress(emailAddress, set = true) {
 
-    this.emailAddress = "";
+    if (set) {
+      this.emailAddress = "";
+    }
 
     if (emailAddress.length == 0) {
       return {
@@ -314,7 +329,9 @@ export default class User {
       };
     }
 
-    this.emailAddress = emailAddress;
+    if (set) {
+      this.emailAddress = emailAddress;
+    }
     return null;
   }
 
@@ -322,10 +339,13 @@ export default class User {
    * Mobile phone number validation and setting
    * 
    * @param {*} mobilePhone  mobile phone number
+   * @param {*} set          updates the property if valid else resets it
    */
-  validateMobilePhone(mobilePhone) {
+  validateMobilePhone(mobilePhone, set = true) {
 
-    this.mobilePhone = "";
+    if (set) {
+      this.mobilePhone = "";
+    }
 
     if (mobilePhone.length == 0) {
       return {
@@ -342,7 +362,9 @@ export default class User {
       };
     }
 
-    this.mobilePhone = mobilePhone;
+    if (set) {
+      this.mobilePhone = mobilePhone;
+    }
     return null;
   }
 }
