@@ -162,8 +162,8 @@ class VerifyAccount extends Component<Props> {
             placeholder="enter the verification code"
             rightIcon={
               <Icon
-                type="font-awesome"
-                name="comment-o"
+                type="material-community"
+                name="numeric"
                 size={DIALOG.widgetIconSize}
                 color={COLORS.darkBrown}
               />}
