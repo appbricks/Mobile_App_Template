@@ -2,7 +2,16 @@
  * Copyright 2018-2018 AppBricks, Inc. or its affiliates. All Rights Reserved.
  */
 import React, { Component } from "react";
-import { View, ScrollView, TouchableWithoutFeedback } from "react-native";
+import {
+  Easing,
+  Animated,
+  View,
+  ScrollView,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  Text
+} from "react-native";
+
 import { createDrawerNavigator, SafeAreaView } from 'react-navigation';
 import { Icon } from "react-native-elements";
 
@@ -12,7 +21,7 @@ import AvatarView from "../../components/AvatarView";
 
 import HomeNav from "../HomeNav";
 
-import Profile from "../../screens/Profile";
+import ProfileNav from "../ProfileNav";
 import Account from "../../screens/Account";
 import Settings from "../../screens/Settings";
 import Help from "../../screens/Help";
@@ -51,7 +60,7 @@ const MainNav = createDrawerNavigator(
     },
     Section1: seperator,
     Profile: {
-      screen: Profile,
+      screen: ProfileNav,
       navigationOptions: {
         drawerLabel: "Profile",
         drawerIcon: ({ tintColor }) => (
@@ -175,7 +184,8 @@ export function stackFirstHeader(title) {
           color={stackStyles.headerIconColor}
           underlayColor="transparent"
           containerStyle={styles.stackHeaderIcon}
-          onPress={navigation.openDrawer} />
+          onPress={navigation.openDrawer}
+        />
       ),
       title: title,
       headerRight: (
@@ -185,8 +195,50 @@ export function stackFirstHeader(title) {
           color={stackStyles.headerIconColor}
           underlayColor="transparent"
           containerStyle={styles.stackHeaderIcon}
-          onPress={() => navigation.navigate("Home")} />
+          onPress={() => navigation.navigate("Home")}
+        />
       )
+    };
+  };
+}
+
+/**
+ * 
+ * @param {*} title 
+ */
+export function stackHeader(title) {
+
+  return ({ navigation }) => {
+
+    return {
+      headerTransparent: true,
+      headerStyle: stackStyles.header,
+      headerTitleStyle: stackStyles.headerTitle,
+      headerBackTitleStyle: stackStyles.headerBackTitle,
+      headerLeft: (props) => {
+
+        const { onPress, title, titleStyle } = props;
+
+        return (
+          <View style={styles.stackHeaderBackStyle}>
+            <Icon
+              type="font-awesome"
+              name="angle-double-left"
+              color={stackStyles.headerIconColor}
+              underlayColor="transparent"
+              containerStyle={styles.stackHeaderIcon}
+              onPress={() => onPress()}
+            />
+            <TouchableHighlight
+              underlayColor="transparent"
+              onPress={() => onPress()}
+            >
+              <Text style={styles.stackHeaderBackTitleStyle}>{title}</Text>
+            </TouchableHighlight>
+          </View>
+        )
+      },
+      title: title,
     };
   };
 }
@@ -203,9 +255,35 @@ export function stackNavigatorConfig(initialRouteName) {
     cardStyle: {
       backgroundColor: "transparent"
     },
+    navigationOptions: params => ({
+      gesturesEnabled: true
+    }),
     transitionConfig: () => ({
       containerStyle: {
-      }
+      },
+      transitionSpec: {
+        duration: 500,
+        easing: Easing.out(Easing.poly(4)),
+        timing: Animated.timing,
+      },
+      screenInterpolator: sceneProps => {
+        const { layout, position, scene } = sceneProps;
+        const { index } = scene;
+        const width = layout.initWidth;
+
+        return {
+          opacity: position.interpolate({
+            inputRange: [index - 1, index, index + 1],
+            outputRange: [0, 1, 0],
+          }),
+          transform: [{
+            translateX: position.interpolate({
+              inputRange: [index - 1, index, index + 1],
+              outputRange: [width, 0, -width],
+            }),
+          }]
+        };
+      },
     }),
   };
 }

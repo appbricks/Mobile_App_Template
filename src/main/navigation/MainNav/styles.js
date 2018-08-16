@@ -59,5 +59,15 @@ export default StyleSheet.create({
     marginLeft: 10,
     marginBottom: 5,
     marginRight: 10
+  },
+  stackHeaderBackStyle: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  stackHeaderBackTitleStyle: {
+    paddingTop: 3,
+    color: THEME.menuBackground,
+    fontFamily: "Lato-Regular",
+    fontSize: 12
   }
 });
