@@ -3,7 +3,10 @@
  */
 import { StyleSheet } from "react-native";
 
-import common, { COLORS, THEME } from "../../styles/common"
-
 export default StyleSheet.create({
+  container: {
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "stretch"
+  }
 });
