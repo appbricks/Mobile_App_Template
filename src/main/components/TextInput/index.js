@@ -3,17 +3,18 @@
  */
 import React, { Component } from "react";
 import { View, Text, Alert } from 'react-native';
-
-import { Icon, Input } from "react-native-elements";
+import { Icon, Input, Button } from "react-native-elements";
 
 import { COLORS } from "../../styles/common"
-import styles from "./styles";
+import styles, { TEXT_INPUT_CONTEXT } from "./styles";
 
 type Props = {};
 export default class TextInput extends Component<Props> {
 
   constructor(props) {
-    super(props)
+    super(props);
+
+    this.inputRef = null;
 
     this.state = {
       hasFocus: false,
@@ -23,9 +24,9 @@ export default class TextInput extends Component<Props> {
 
   componentDidMount() {
 
-    const { validateInput } = this.props;
+    const { value, validateInput } = this.props;
     if (validateInput) {
-      this._validateInput(this.props.value || "");
+      this._validateInput(value || "");
     }
   }
 
@@ -34,6 +35,28 @@ export default class TextInput extends Component<Props> {
   }
 
   _resetFocus() {
+
+    const { value, validateInput, resetIfInvalid } = this.props;
+
+    if (this.state.message && resetIfInvalid) {
+
+      // Reset the text input to the initial
+      // value of the input field if the current 
+      // input is not valid
+
+      if (validateInput) {
+        this._validateInput(value || "");
+      }
+
+      // Hack to reset the value in the input field
+      setTimeout(() => {
+        this.inputRef.input.setNativeProps({ text: "" });
+      });
+      setTimeout(() => {
+        this.inputRef.input.setNativeProps({ text: value });
+      });
+    }
+
     this.setState({ hasFocus: false });
   }
 
@@ -55,6 +78,42 @@ export default class TextInput extends Component<Props> {
 
     } else if (currMessage) {
       this.setState({ message: null });
+    }
+  }
+
+  _showContextButton() {
+
+    const { contextButton } = this.props;
+
+    if (!this.state.hasFocus
+      && contextButton
+      && contextButton.show) {
+
+      return (
+        <Button
+          iconRight
+          icon={
+            <Icon
+              type={contextButton.iconType}
+              name={contextButton.iconName}
+              size={TEXT_INPUT_CONTEXT.iconSize}
+              color={contextButton.color} />
+          }
+          titleStyle={styles.buttonTitle}
+          buttonStyle={[styles.button, { backgroundColor: contextButton.background }]}
+          disabledStyle={styles.disabledButton}
+          containerStyle={{
+            position: "absolute",
+            top: 0,
+            right: 10,
+          }}
+          title={contextButton.title}
+          disabled={contextButton.disabled}
+          onPress={contextButton.onPress
+            ? contextButton.onPress.bind(this)
+            : () => { }}
+        />
+      );
     }
   }
 
@@ -110,6 +169,7 @@ export default class TextInput extends Component<Props> {
     return (
       <View style={style}>
         <Input
+          ref={ref => this.inputRef = ref}
           leftIcon={leftIcon && leftIcon.type ?
             (<Icon
               onPress={this._showMessage.bind(this)}
@@ -156,6 +216,7 @@ export default class TextInput extends Component<Props> {
           {...otherProps}
         />
 
+        {this._showContextButton()}
         {this._showBadge()}
       </View>
     );
