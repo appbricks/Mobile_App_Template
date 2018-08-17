@@ -232,9 +232,8 @@ class VerifyAccount extends Component<Props> {
         </View>
         <View style={[dialogStyles.row, dialogStyles.checkBoxRow]}>
           <Text style={dialogStyles.checkBoxHelpText}>
-            Only valid if 2-Factor authentication is enabled.
-            This will require you to authenticate via multi-
-            factor authentication only once every 24 hours
+            This will require you to re-authenticate only once
+            every 24 hours as long as you do not sign-out
           </Text>
         </View>
 

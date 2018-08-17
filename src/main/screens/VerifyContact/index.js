@@ -119,11 +119,10 @@ class VerifyContact extends Component<Props> {
               icon={sendIcon}
               titleStyle={dialogStyles.buttonTitle}
               buttonStyle={[
-                dialogStyles.button,
-                styles.button
+                dialogStyles.button
               ]}
               disabledStyle={dialogStyles.disabledButton}
-              title="Send Code"
+              title="Send"
             // onPress={this.onCancel.bind(this)}
             />
             <Button
@@ -137,8 +136,7 @@ class VerifyContact extends Component<Props> {
               titleStyle={dialogStyles.buttonTitle}
               buttonStyle={[
                 dialogStyles.button,
-                dialogStyles.nextButton,
-                styles.button
+                dialogStyles.nextButton
               ]}
               disabledStyle={dialogStyles.disabledButton}
               title="Verify"

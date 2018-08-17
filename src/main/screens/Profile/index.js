@@ -38,8 +38,11 @@ class Profile extends Component<Props> {
     this.state = {
       emailAddress: null,
       emailAddressVerified: null,
+      emailAddressDirty: false,
       mobilePhone: null,
-      mobilePhoneVerified: null
+      mobilePhoneVerified: null,
+      mobilePhoneDirty: false,
+      contactInfoUpdated: false
     }
   }
 
@@ -60,7 +63,7 @@ class Profile extends Component<Props> {
 
     user.enableBiometric = !user.enableBiometric;
 
-    this._saveUser();
+    this._saveUserLoginPrefs();
   }
 
   onEnableMFA() {
@@ -69,19 +72,106 @@ class Profile extends Component<Props> {
     user.enableMFA = !user.enableMFA;
     user.rememberFor24h = user.enableMFA && user.rememberFor24h;
 
-    this._saveUser();
+    this._saveUserLoginPrefs();
   }
 
   onRememberFor24h() {
     const { user } = this.props;
     user.rememberFor24h = !user.rememberFor24h;
 
-    this._saveUser();
+    this._saveUserLoginPrefs();
   }
 
-  _saveUser() {
+  onResetContactInfo() {
+
+    const { user } = this.props;
+
+    this.setState({
+      emailAddress: user.emailAddress,
+      emailAddressVerified: user.emailAddressVerified,
+      emailAddressDirty: false,
+      mobilePhone: user.mobilePhone,
+      mobilePhoneVerified: user.mobilePhoneVerified,
+      mobilePhoneDirty: false,
+      contactInfoUpdated: false
+    });
+  }
+
+  onSaveUserContactInfo() {
+
+    const { user } = this.props;
+
+    user.emailAddress = this.state.emailAddress;
+    user.emailAddressVerified = this.state.emailAddressVerified;
+    user.mobilePhone = this.state.mobilePhone;
+    user.mobilePhoneVerified = this.state.mobilePhoneVerified;
+
+    // TBD
+
+    this.onResetContactInfo();
+  }
+
+  _saveUserLoginPrefs() {
     const { user } = this.props;
     this.setState({});
+  }
+
+  _validateEmailAddressInput(emailAddress) {
+
+    const { user } = this.props;
+    msg = user.validateEmailAddress(emailAddress, false);
+
+    this.setState({
+      contactInfoUpdated:
+        (emailAddress != user.emailAddress) ||
+        this.state.mobilePhoneDirty
+    })
+
+    return msg;
+  }
+
+  _onEmailAddressUpdate(emailAddress) {
+
+    const { user } = this.props;
+    if (!user.validateEmailAddress(emailAddress, false)) {
+
+      emailAddressDirty = (user.emailAddress != emailAddress);
+
+      this.setState({
+        emailAddress: emailAddress,
+        emailAddressVerified: !emailAddressDirty && user.emailAddressVerified,
+        emailAddressDirty: emailAddressDirty
+      });
+    }
+  }
+
+  _validateMobilePhoneInput(mobilePhone) {
+
+    const { user } = this.props;
+    msg = user.validateMobilePhone(mobilePhone, false);
+
+    this.setState({
+      contactInfoUpdated:
+        (mobilePhone != user.mobilePhone) ||
+        this.state.emailAddressDirty
+    })
+
+    return msg;
+  }
+
+  _onMobilePhoneUpdate(mobilePhone) {
+
+    const { user } = this.props;
+    if (!user.validateMobilePhone(mobilePhone, false)) {
+
+      mobilePhoneDirty = (user.mobilePhone != mobilePhone);
+
+      this.setState({
+        mobilePhone: mobilePhone,
+        mobilePhoneVerified: !mobilePhoneDirty && user.mobilePhoneVerified,
+        mobilePhoneDirty: mobilePhoneDirty
+      });
+    }
   }
 
   render() {
@@ -98,7 +188,7 @@ class Profile extends Component<Props> {
         <CardView
           title="Login"
           style={{
-            height: 310,
+            height: 300,
             borderRadius: 5,
           }} >
 
@@ -176,9 +266,8 @@ class Profile extends Component<Props> {
           </View>
           <View style={[dialogStyles.row, dialogStyles.checkBoxRow]}>
             <Text style={dialogStyles.checkBoxHelpText}>
-              Only valid if 2-Factor authentication is enabled.
-              This will require you to authenticate via multi-
-              factor authentication only once every 24 hours
+              This will require you to re-authenticate only once
+              every 24 hours as long as you do not sign-out
             </Text>
           </View>
 
@@ -218,36 +307,20 @@ class Profile extends Component<Props> {
 
               contextButton={{
                 show:
-                  (user.emailAddress != this.state.emailAddress)
+                  this.state.emailAddressDirty
                   || !this.state.emailAddressVerified,
                 title: "Verify",
                 iconType: "font-awesome",
                 iconName: "angle-double-right",
                 color: THEME.cardBackground,
                 background: THEME.contextButtonColor,
-                disabled: (user.emailAddress != this.state.emailAddress),
+                disabled: this.state.emailAddressDirty,
                 onPress: () => this.props.navigation.navigate("VerifyEmailAddress"),
               }}
 
               value={this.state.emailAddress}
-              validateInput={(data) => {
-                msg = user.validateEmailAddress(data, false);
-                return msg;
-              }}
-
-              onEndEditing={(event) => {
-                data = event.nativeEvent.text;
-
-                if (!user.validateEmailAddress(data, false)) {
-                  this.setState({
-                    emailAddress: data,
-                    emailAddressVerified:
-                      (user.emailAddress != data)
-                      || user.emailAddressVerified
-                  });
-                }
-              }}
-
+              validateInput={(data) => this._validateEmailAddressInput(data)}
+              onEndEditing={(event) => this._onEmailAddressUpdate(event.nativeEvent.text)}
               resetIfInvalid
             />
           ) : false}
@@ -279,36 +352,20 @@ class Profile extends Component<Props> {
 
               contextButton={{
                 show:
-                  (user.mobilePhone != this.state.mobilePhone)
+                  this.state.mobilePhoneDirty
                   || !this.state.mobilePhoneVerified,
                 title: "Verify",
                 iconType: "font-awesome",
                 iconName: "angle-double-right",
                 color: THEME.cardBackground,
                 background: THEME.contextButtonColor,
-                disabled: (user.mobilePhone != this.state.mobilePhone),
+                disabled: this.state.mobilePhoneDirty,
                 onPress: () => this.props.navigation.navigate("VerifyMobilePhone"),
               }}
 
               value={this.state.mobilePhone}
-              validateInput={(data) => {
-                msg = user.validateMobilePhone(data, false);
-                return msg;
-              }}
-
-              onEndEditing={(event) => {
-                data = event.nativeEvent.text;
-
-                if (!user.validateMobilePhone(data, false)) {
-                  this.setState({
-                    mobilePhone: data,
-                    mobilePhoneVerified:
-                      (user.mobilePhone != data)
-                      || user.mobilePhoneVerified
-                  });
-                }
-              }}
-
+              validateInput={(data) => this._validateMobilePhoneInput(data)}
+              onEndEditing={(event) => this._onMobilePhoneUpdate(event.nativeEvent.text)}
               resetIfInvalid
             />
           ) : false}
@@ -328,7 +385,8 @@ class Profile extends Component<Props> {
               ]}
               disabledStyle={dialogStyles.disabledButton}
               title="Reset"
-            // onPress={this.onCancel.bind(this)}
+              disabled={!this.state.contactInfoUpdated}
+              onPress={this.onResetContactInfo.bind(this)}
             />
             <Button
               icon={
@@ -346,8 +404,8 @@ class Profile extends Component<Props> {
               ]}
               disabledStyle={dialogStyles.disabledButton}
               title="Save"
-            // disabled={this.state.verifyButtonDisabled}
-            // onPress={this.onVerify.bind(this)}
+              disabled={!this.state.contactInfoUpdated}
+              onPress={this.onSaveUserContactInfo.bind(this)}
             />
           </View>
 
