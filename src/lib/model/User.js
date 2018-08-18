@@ -4,7 +4,7 @@
 
 import { gplusProfilePicture, gravatar } from "../utils/avatar";
 
-const TIMEOUT = 30 * 1000; // 24 * 60 * 60 * 1000; // 24 hours
+const TIMEOUT = 24 * 60 * 60 * 1000; // 24 hours
 
 /**
  * Authenticatable user. 
