@@ -19,6 +19,7 @@ class AvatarView extends Component<Props> {
     super(props);
 
     this.logger = new Logger(this);
+    this.mounted = false;
 
     this.state = {
       avatarUri: null
@@ -27,12 +28,17 @@ class AvatarView extends Component<Props> {
 
   componentDidMount() {
     const { user } = this.props;
+    this.mounted = true;
 
     user.avatarUri(uri => {
-      if (uri) {
+      if (uri && this.mounted) {
         this.setState({ avatarUri: uri });
       }
     })
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   render() {
