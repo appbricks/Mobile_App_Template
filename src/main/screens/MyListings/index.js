@@ -4,6 +4,13 @@
 import React, { Component } from "react";
 import { View, Text } from 'react-native';
 
+import { connect } from "react-redux";
+
+import AuthComponent, {
+  mapAuthStateToProps,
+  mapAuthDispatchToProps
+} from "../../components/AuthComponent";
+import LoadingView from "../../components/LoadingView";
 import HomeHeader from "../../components/HomeHeader";
 
 import Logger from "../../../lib/utils/Logger";
@@ -12,7 +19,7 @@ import common, { COLORS } from "../../styles/common";
 import styles from "./styles";
 
 type Props = {};
-export default class MyListings extends Component<Props> {
+class MyListings extends AuthComponent<Props> {
 
   constructor(props) {
     super(props);
@@ -25,12 +32,11 @@ export default class MyListings extends Component<Props> {
   }
 
   render() {
-    Logger.logRender(this);
-
-    const { mainNavigator } = this.props.screenProps;
+    const { ready, mainNavigator } = this.props.screenProps;
 
     return (
       <View style={common.container}>
+        <LoadingView show={!ready} />
         <HomeHeader
           onMenu={mainNavigator.openDrawer}
           title="My Listings"
@@ -48,3 +54,15 @@ export default class MyListings extends Component<Props> {
     );
   }
 }
+
+// **** Integration with redux store ****
+
+const mapStateToProps = state => {
+  return mapAuthStateToProps(state, {});
+};
+
+const mapDispatchToProps = dispatch => {
+  return mapAuthDispatchToProps(dispatch, {});
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyListings);

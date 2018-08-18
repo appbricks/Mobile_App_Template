@@ -62,7 +62,6 @@ class Profile extends Component<Props> {
     const { user } = this.props;
 
     user.enableBiometric = !user.enableBiometric;
-
     this._saveUserLoginPrefs();
   }
 
@@ -70,15 +69,13 @@ class Profile extends Component<Props> {
     const { user } = this.props;
 
     user.enableMFA = !user.enableMFA;
-    user.rememberFor24h = user.enableMFA && user.rememberFor24h;
-
     this._saveUserLoginPrefs();
   }
 
   onRememberFor24h() {
     const { user } = this.props;
-    user.rememberFor24h = !user.rememberFor24h;
 
+    user.rememberFor24h = !user.rememberFor24h;
     this._saveUserLoginPrefs();
   }
 
@@ -175,8 +172,6 @@ class Profile extends Component<Props> {
   }
 
   render() {
-    Logger.logRender(this);
-
     const { user, screenProps } = this.props;
     const { backgroundImage } = this.props.screenProps;
 
@@ -256,10 +251,9 @@ class Profile extends Component<Props> {
             <CheckBox
               title='Remember me for 24 hours'
               checked={user.rememberFor24h}
-              disabled={!user.enableMFA}
-              checkedColor={getCheckBoxColor(COLOR, !user.enableMFA)}
-              uncheckedColor={getCheckBoxColor(COLOR, !user.enableMFA)}
-              textStyle={getCheckBoxColor(STYLE, !user.enableMFA)}
+              checkedColor={DIALOG.checkBoxEnabledColor}
+              uncheckedColor={DIALOG.checkBoxEnabledColor}
+              textStyle={dialogStyles.checkBoxEnabled}
               containerStyle={dialogStyles.checkBoxContainer}
               onPress={this.onRememberFor24h.bind(this)}
             />

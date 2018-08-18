@@ -5,8 +5,6 @@ import React, { Component } from "react";
 import { Text } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
-import { withAuthCheck } from "../../../lib/authentication/Auth";
-
 import { stackFirstHeader, stackNavigatorConfig } from "../../navigation/MainNav";
 import StackView from "../../components/StackView";
 
@@ -23,8 +21,6 @@ class Account extends Component<Props> {
   }
 
   render() {
-    Logger.logRender(this);
-
     const { backgroundImage } = this.props.screenProps;
 
     return (
@@ -38,7 +34,7 @@ class Account extends Component<Props> {
 const AccountNav = createStackNavigator(
   {
     Account: {
-      screen: withAuthCheck("appNavigator", "AuthLoading", Account),
+      screen: Account,
       navigationOptions: stackFirstHeader("Account")
     }
   },

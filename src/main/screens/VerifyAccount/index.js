@@ -64,20 +64,13 @@ class VerifyAccount extends Component<Props> {
     const { user } = this.props;
 
     user.enableMFA = !this.state.enableMFA;
-    user.rememberFor24h = user.enableMFA && this.state.rememberFor24h;
-
-    this.setState(
-      {
-        enableMFA: user.enableMFA,
-        rememberFor24h: user.rememberFor24h
-      }
-    );
+    this.setState({ enableMFA: user.enableMFA });
   }
 
   onRememberFor24h() {
     const { user } = this.props;
-    user.rememberFor24h = !this.state.rememberFor24h;
 
+    user.rememberFor24h = !this.state.rememberFor24h;
     this.setState({ rememberFor24h: user.rememberFor24h });
   }
 
@@ -136,8 +129,6 @@ class VerifyAccount extends Component<Props> {
   }
 
   render() {
-    Logger.logRender(this);
-
     return (
       <Dialog showLoading={!this.props.screenProps.ready}>
 
@@ -222,10 +213,9 @@ class VerifyAccount extends Component<Props> {
           <CheckBox
             title='Remember me for 24 hours'
             checked={this.state.rememberFor24h}
-            disabled={!this.state.enableMFA}
-            checkedColor={getCheckBoxColor(COLOR, !this.state.enableMFA)}
-            uncheckedColor={getCheckBoxColor(COLOR, !this.state.enableMFA)}
-            textStyle={getCheckBoxColor(STYLE, !this.state.enableMFA)}
+            checkedColor={DIALOG.checkBoxEnabledColor}
+            uncheckedColor={DIALOG.checkBoxEnabledColor}
+            textStyle={dialogStyles.checkBoxEnabled}
             containerStyle={dialogStyles.checkBoxContainer}
             onPress={this.onRememberFor24h.bind(this)}
           />

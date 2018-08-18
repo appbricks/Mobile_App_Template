@@ -103,8 +103,6 @@ class PasswordReset extends Component<Props> {
   }
 
   render() {
-    Logger.logRender(this);
-
     const { user } = this.props;
 
     return (

@@ -69,7 +69,6 @@ const reducer = (state, action) => {
 
       state.timestamp = signInTime;
       password = user.password;
-      user.password = "";
 
       if (user.enableBiometric || user.rememberFor24h) {
         saveCredentials(user.username, password);

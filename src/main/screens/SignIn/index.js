@@ -8,9 +8,11 @@ import { Icon, Input, Button } from "react-native-elements";
 import prompt from 'react-native-prompt-android';
 
 import { connect } from "react-redux";
-import { signInUser, resetUser } from "../../redux/actions/creators";
 
-import AuthBase from "../../components/AuthBase";
+import AuthComponent, {
+  mapAuthStateToProps,
+  mapAuthDispatchToProps
+} from "../../components/AuthComponent";
 import Dialog from "../../components/Dialog";
 import IconButtonGroup from "../../components/IconButtonGroup";
 
@@ -54,7 +56,8 @@ const authTypeIcons = [
   },
 ];
 
-class SignIn extends AuthBase {
+type Props = {};
+class SignIn extends AuthComponent<props> {
 
   constructor(props) {
     super(props);
@@ -220,8 +223,6 @@ class SignIn extends AuthBase {
   }
 
   render() {
-    Logger.logRender(this);
-
     const { user, screenProps } = this.props;
     const { ready } = screenProps;
 
@@ -318,7 +319,7 @@ class SignIn extends AuthBase {
             title="Sign In"
             disabledStyle={dialogStyles.disabledButton}
             disabled={this.state.signInDisabled}
-            onPress={this.onSignIn.bind(this)}
+            onPress={super.onSignIn.bind(this)}
           />
           <Button
             icon={
@@ -345,16 +346,11 @@ class SignIn extends AuthBase {
 // **** Integration with redux store ****
 
 const mapStateToProps = state => {
-  return {
-    user: state.auth.user
-  };
+  return mapAuthStateToProps(state, {});
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    signInUser: () => dispatch(signInUser()),
-    resetUser: () => dispatch(resetUser())
-  };
+  return mapAuthDispatchToProps(dispatch, {});
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

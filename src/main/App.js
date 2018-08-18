@@ -13,7 +13,7 @@ Amplify.configure(awsconfig);
 import LocalStorage from "../lib/persistance/LocalStorage";
 import MutableImage from "../lib/presentation/MutableImage";
 
-import { withAuth } from "../lib/authentication/Auth";
+import { withAuth, registerAuthValidationRoute } from "../lib/authentication/Auth";
 import Session from "../lib/authentication/aws/Session";
 
 import { reducer } from "./redux/reducers";
@@ -50,7 +50,13 @@ const reduxStore = createStore(reducer);
 
 const AppNav = createSwitchNavigator(
     {
-        AuthLoading: AuthLoading,
+        AuthLoading: (props) => {
+
+            const { navigation } = props;
+            registerAuthValidationRoute(navigation, "AuthLoading");
+
+            return <AuthLoading {...props} />
+        },
 
         // Application authentication screens
         SignIn: SignIn,
@@ -61,18 +67,10 @@ const AppNav = createSwitchNavigator(
         // Main application navigation screens
         Main: (props) => {
 
-            const { navigation, screenProps } = props;
+            const { screenProps } = props;
             screenProps.drawerLockMode = "unlocked";
 
-            return (<MainNav screenProps={
-                {
-                    // Pass app navigator down to child 
-                    // navigator and screens so child  
-                    // screens can navigate to app screens.
-                    appNavigator: navigation,
-                    ...screenProps
-                }
-            } />);
+            return (<MainNav screenProps={{ ...screenProps }} />);
         }
     },
     {

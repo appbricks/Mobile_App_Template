@@ -17,11 +17,12 @@ export const AUTH_NO_MFA = 0;
 export const AUTH_MFA_SMS = 1;
 export const AUTH_MFA_TOTP = 2;
 
-export const USER_LOGGED_OUT = 0;
-export const USER_LOGGED_IN = 1;
-export const USER_NEEDS_AUTH = 2;
+export const USER_UNDEFINED = 0;
+export const USER_LOGGED_OUT = 1;
+export const USER_LOGGED_IN = 2;
+export const USER_NEEDS_AUTH = 3;
 
-var authValidationCallback = null;
+var navigateToAuthValidationRoute = () => { };
 
 type Props = {};
 
@@ -51,8 +52,6 @@ export function withAuth(
 
       this.authSession = authSession;
       this.user = null;
-
-      authValidationCallback = async () => { };
 
       this.state = {
         ready: false,
@@ -93,12 +92,20 @@ export function withAuth(
             && this.user && !this.user.rememberSignIn()) {
 
             this._doSignOut();
+          } else {
+            this.user = null;
           }
           break;
 
         case "active":
 
           // BackgroundTimer.stopBackgroundTimer();
+
+          var validateSession = async () => {
+            this._setReady(await this.authSession.validateSession());
+          };
+
+          validateSession();
           break;
       }
     }
@@ -106,6 +113,7 @@ export function withAuth(
     handleOnSignIn(user, successHandler?, errorHandler?, beforeWaitHandler?) {
 
       this._setWait(beforeWaitHandler);
+      this.logger.trace("signing in user: ", user);
 
       this.authSession.signIn(user)
         .then(async challange => {
@@ -113,7 +121,6 @@ export function withAuth(
           if (challange == AUTH_NO_MFA) {
 
             await this.authSession.readUser(user);
-            this.logger.trace("signed in user: ", user);
 
             this.user = user;
           }
@@ -159,16 +166,18 @@ export function withAuth(
     handleOnSignOut(successHandler?, errorHandler?, beforeWaitHandler?) {
 
       this._setWait(beforeWaitHandler);
+      navigateToAuthValidationRoute();
 
       this.authSession.signOut()
         .then(async () => {
 
           this.user = null;
+          this._setReady(await this.authSession.validateSession(), false);
 
           if (successHandler) {
             successHandler();
           }
-          this._setReady(await this.authSession.validateSession());
+          this._setReady();
         })
         .catch(error => {
           this.logger.error("sign-out error: ", error);
@@ -320,7 +329,19 @@ export function withAuth(
 
           if (user.isValid()) {
 
-            if (user.rememberSignIn()) {
+            if (this.signedIn
+              && this.authSession.cognitoUser.username != user.username) {
+
+              this.logger.trace(
+                "terminating current session as the logged-in user",
+                this.authSession.cognitoUser.username,
+                "is different to the remembered user",
+                user.username,
+                "from state.");
+
+              this._doSignOut();
+
+            } else if (user.rememberSignIn()) {
 
               this.logger.trace(
                 "initializing auth context with remembered user",
@@ -339,6 +360,13 @@ export function withAuth(
 
               this._doSignOut();
             }
+          } else {
+            userState = USER_UNDEFINED;
+
+            this.logger.trace(
+              "existing session will be terminated as user being validated is undefined");
+
+            this._doSignOut();
           }
 
         } else {
@@ -357,15 +385,19 @@ export function withAuth(
 
     _doSignOut() {
 
-      this.authSession.signOut().then(
-        async () => {
+      if (this.state.signedIn) {
+        navigateToAuthValidationRoute();
 
-          this.user = null;
+        this.authSession.signOut().then(
+          async () => {
 
-          await authValidationCallback();
-          this._setReady(await this.authSession.validateSession());
-        }
-      );
+            this.logger.trace("user log-in session has been terminated");
+            this.user = null;
+
+            this._setReady(await this.authSession.validateSession());
+          }
+        );
+      }
     }
 
     _handleAuthError(message, error, errorHandler?) {
@@ -465,46 +497,27 @@ export function withAuth(
 }
 
 /**
- * Wraps authentication validation around the given component.
+ * Registers a route to the screen that validates the current log-in session.
  * 
- * @param {*} navigatorName      Name of navigator in components "screenProps" property
- * @param {*} rootAuthRouteName  The root auth route to validate sign out
- * @param {*} C                  Component to wrap
+ * @param {*} appNavigator         navigation component within which the route is registered
+ * @param {*} authValidationRoute  The log-in session validation route name
  */
-export function withAuthCheck(
-  navigatorName,
-  rootAuthRouteName,
-  C
+export function registerAuthValidationRoute(
+  appNavigator,
+  authValidationRoute,
 ) {
 
-  return class extends Component<Props> {
+  const navigation = appNavigator;
 
-    constructor(props) {
-      super(props);
+  // Navigators are available only at the child component 
+  // level, so the callback needs to be updated with 
+  // navigator in the properties of the wrapped component
+  navigateToAuthValidationRoute = () => {
 
-      this.logger = new Logger("withAuthCheck");
-    }
+    Logger.trace("withAuth",
+      "navigating to auth validation screen: ",
+      authValidationRoute);
 
-    componentDidMount() {
-
-      // Navigators are available only at the child component 
-      // level, so the callback needs to be updated with 
-      // navigator in the properties of the wrapped component
-      authValidationCallback = async () => {
-
-        this.logger.trace(
-          "navigating to auth validation screen: ",
-          navigatorName, rootAuthRouteName);
-
-        this.props.screenProps[navigatorName].navigate(rootAuthRouteName);
-      }
-    }
-
-    render() {
-
-      return (
-        <C {...this.props} />
-      );
-    }
+    navigation.navigate(authValidationRoute);
   }
 }

@@ -77,8 +77,6 @@ class SignUp extends Component<Props> {
   }
 
   render() {
-    Logger.logRender(this);
-
     const { user, screenProps } = this.props;
     const { ready } = screenProps;
 

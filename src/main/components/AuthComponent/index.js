@@ -3,8 +3,15 @@
  */
 import React, { Component } from "react";
 import { Alert, AlertIOS } from 'react-native';
+import TouchID from "react-native-touch-id";
 
 import prompt from 'react-native-prompt-android';
+
+import {
+  USER_UNDEFINED,
+  USER_NEEDS_AUTH
+} from "../../../lib/authentication/Auth";
+import { initAuthStore } from "../../redux/reducers/auth"
 
 import Logger from "../../../lib/utils/Logger";
 
@@ -16,13 +23,75 @@ import {
   AUTH_MFA_TOTP
 } from "../../../lib/authentication/Auth";
 
-type Props = {};
-export default class AuthBase extends Component<Props> {
+import {
+  loadAuthState,
+  resetUser,
+  signInUser,
+  signOutUser
+} from "../../redux/actions/creators"
 
-  constructor(props) {
+export default class AuthComponent<P> extends Component<P> {
+
+  constructor(props: P) {
     super(props);
 
+    if (typeof AuthComponent.initialized == 'undefined') {
+      AuthComponent.initialized = false;
+    }
+
     this.logger = new Logger(this);
+  }
+
+  async componentDidMount() {
+
+    if (!AuthComponent.initialized) {
+
+      const { user, loadAuthState } = this.props;
+
+      // Wait until all applications persistence
+      // stores have initialized.
+      await initAuthStore(user);
+      loadAuthState();
+
+      AuthComponent.initialized = true;
+      this.setState({});
+    }
+  }
+
+  componentDidUpdate() {
+
+    if (AuthComponent.initialized) {
+
+      const { user, resetUser, screenProps } = this.props;
+      const { ready, setReady, signedIn, validateUser } = screenProps;
+
+      this.logger.trace(
+        "authentication state: signed in =", signedIn,
+        ", ready =", ready);
+
+      if (signedIn) {
+
+        switch (validateUser(user)) {
+          case USER_UNDEFINED:
+            this.navigateToSignInScreen();
+            break;
+          case USER_NEEDS_AUTH:
+            this._authenticateLoggedInUser();
+            break;
+          default:
+            if (ready) {
+              this.navigateToMainScreen();
+            }
+        }
+      }
+      else if (ready) {
+
+        if (user.isValid()) {
+          resetUser();
+        }
+        this.navigateToSignInScreen();
+      }
+    }
   }
 
   onSignIn() {
@@ -83,6 +152,29 @@ export default class AuthBase extends Component<Props> {
     );
   }
 
+  onSignOut() {
+
+    // Delegate signing to HOC
+    const { user, signOutUser, screenProps } = this.props;
+    const { onSignOut } = screenProps;
+
+    onSignOut(
+      // On success navigate back to AuthLoading screen
+      () => {
+        signOutUser();
+        this.logger.info("User '" + user.username + "' has signed out.")
+      }
+    );
+  }
+
+  navigateToSignInScreen() {
+    this.logger.trace("no-op on call to navigate to sign in screen");
+  }
+
+  navigateToMainScreen() {
+    this.logger.trace("no-op on call to navigate to main screen");
+  }
+
   _showMFAChallenge(message) {
 
     if (IS_IOS) {
@@ -98,7 +190,7 @@ export default class AuthBase extends Component<Props> {
           {
             text: 'Submit', style: "default",
             onPress: (code) => {
-              this.onValidateMFACode(code);
+              this._validateMFACode(code);
             }
           },
         ],
@@ -119,7 +211,7 @@ export default class AuthBase extends Component<Props> {
           {
             text: 'Submit', style: "default",
             onPress: (code) => {
-              this.onValidateMFACode(code);
+              this._validateMFACode(code);
             }
           },
         ],
@@ -128,7 +220,7 @@ export default class AuthBase extends Component<Props> {
     }
   }
 
-  onValidateMFACode(code) {
+  _validateMFACode(code) {
 
     // Delegate signing to HOC
     const {
@@ -176,4 +268,63 @@ export default class AuthBase extends Component<Props> {
         resetUser();
       });
   }
+
+  async _authenticateLoggedInUser() {
+
+    const {
+      navigation,
+      user,
+      timestamp,
+      resetUser,
+      screenProps
+    } = this.props;
+
+    const { setReady } = screenProps;
+
+    if (user.isTimedout(timestamp)) {
+
+      if (user.enableBiometric) {
+
+        TouchID.authenticate("Resume logged-in session.")
+          .then(success => {
+            this.onSignIn();
+          })
+          .catch(error => {
+            this.logger.error("biometric authentication error: ", error);
+            resetUser();
+          });
+
+      } else if (user.enableMFA) {
+        this.onSignIn();
+
+      } else {
+        this.logger.trace("signing out of timed out log-in session");
+        this.onSignOut();
+      }
+
+    } else {
+      this.logger.trace("resuming logged-in session");
+      setReady();
+    }
+  }
 }
+
+// **** auth redux store state and dispatch mappings ****
+
+export function mapAuthStateToProps(state, map) {
+
+  return Object.assign({
+    user: state.auth.user,
+    timestamp: state.auth.timestamp
+  }, map);
+};
+
+export function mapAuthDispatchToProps(dispatch, map) {
+
+  return Object.assign({
+    loadAuthState: () => dispatch(loadAuthState()),
+    signInUser: () => dispatch(signInUser()),
+    signOutUser: () => dispatch(signOutUser()),
+    resetUser: () => dispatch(resetUser())
+  }, map);
+};

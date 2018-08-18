@@ -25,8 +25,6 @@ export default class SignIn extends Component<Props> {
   }
 
   render() {
-    Logger.logRender(this);
-
     const { mainNavigator } = this.props.screenProps;
 
     return (

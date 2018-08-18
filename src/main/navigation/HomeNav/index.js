@@ -5,8 +5,6 @@ import React, { Component } from "react";
 import { createBottomTabNavigator } from 'react-navigation';
 import { Icon } from "react-native-elements";
 
-import { withAuthCheck } from "../../../lib/authentication/Auth";
-
 import MyListings from "../../screens/MyListings";
 import MySpaces from "../../screens/MySpaces";
 import Schedule from "../../screens/Schedule";
@@ -17,7 +15,7 @@ import styles, { tabStyles } from "./styles";
 const HomeNav = createBottomTabNavigator(
   {
     MyListings: {
-      screen: withAuthCheck("appNavigator", "AuthLoading", MyListings),
+      screen: MyListings,
       navigationOptions: {
         tabBarLabel: "My Listings",
         tabBarIcon: ({ tintColor }) => (
@@ -31,7 +29,7 @@ const HomeNav = createBottomTabNavigator(
       }
     },
     MySpaces: {
-      screen: withAuthCheck("appNavigator", "AuthLoading", MySpaces),
+      screen: MySpaces,
       navigationOptions: {
         tabBarLabel: "My Spaces",
         tabBarIcon: ({ tintColor }) => (
@@ -45,7 +43,7 @@ const HomeNav = createBottomTabNavigator(
       }
     },
     Schedule: {
-      screen: withAuthCheck("appNavigator", "AuthLoading", Schedule),
+      screen: Schedule,
       navigationOptions: {
         tabBarLabel: "Schedule",
         tabBarIcon: ({ tintColor }) => (
@@ -59,7 +57,7 @@ const HomeNav = createBottomTabNavigator(
       }
     },
     Alerts: {
-      screen: withAuthCheck("appNavigator", "AuthLoading", Alerts),
+      screen: Alerts,
       navigationOptions: {
         tabBarLabel: "Alerts",
         tabBarIcon: ({ tintColor }) => (

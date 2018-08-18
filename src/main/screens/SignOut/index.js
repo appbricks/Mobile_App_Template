@@ -5,60 +5,36 @@ import React, { Component } from "react";
 import { View, Text } from 'react-native';
 
 import { connect } from "react-redux";
-import { signOutUser } from "../../redux/actions/creators"
 
-import Logger from "../../../lib/utils/Logger";
-
-import common from "../../styles/common"
-import styles from "./styles"
+import AuthComponent, {
+  mapAuthStateToProps,
+  mapAuthDispatchToProps
+} from "../../components/AuthComponent";
 
 type Props = {};
-class SignOut extends Component<Props> {
+class SignOut extends AuthComponent<Props> {
 
   constructor(props) {
     super(props);
-
-    this.logger = new Logger(this);
   }
 
   componentDidMount() {
-
-    // Delegate signing to HOC
-    const { user, signOutUser, screenProps } = this.props;
-    const { appNavigator, onSignOut } = screenProps;
-
-    onSignOut(
-      // On success navigate back to AuthLoading screen
-      () => {
-        signOutUser();
-        this.logger.info("User '" + user.username + "' has signed out.")
-      }
-    );
-
-    appNavigator.navigate("AuthLoading");
+    super.onSignOut();
   }
 
   render() {
-    Logger.logRender(this);
-
-    return (
-      <View style={common.container}><Text style={common.bigText}>Sign Out</Text></View>
-    );
+    return <View />;
   }
 }
 
 // **** Integration with redux store ****
 
 const mapStateToProps = state => {
-  return {
-    user: state.auth.user
-  };
+  return mapAuthStateToProps(state, {});
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    signOutUser: () => dispatch(signOutUser())
-  };
+  return mapAuthDispatchToProps(dispatch, {});
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignOut);

@@ -20,7 +20,6 @@ import { DrawerItems, seperator } from "../../components/DrawerItems";
 import AvatarView from "../../components/AvatarView";
 
 import HomeNav from "../HomeNav";
-
 import ProfileNav from "../ProfileNav";
 import Account from "../../screens/Account";
 import Settings from "../../screens/Settings";

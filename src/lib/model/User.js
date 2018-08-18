@@ -4,7 +4,7 @@
 
 import { gplusProfilePicture, gravatar } from "../utils/avatar";
 
-const rememberTimeInMillis = 24 * 60 * 60 * 1000; // 24 hours
+const TIMEOUT = 30 * 1000; // 24 * 60 * 60 * 1000; // 24 hours
 
 /**
  * Authenticatable user. 
@@ -170,7 +170,7 @@ export default class User {
    * @param {*} timestamp 
    */
   isTimedout(timestamp) {
-    return !this.rememberFor24h || (timestamp + rememberTimeInMillis) < Date.now();
+    return !this.rememberFor24h || (timestamp + TIMEOUT) < Date.now();
   }
 
   /**
@@ -178,7 +178,7 @@ export default class User {
    * be remembered.
    */
   rememberSignIn() {
-    return this.enableBiometric || this.rememberFor24h;
+    return this.rememberFor24h;
   }
 
   /**

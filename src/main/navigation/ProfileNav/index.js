@@ -4,8 +4,6 @@
 import React from "react";
 import { createStackNavigator } from 'react-navigation';
 
-import { withAuthCheck } from "../../../lib/authentication/Auth";
-
 import Profile from "../../screens/Profile";
 import VerifyContact from "../../screens/VerifyContact"
 import { stackFirstHeader, stackHeader, stackNavigatorConfig } from "../MainNav";
@@ -13,7 +11,7 @@ import { stackFirstHeader, stackHeader, stackNavigatorConfig } from "../MainNav"
 const ProfileNav = createStackNavigator(
   {
     Profile: {
-      screen: withAuthCheck("appNavigator", "AuthLoading", Profile),
+      screen: Profile,
       navigationOptions: stackFirstHeader("Profile")
     },
     VerifyEmailAddress: {
@@ -22,9 +20,7 @@ const ProfileNav = createStackNavigator(
         const { screenProps } = props;
         screenProps.drawerLockMode = "locked-closed";
 
-        const C = withAuthCheck("appNavigator", "AuthLoading", VerifyContact);
-
-        return (<C
+        return (<VerifyContact
           verifyType="emailAddress"
           screenProps={
             {
@@ -40,9 +36,7 @@ const ProfileNav = createStackNavigator(
         const { screenProps } = props;
         screenProps.drawerLockMode = "locked-closed";
 
-        const C = withAuthCheck("appNavigator", "AuthLoading", VerifyContact);
-
-        return (<C
+        return (<VerifyContact
           verifyType="mobilePhone"
           screenProps={
             {

@@ -47,8 +47,6 @@ class VerifyContact extends Component<Props> {
   }
 
   render() {
-    Logger.logRender(this);
-
     const { user, verifyType, screenProps } = this.props;
     const { backgroundImage } = this.props.screenProps;
 
