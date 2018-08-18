@@ -7,6 +7,11 @@ import { Icon, Input, CheckBox, Button } from "react-native-elements";
 
 import { connect } from "react-redux";
 
+import AuthComponent, {
+  mapAuthStateToProps,
+  mapAuthDispatchToProps
+} from "../../components/AuthComponent";
+
 import StackView from "../../components/StackView";
 import CardView from "../../components/CardView";
 import TextInput from "../../components/TextInput"
@@ -27,7 +32,7 @@ const COLOR = false;
 const STYLE = true;
 
 type Props = {};
-class Profile extends Component<Props> {
+class Profile extends AuthComponent<Props> {
 
   constructor(props) {
     super(props);
@@ -422,15 +427,11 @@ class Profile extends Component<Props> {
 // **** Integration with redux store ****
 
 const mapStateToProps = state => {
-  return {
-    user: state.auth.user
-  };
+  return mapAuthStateToProps(state, {});
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-  };
+  return mapAuthDispatchToProps(dispatch, {});
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
-
