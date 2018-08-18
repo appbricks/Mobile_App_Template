@@ -48,7 +48,6 @@ const reducer = (state, action) => {
   switch (action.type) {
 
     case LOAD_AUTH_STATE:
-      Logger.trace("auth reducer", "received LOAD_AUTH_STATE action.");
 
       u = authStore.getItem("user");
       if (u) {
@@ -65,8 +64,6 @@ const reducer = (state, action) => {
       user = state.user;
       let signInTime = action.data.signInTime;
 
-      Logger.trace("auth reducer", "received SIGN_IN action at: ", user, signInTime);
-
       state.timestamp = signInTime;
       password = user.password;
 
@@ -81,8 +78,6 @@ const reducer = (state, action) => {
 
     case SIGN_OUT:
     case RESET_USER:
-      Logger.trace("auth reducer", "received SIGN_OUT/RESET_USER action");
-
       deleteCredentials();
       authStore.removeItem("user");
       authStore.removeItem("timestamp");

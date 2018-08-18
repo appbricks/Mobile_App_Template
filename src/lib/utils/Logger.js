@@ -124,3 +124,24 @@ export default class Logger {
     }
   }
 }
+
+/**
+ * Logging middleware for redux.
+ * 
+ * @param {*} param0 
+ */
+export function reduxLogger({ getState }) {
+  return next => action => {
+
+    Logger.trace("redux", "will dispatch", action)
+
+    // Call the next dispatch method in the middleware chain.
+    const returnValue = next(action)
+
+    Logger.trace("redux", "state after dispatch", getState())
+
+    // This will likely be the action itself, unless
+    // a middleware further in chain changed it.
+    return returnValue
+  }
+}

@@ -4,7 +4,7 @@
 import React, { Component } from "react";
 import { createSwitchNavigator } from 'react-navigation';
 
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 
 import Amplify from 'aws-amplify';
 import awsconfig from "../aws-exports";
@@ -15,6 +15,7 @@ import MutableImage from "../lib/presentation/MutableImage";
 
 import { withAuth, registerAuthValidationRoute } from "../lib/authentication/Auth";
 import Session from "../lib/authentication/aws/Session";
+import { reduxLogger } from "../lib/utils/Logger";
 
 import { reducer } from "./redux/reducers";
 
@@ -45,8 +46,13 @@ import VerifyAccount from "./screens/VerifyAccount";
 var LOG_LEVEL = "trace";
 
 // Global singletons
+
 const authSession = new Session();
-const reduxStore = createStore(reducer);
+
+const reduxStore = createStore(
+    reducer,
+    applyMiddleware(reduxLogger)
+);
 
 const AppNav = createSwitchNavigator(
     {
