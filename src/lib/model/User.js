@@ -2,8 +2,6 @@
  * Copyright 2018-2018 AppBricks, Inc. or its affiliates. All Rights Reserved.
  */
 
-import { gplusProfilePicture, gravatar } from "../utils/avatar";
-
 const TIMEOUT = 24 * 60 * 60 * 1000; // 24 hours
 
 /**
