@@ -11,6 +11,7 @@ import AuthComponent, {
   mapAuthStateToProps,
   mapAuthDispatchToProps
 } from "../../components/AuthComponent";
+import LoadingView from "../../components/LoadingView";
 
 import {
   updateUser
@@ -44,6 +45,8 @@ class Profile extends AuthComponent<Props> {
     this.emailAddressInputRef = null;
     this.mobilePhoneInputRef = null;
 
+    this.didFocusProfileScreen = null;
+
     this.state = {
       emailAddress: null,
       emailAddressVerified: null,
@@ -59,12 +62,22 @@ class Profile extends AuthComponent<Props> {
 
     const { user } = this.props;
 
-    this.setState({
-      emailAddress: user.emailAddress,
-      emailAddressVerified: user.emailAddressVerified,
-      mobilePhone: user.mobilePhone,
-      mobilePhoneVerified: user.mobilePhoneVerified
-    })
+    this.didFocusProfileScreen = this.props.navigation.addListener(
+      "didFocus",
+      payload => {
+
+        this.setState({
+          emailAddress: user.emailAddress,
+          emailAddressVerified: user.emailAddressVerified,
+          mobilePhone: user.mobilePhone,
+          mobilePhoneVerified: user.mobilePhoneVerified
+        })
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.didFocusProfileScreen.remove();
   }
 
   onEnableBiometric() {
@@ -189,8 +202,15 @@ class Profile extends AuthComponent<Props> {
   }
 
   render() {
-    const { user, screenProps } = this.props;
-    const { backgroundImage } = this.props.screenProps;
+    const {
+      navigation,
+      user,
+      screenProps
+    } = this.props;
+    const {
+      ready,
+      backgroundImage
+    } = screenProps;
 
     return (
       <StackView
@@ -313,8 +333,7 @@ class Profile extends AuthComponent<Props> {
 
               containerStyle={dialogStyles.textContainer}
               labelStyle={dialogStyles.textLabel}
-              inputContainerStyle={styles.textInputContainer}
-              inputStyle={[dialogStyles.textInput, styles.textInput]}
+              inputStyle={[dialogStyles.textInput]}
 
               contextButton={{
                 show:
@@ -326,7 +345,7 @@ class Profile extends AuthComponent<Props> {
                 color: THEME.cardBackground,
                 background: THEME.contextButtonColor,
                 disabled: this.state.emailAddressDirty,
-                onPress: () => this.props.navigation.navigate("VerifyEmailAddress"),
+                onPress: () => navigation.navigate("VerifyEmailAddress"),
               }}
 
               value={this.state.emailAddress}
@@ -358,8 +377,7 @@ class Profile extends AuthComponent<Props> {
 
               containerStyle={dialogStyles.textContainer}
               labelStyle={dialogStyles.textLabel}
-              inputContainerStyle={styles.textInputContainer}
-              inputStyle={[dialogStyles.textInput, styles.textInput]}
+              inputStyle={[dialogStyles.textInput]}
 
               contextButton={{
                 show:
@@ -371,7 +389,7 @@ class Profile extends AuthComponent<Props> {
                 color: THEME.cardBackground,
                 background: THEME.contextButtonColor,
                 disabled: this.state.mobilePhoneDirty,
-                onPress: () => this.props.navigation.navigate("VerifyMobilePhone"),
+                onPress: () => navigation.navigate("VerifyMobilePhone"),
               }}
 
               value={this.state.mobilePhone}
@@ -430,6 +448,8 @@ class Profile extends AuthComponent<Props> {
           }} >
 
         </CardView> */}
+
+        <LoadingView show={!ready} />
 
       </StackView>
     );

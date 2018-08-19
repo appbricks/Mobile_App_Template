@@ -1,6 +1,7 @@
 /*
  * Copyright 2018-2018 AppBricks, Inc. or its affiliates. All Rights Reserved.
  */
+import { Alert } from "react-native";
 import Logger from "../utils/Logger";
 
 export const AUTH_NO_MFA = 0;
@@ -11,6 +12,9 @@ export const USER_UNDEFINED = 0;
 export const USER_LOGGED_OUT = 1;
 export const USER_LOGGED_IN = 2;
 export const USER_NEEDS_AUTH = 3;
+
+export const ATTRIB_EMAIL_ADDRESS = "email";
+export const ATTRIB_MOBILE_PHONE = "phone_number";
 
 /**
  * The session class wraps an underlying authentication provider.
@@ -236,6 +240,48 @@ export default class Session {
       });
   }
 
+  verifyAttribute(attrib, successHandler?, errorHandler?, beforeWaitHandler?) {
+
+    this._setWait();
+
+    this.authSession.sendVerificationCodeForAttribute(attrib)
+      .then(() => {
+        this._setReady();
+
+        if (successHandler) {
+          successHandler()
+        }
+      })
+      .catch(error => {
+        this.logger.error("error sending verification code: ", error);
+        this._handleError(
+          "There was a problem sending a code to verify your "
+          + attribName(attrib) + ".",
+          error, errorHandler);
+      });
+  }
+
+  confirmAttribute(attrib, code, successHandler?, errorHandler?, beforeWaitHandler?) {
+
+    this._setWait();
+
+    this.authSession.confirmVerificationCodeForAttribute(attrib, code)
+      .then(() => {
+        this._setReady();
+
+        if (successHandler) {
+          successHandler()
+        }
+      })
+      .catch(error => {
+        this.logger.error("error confirming verification code: ", error);
+        this._handleError(
+          "There was a problem confirming the code to verify your "
+          + attribName(attrib) + ".",
+          error, errorHandler);
+      });
+  }
+
   saveUserLoginPrefs(user, errorHandler?, beforeWaitHandler?) {
 
     this._setWait(beforeWaitHandler);
@@ -273,7 +319,14 @@ export default class Session {
 
   validateUser(user) {
 
-    this.logger.trace("validating user", user);
+    this.logger.trace(
+      "validating user",
+      {
+        username: user.username,
+        emailAddress: user.emailAddress,
+        mobilePhone: user.mobilePhone
+      }
+    );
 
     var userState = (!this.user && !user
       ? USER_LOGGED_OUT
@@ -375,3 +428,16 @@ export default class Session {
   }
 }
 
+var attribName = (attrib) => {
+
+  switch (attrib) {
+    case ATTRIB_EMAIL_ADDRESS:
+      return "email address";
+
+    case ATTRIB_MOBILE_PHONE:
+      return "mobile phone";
+
+    default:
+      return attrib;
+  }
+}

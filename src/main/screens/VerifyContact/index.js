@@ -2,15 +2,25 @@
  * Copyright 2018-2018 AppBricks, Inc. or its affiliates. All Rights Reserved.
  */
 import React, { Component } from "react";
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { Icon, Input, Button } from "react-native-elements";
 
 import { connect } from "react-redux";
+
+import {
+  ATTRIB_EMAIL_ADDRESS,
+  ATTRIB_MOBILE_PHONE
+} from "../../../lib/authentication/Session"
 
 import AuthComponent, {
   mapAuthStateToProps,
   mapAuthDispatchToProps
 } from "../../components/AuthComponent";
+import LoadingView from "../../components/LoadingView";
+
+import {
+  updateUser
+} from "../../redux/actions/creators"
 
 import StackView from "../../components/StackView";
 import CardView from "../../components/CardView";
@@ -55,20 +65,73 @@ class VerifyContact extends AuthComponent<Props> {
     this.setState({ verificationCode: event.nativeEvent.text });
   }
 
-  onSendCode() {
+  onSendCode(type) {
+
+    const {
+      verifyType,
+      screenProps
+    } = this.props;
+    const {
+      session
+    } = screenProps;
+
+    switch (verifyType) {
+      case "emailAddress":
+        session.verifyAttribute(ATTRIB_EMAIL_ADDRESS);
+        break;
+
+      case "mobilePhone":
+        session.verifyAttribute(ATTRIB_MOBILE_PHONE);
+        break;
+    }
   }
 
   onVerifyCode() {
+
+    const {
+      navigation,
+      verifyType,
+      user,
+      updateUser,
+      screenProps
+    } = this.props;
+    const { session } = screenProps;
+
+    switch (verifyType) {
+      case "emailAddress":
+        session.confirmAttribute(ATTRIB_EMAIL_ADDRESS, this.state.verificationCode,
+          () => {
+            user.emailAddressVerified = true;
+            updateUser(user);
+            navigation.goBack();
+          }
+        );
+        break;
+
+      case "mobilePhone":
+        session.confirmAttribute(ATTRIB_MOBILE_PHONE, this.state.verificationCode,
+          () => {
+            user.mobilePhoneVerified = true;
+            updateUser(user);
+            navigation.goBack();
+          }
+        );
+        break;
+    }
   }
 
   render() {
     const { user, verifyType, screenProps } = this.props;
-    const { backgroundImage } = this.props.screenProps;
+    const { ready } = screenProps;
 
     let sendIcon = (<View />);
+    let message;
 
     switch (verifyType) {
       case "emailAddress":
+
+        message = "Please enter the code that was sent to your email address \"" +
+          user.emailAddress + "\"."
 
         sendIcon = (<Icon
           type="material-icons"
@@ -76,9 +139,12 @@ class VerifyContact extends AuthComponent<Props> {
           size={DIALOG.widgetIconSize}
           color={COLORS.white}
         />);
-
         break;
+
       case "mobilePhone":
+
+        message = "Please enter the code that was texted to your mobile phone \"" +
+          user.mobilePhone + "\"."
 
         sendIcon = (<Icon
           type="material-icons"
@@ -87,8 +153,6 @@ class VerifyContact extends AuthComponent<Props> {
           color={COLORS.white}
         />);
         break;
-      default:
-
     }
     let iconType = (verifyType)
 
@@ -98,12 +162,13 @@ class VerifyContact extends AuthComponent<Props> {
         <CardView
           title="Verification"
           style={{
-            height: 170,
+            height: 235,
             borderRadius: 5,
           }} >
 
-          <View style={[dialogStyles.row, { marginTop: 20 }]}>
+          <View style={[dialogStyles.row, { marginTop: 30 }]}>
             <Input
+              label={message}
               placeholder="enter the verification code"
               rightIcon={<Icon
                 type="material-community"
@@ -117,7 +182,8 @@ class VerifyContact extends AuthComponent<Props> {
               keyboardType="numeric"
               textContentType="none"
 
-              labelStyle={[dialogStyles.textLabel, { textAlign: "center" }]}
+              // containerStyle={dialogStyles.textContainer}
+              labelStyle={[dialogStyles.textLabel, { paddingBottom: 10, textAlign: "justify" }]}
               inputStyle={[dialogStyles.textInput, dialogStyles.smsInput]}
 
               onChangeText={this.onChangeVerificationCode.bind(this)}
@@ -158,7 +224,9 @@ class VerifyContact extends AuthComponent<Props> {
 
         </CardView>
 
-      </StackView>
+        <LoadingView show={!ready} />
+
+      </StackView >
     );
   }
 }
@@ -170,7 +238,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return mapAuthDispatchToProps(dispatch, {});
+  return mapAuthDispatchToProps(dispatch, {
+    updateUser: (user) => dispatch(updateUser(user))
+  });
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyContact);

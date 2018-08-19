@@ -26,7 +26,8 @@ const ProfileNav = createStackNavigator(
             {
               ...screenProps
             }
-          } />);
+          }
+          {...props} />);
       },
       navigationOptions: stackHeader("Verify Email Address")
     },
@@ -42,7 +43,8 @@ const ProfileNav = createStackNavigator(
             {
               ...screenProps
             }
-          } />);
+          }
+          {...props} />);
       },
       navigationOptions: stackHeader("Verify Mobile Phone")
     }

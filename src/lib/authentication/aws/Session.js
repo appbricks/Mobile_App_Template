@@ -454,11 +454,7 @@ export default class Session {
     });
   }
 
-  /**
-   * 
-   * @param {*} attribute 
-   */
-  initiateVerifyAttribute(attribute) {
+  sendVerificationCodeForAttribute(attribute) {
 
     let logger = this.logger;
     let cognitoUser = this.cognitoUser;
@@ -467,7 +463,9 @@ export default class Session {
       Auth.verifyUserAttribute(cognitoUser, attribute)
         .then(
           data => {
-            logger.trace("successfully sent verification for user attribute", attribute, data);
+            logger.trace("successfully sent confirmation code " +
+              "to initiate verification of attribute ", attribute);
+
             resolve();
           },
           error => {
@@ -477,13 +475,7 @@ export default class Session {
     });
   }
 
-
-  /**
-   * 
-   * @param {*} attribute 
-   * @param {*} code 
-   */
-  verifyAttribute(attribute, code) {
+  confirmVerificationCodeForAttribute(attribute, code) {
 
     let logger = this.logger;
     let cognitoUser = this.cognitoUser;
@@ -492,7 +484,7 @@ export default class Session {
       Auth.verifyUserAttributeSubmit(cognitoUser, attribute, code)
         .then(
           data => {
-            logger.trace("successfully verified user attribute", attribute, data);
+            logger.trace("successfully confirmed attribute ", attribute);
             resolve();
           },
           error => {
