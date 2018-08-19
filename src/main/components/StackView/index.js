@@ -2,7 +2,9 @@
  * Copyright 2018-2018 AppBricks, Inc. or its affiliates. All Rights Reserved.
  */
 import React, { Component } from "react";
-import { ScrollView, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
+
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 import {
   VIEWPORT_HEIGHT,
@@ -102,7 +104,7 @@ export default class StackView extends Component<Props> {
     } = this.props;
 
     return (
-      <ScrollView
+      <KeyboardAwareScrollView
         contentContainerStyle={[
           {
             marginTop: this.marginTop,
@@ -111,6 +113,7 @@ export default class StackView extends Component<Props> {
           styles.container,
           style
         ]}
+        resetScrollToCoords={{ x: 0, y: 0 }}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         pinchGestureEnabled={false}
@@ -118,7 +121,7 @@ export default class StackView extends Component<Props> {
       >
         <StatusBar barStyle={THEME.stackViewStatusBar} />
         {this.props.children}
-      </ScrollView>
+      </KeyboardAwareScrollView>
     )
   }
 }
