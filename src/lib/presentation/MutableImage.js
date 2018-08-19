@@ -7,11 +7,11 @@
 export default class MutableImage {
 
   /**
-   * @param {object} defaultUri  The default image uri.
+   * @param {object} uri  The image uri.
    */
-  constructor(defaultUri, key, store) {
-    this.defaultUri = defaultUri;
-    this.updateCallback = null;
+  constructor(uri, key, store) {
+    this.uri = uri;
+    this.updateCallbacks = [];
   }
 
   /**
@@ -30,8 +30,15 @@ export default class MutableImage {
    * @param {functoin} cb  Callback functon to call when an image is updated.
    *                       This function takes the image uri as an argument.
    */
-  setUpdateCallback(cb) {
-    this.updateCallback = cb
+  addUpdateCallback(cb) {
+    this.updateCallbacks.push(cb);
+  }
+
+  /**
+   * @param {functoin} cb  Callback functon to remove.
+   */
+  removeUpdateCallback(cb) {
+    this.updateCallbacks = this.updateCallbacks.filter(callback => (callback !== cb));
   }
 
   /**
@@ -41,14 +48,11 @@ export default class MutableImage {
    */
   setUri(uri) {
     if (this.store != null) {
-
       this.store.setItem(this.key, uri)
-      if (this.updateCallback != null) {
-        this.updateCallback(uri)
-      }
     } else {
-      console.warn("WARNING: Image URI set before store was initialize, so it will not be saved.")
+      this.uri = uri;
     }
+    this.updateCallbacks.forEach(cb => cb(uri));
   }
 
   /**
@@ -61,16 +65,13 @@ export default class MutableImage {
    */
   blur(blurType, blurAmount) {
 
-    if (this.updateCallback != null) {
-
-      this.updateCallback(
-        null,
-        {
-          blurType: blurType,
-          blurAmount: blurAmount
-        }
-      );
-    }
+    this.updateCallbacks.forEach(cb => cb(
+      this.getUri(),
+      {
+        blurType: blurType,
+        blurAmount: blurAmount
+      }
+    ));
   }
 
   /**
@@ -78,16 +79,14 @@ export default class MutableImage {
    * the image needs to unblur it.
    */
   unblur() {
-    if (this.updateCallback != null) {
 
-      this.updateCallback(
-        null,
-        {
-          blurType: null,
-          blurAmount: null
-        }
-      );
-    }
+    this.updateCallbacks.forEach(cb => (
+      this.getUri(),
+      {
+        blurType: null,
+        blurAmount: null
+      }
+    ));
   }
 
   /**
@@ -110,7 +109,7 @@ export default class MutableImage {
     }
 
     if (uri == null) {
-      return this.defaultUri;
+      return this.uri;
     } else {
       return uri;
     }

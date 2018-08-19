@@ -27,7 +27,7 @@ export default class Backdrop extends Component<Props> {
       viewRef: null,
     };
 
-    this.props.image.setUpdateCallback((uri, options?) => {
+    this.props.image.addUpdateCallback((uri, options?) => {
 
       if (options) {
 
