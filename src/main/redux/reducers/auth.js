@@ -39,7 +39,10 @@ export const initialAuthState = (
   user = new User(),
   timestamp = -1,
 ) => {
-  return { user, timestamp };
+  return {
+    user,
+    timestamp
+  };
 };
 
 const reducer = (state, action) => {

@@ -22,19 +22,26 @@ class AvatarView extends Component<Props> {
     this.mounted = false;
 
     this.state = {
-      avatarUri: null
+      avatarUri: null,
+      avatarTitle: null
     }
   }
 
   componentDidMount() {
-    const { user } = this.props;
+    const { avatar } = this.props;
     this.mounted = true;
 
-    user.avatarUri(uri => {
-      if (uri && this.mounted) {
-        this.setState({ avatarUri: uri });
+    avatarImage = avatar.getImage();
+    avatarImage.addUpdateCallback((uri) => {
+
+      if (this.mounted) {
+
+        this.setState({
+          avatarUri: uri.uri,
+          avatarTitle: uri.title
+        });
       }
-    })
+    });
   }
 
   componentWillUnmount() {
@@ -43,8 +50,7 @@ class AvatarView extends Component<Props> {
 
   render() {
 
-    const { user } = this.props;
-    const { avatarUri } = this.state;
+    const { avatarUri, avatarTitle } = this.state;
 
     if (avatarUri) {
 
@@ -52,9 +58,12 @@ class AvatarView extends Component<Props> {
         <View
           style={[styles.container, this.props.style]}
         >
-          <Text style={styles.usernameHeader}>
-            {user.name()}
-          </Text>
+          {avatarTitle ? (
+            <Text style={styles.avatarTitleHeader}>
+              {avatarTitle}
+            </Text>
+          ) : false}
+
           <Avatar
             rounded
             size="xlarge"
@@ -66,7 +75,7 @@ class AvatarView extends Component<Props> {
 
     } else {
 
-      let title = user.avatarTitle();
+      let title = avatarTitle || "";
 
       avatarTitleStyle = (title.length < 3
         ? styles.avatarTitleLarge
@@ -103,6 +112,7 @@ class AvatarView extends Component<Props> {
 
 const mapStateToProps = state => {
   return {
+    avatar: state.ui.avatar,
     user: state.auth.user
   };
 };

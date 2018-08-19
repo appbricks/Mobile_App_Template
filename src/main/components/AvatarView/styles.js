@@ -18,7 +18,7 @@ export default StyleSheet.create({
   overlayStyle: {
     backgroundColor: THEME.avatarBackground
   },
-  usernameHeader: {
+  avatarTitleHeader: {
     position: "absolute",
     top: 0,
     left: 0,

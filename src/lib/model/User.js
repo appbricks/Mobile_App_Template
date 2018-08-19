@@ -77,70 +77,9 @@ export default class User {
     if (this.firstName && this.firstName.length > 0
       && this.familyName && this.familyName.length > 0) {
 
-      return this.firstName + " " + this.familyName.length;
+      return this.firstName + " " + this.familyName;
     } else {
       return this.username;
-    }
-  }
-
-  /**
-   * Returns a title name for the avatar initials
-   */
-  avatarTitle() {
-    if (this.firstName && this.firstName.length > 0
-      && this.familyName && this.familyName.length > 0) {
-
-      return (this.firstName.charAt(0) + this.familyName.charAt(0))
-        .toUpperCase();
-
-    } else {
-
-      return this.username
-        .substr(0, 3)
-        .toLowerCase();
-    }
-  }
-
-  /**
-   * Returns a uri to the user's avatar picture. This
-   * will first check for a profile picture on gplus
-   * and if not found it will check for a profile
-   * picture from gravatar.
-   * 
-   * @param {*} cb Callback to pass the retrieved URI to
-   */
-  avatarUri(cb) {
-
-    if (this.profilePictureUrl) {
-      cb(this.profilePictureUrl);
-
-    } else {
-
-      if (this.emailAddress && this.emailAddress.length > 0) {
-
-        // Check for a profile picture on Google Plus Picasa
-        gplusUrl = gplusProfilePicture(
-          url => {
-
-            if (!url) {
-
-              // Check for a profile picture hosted on gravatar
-              gravatar(
-                url => {
-                  this.profilePictureUrl = url;
-                  cb(this.profilePictureUrl);
-                },
-                this.emailAddress, { size: 320 }
-              );
-
-            } else {
-              this.profilePictureUrl = url;
-              cb(this.profilePictureUrl);
-            }
-          },
-          this.emailAddress
-        );
-      }
     }
   }
 

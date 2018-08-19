@@ -7,10 +7,16 @@
 export default class MutableImage {
 
   /**
-   * @param {object} uri  The image uri.
+   * Constructs a mutable image instance
+   * 
+   * @param {*} uri     The image uri
+   * @param {*} title   The image title
+   * @param {*} key     The key within a local store to persist the uri
+   * @param {*} store   The store instance where the uri will be persisted 
    */
-  constructor(uri, key, store) {
+  constructor(uri, title?, key?, store?) {
     this.uri = uri;
+    this.title = title;
     this.updateCallbacks = [];
   }
 
@@ -42,17 +48,29 @@ export default class MutableImage {
   }
 
   /**
+   * @param {*} options 
+   */
+  triggerCallbacks(options?) {
+    this.updateCallbacks.forEach(cb => cb(this.getUri(), options));
+  }
+
+  /**
    * Sets the image source uri.
    * 
    * @param {object} uri 
+   * @param {object} title 
    */
-  setUri(uri) {
+  setUri(uri, title?) {
     if (this.store != null) {
-      this.store.setItem(this.key, uri)
+      this.store.setItem(this.key, {
+        uri: uri,
+        title: titile
+      });
     } else {
       this.uri = uri;
+      this.title = title;
     }
-    this.updateCallbacks.forEach(cb => cb(uri));
+    this.updateCallbacks.forEach(cb => cb({ uri, title }));
   }
 
   /**
@@ -65,13 +83,12 @@ export default class MutableImage {
    */
   blur(blurType, blurAmount) {
 
-    this.updateCallbacks.forEach(cb => cb(
-      this.getUri(),
+    this.triggerCallbacks(
       {
         blurType: blurType,
         blurAmount: blurAmount
       }
-    ));
+    );
   }
 
   /**
@@ -80,13 +97,12 @@ export default class MutableImage {
    */
   unblur() {
 
-    this.updateCallbacks.forEach(cb => cb(
-      this.getUri(),
+    this.triggerCallbacks(
       {
         blurType: null,
         blurAmount: null
       }
-    ));
+    );
   }
 
   /**
@@ -95,7 +111,7 @@ export default class MutableImage {
    * @return {object}
    */
   getUri() {
-    let uri = null;
+    let uri = {};
 
     if (this.store != null) {
       if (this.store.isInitialized()) {
@@ -108,10 +124,13 @@ export default class MutableImage {
       }
     }
 
-    if (uri == null) {
-      return this.uri;
-    } else {
+    if (uri.length) {
       return uri;
+    } else {
+      return {
+        uri: this.uri,
+        title: this.title
+      };
     }
   }
 }

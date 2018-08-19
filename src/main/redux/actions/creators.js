@@ -3,10 +3,11 @@
  */
 import {
   LOAD_AUTH_STATE,
+  SIGN_IN,
+  SIGN_OUT,
   RESET_USER,
   UPDATE_USER,
-  SIGN_IN,
-  SIGN_OUT
+  UPDATE_AVATAR
 } from "./types";
 
 import Logger from "../../../lib/utils/Logger";
@@ -46,6 +47,13 @@ export const signOutUser = () => {
   };
 };
 
+export const resetUser = () => {
+  return {
+    type: RESET_USER,
+    data: {}
+  };
+};
+
 export const updateUser = (user) => {
 
   if (user) {
@@ -66,9 +74,22 @@ export const updateUser = (user) => {
   }
 };
 
-export const resetUser = () => {
-  return {
-    type: RESET_USER,
-    data: {}
-  };
+export const updateAvatar = (user) => {
+
+  if (user) {
+
+    return {
+      type: UPDATE_AVATAR,
+      data: {
+        user: user
+      }
+    };
+
+  } else {
+
+    Logger.error("updateUser",
+      "user instance for UPDATE_USER redux action type cannot be null");
+
+    return {};
+  }
 };

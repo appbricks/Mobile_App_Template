@@ -54,7 +54,7 @@ export default class Backdrop extends Component<Props> {
       <ImageBackground
         ref={(img) => { this.imageBackground = img; }}
         style={styles.backdrop}
-        source={this.state.image.getUri()}
+        source={this.state.image.getUri().uri}
         resizeMode="cover"
         onLoadEnd={this._imageLoaded.bind(this)}
       >

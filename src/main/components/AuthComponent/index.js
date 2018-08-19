@@ -19,7 +19,8 @@ import {
   loadAuthState,
   resetUser,
   signInUser,
-  signOutUser
+  signOutUser,
+  updateAvatar
 } from "../../redux/actions/creators"
 
 import {
@@ -46,12 +47,18 @@ export default class AuthComponent<P> extends Component<P> {
 
     if (!AuthComponent.initialized) {
 
-      const { user, loadAuthState } = this.props;
+      const {
+        user,
+        loadAuthState,
+        updateAvatar
+      } = this.props;
 
       // Wait until all applications persistence
       // stores have initialized.
       await initAuthStore(user);
+
       loadAuthState();
+      updateAvatar(user);
 
       AuthComponent.initialized = true;
       this.setState({});
@@ -325,6 +332,7 @@ export function mapAuthDispatchToProps(dispatch, map) {
     loadAuthState: () => dispatch(loadAuthState()),
     signInUser: (user) => dispatch(signInUser(user)),
     signOutUser: () => dispatch(signOutUser()),
-    resetUser: () => dispatch(resetUser())
+    resetUser: () => dispatch(resetUser()),
+    updateAvatar: (user) => dispatch(updateAvatar(user)),
   }, map);
 };
