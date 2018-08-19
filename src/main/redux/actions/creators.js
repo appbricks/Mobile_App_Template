@@ -4,6 +4,7 @@
 import {
   LOAD_AUTH_STATE,
   RESET_USER,
+  UPDATE_USER,
   SIGN_IN,
   SIGN_OUT
 } from "./types";
@@ -14,6 +15,10 @@ export const loadAuthState = () => {
 
 export const resetUser = () => {
   return { type: RESET_USER, data: {} };
+};
+
+export const updateUser = () => {
+  return { type: UPDATE_USER, data: {} };
 };
 
 export const signInUser = () => {

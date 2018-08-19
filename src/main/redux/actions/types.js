@@ -4,6 +4,6 @@
 
 export const LOAD_AUTH_STATE = "LOAD_AUTH_STATE";
 export const RESET_USER = "RESET_USER";
+export const UPDATE_USER = "UPDATE_USER";
 export const SIGN_IN = "SIGN_IN";
 export const SIGN_OUT = "SIGN_OUT";
-

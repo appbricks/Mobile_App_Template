@@ -4,6 +4,7 @@
 import {
   LOAD_AUTH_STATE,
   RESET_USER,
+  UPDATE_USER,
   SIGN_IN,
   SIGN_OUT
 } from "../actions/types";
@@ -72,8 +73,10 @@ const reducer = (state, action) => {
       } else {
         saveCredentials(user.username, "");
       }
-      authStore.setItem("user", user.toJSON());
       authStore.setItem("timestamp", state.timestamp);
+
+    case UPDATE_USER:
+      authStore.setItem("user", state.user.toJSON());
       break;
 
     case SIGN_OUT:

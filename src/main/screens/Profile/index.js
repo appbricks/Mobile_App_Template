@@ -12,6 +12,10 @@ import AuthComponent, {
   mapAuthDispatchToProps
 } from "../../components/AuthComponent";
 
+import {
+  updateUser
+} from "../../redux/actions/creators"
+
 import StackView from "../../components/StackView";
 import CardView from "../../components/CardView";
 import TextInput from "../../components/TextInput"
@@ -101,20 +105,28 @@ class Profile extends AuthComponent<Props> {
 
   onSaveUserContactInfo() {
 
-    const { user } = this.props;
+    const { user, updateUser, screenProps } = this.props;
+    const { saveUserContactInfo } = screenProps;
 
     user.emailAddress = this.state.emailAddress;
     user.emailAddressVerified = this.state.emailAddressVerified;
     user.mobilePhone = this.state.mobilePhone;
     user.mobilePhoneVerified = this.state.mobilePhoneVerified;
 
-    // TBD
+    saveUserContactInfo(user);
+    updateUser();
 
     this.onResetContactInfo();
   }
 
   _saveUserLoginPrefs() {
-    const { user } = this.props;
+
+    const { user, updateUser, screenProps } = this.props;
+    const { saveUserLoginPrefs } = screenProps;
+
+    saveUserLoginPrefs(user);
+    updateUser();
+
     this.setState({});
   }
 
@@ -431,7 +443,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return mapAuthDispatchToProps(dispatch, {});
+  return mapAuthDispatchToProps(dispatch, {
+    updateUser: () => dispatch(updateUser())
+  });
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

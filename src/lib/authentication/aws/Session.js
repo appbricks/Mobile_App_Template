@@ -9,7 +9,7 @@ import {
   AUTH_NO_MFA,
   AUTH_MFA_SMS,
   AUTH_MFA_TOTP
-} from "../Auth"
+} from "../Session"
 
 const MFA_TOTP = "TOTP";
 const MFA_SMS = "SMS";
@@ -21,7 +21,7 @@ const NO_MFA = "NOMFA";
 export default class Session {
 
   constructor() {
-    this.logger = new Logger(this);
+    this.logger = new Logger("AwsAuthSession");
     this.cognitoUser = null
   }
 
@@ -125,20 +125,59 @@ export default class Session {
    * 
    * @param {*} user 
    */
-  async saveUser(user) {
+  async saveUser(user, attribNames?) {
 
-    let attributes = {
-      email: user.emailAddress,
-      email_verified: user.emailAddressVerified,
-      phone_number: user.mobilePhone,
-      phone_number_verified: user.mobilePhoneVerified,
-      "custom:preferences": JSON.stringify({
-        enableBiometric: user.enableBiometric,
-        enableMFA: user.enableMFA,
-        enableTOTP: user.enableTOTP,
-        rememberFor24h: user.rememberFor24h
-      })
-    };
+    let attributes = {};
+
+    [
+      "email",
+      "email_verified",
+      "phone_number",
+      "phone_number_verified",
+      "custom:preferences"
+    ]
+      .filter(
+        a => !attribNames || attribNames.find(
+          name => (name == a)
+        )
+      )
+      .map(a => {
+
+        switch (a) {
+          case "email":
+            attributes = Object.assign(attributes, {
+              email: user.emailAddress
+            });
+            break;
+          case "phone_number":
+            attributes = Object.assign(attributes, {
+              email_verified: user.emailAddressVerified
+            });
+            break;
+          case "email_verified":
+            attributes = Object.assign(attributes, {
+              phone_number: user.mobilePhone
+            });
+            break;
+          case "phone_number_verified":
+            attributes = Object.assign(attributes, {
+              phone_number_verified: user.mobilePhoneVerified
+            });
+            break;
+          case "custom:preferences":
+            attributes = Object.assign(attributes, {
+              "custom:preferences": JSON.stringify({
+                enableBiometric: user.enableBiometric,
+                enableMFA: user.enableMFA,
+                enableTOTP: user.enableTOTP,
+                rememberFor24h: user.rememberFor24h
+              })
+            });
+
+            this.configureMFA(user);
+            break;
+        }
+      });
 
     this.logger.trace("saving user attributes: ", attributes);
     await Auth.updateUserAttributes(this.cognitoUser, attributes);

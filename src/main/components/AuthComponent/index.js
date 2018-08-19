@@ -7,21 +7,13 @@ import TouchID from "react-native-touch-id";
 
 import prompt from 'react-native-prompt-android';
 
+import Logger from "../../../lib/utils/Logger";
+
 import {
   USER_UNDEFINED,
   USER_NEEDS_AUTH
-} from "../../../lib/authentication/Auth";
+} from "../../../lib/authentication/Session";
 import { initAuthStore } from "../../redux/reducers/auth"
-
-import Logger from "../../../lib/utils/Logger";
-
-import { IS_IOS } from "../../styles/common";
-
-import {
-  AUTH_NO_MFA,
-  AUTH_MFA_SMS,
-  AUTH_MFA_TOTP
-} from "../../../lib/authentication/Auth";
 
 import {
   loadAuthState,
@@ -29,6 +21,14 @@ import {
   signInUser,
   signOutUser
 } from "../../redux/actions/creators"
+
+import {
+  AUTH_NO_MFA,
+  AUTH_MFA_SMS,
+  AUTH_MFA_TOTP
+} from "../../../lib/authentication/Session";
+
+import { IS_IOS } from "../../styles/common";
 
 export default class AuthComponent<P> extends Component<P> {
 
