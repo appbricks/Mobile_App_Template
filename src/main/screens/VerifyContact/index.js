@@ -83,9 +83,7 @@ class VerifyContact extends AuthComponent<Props> {
     let iconType = (verifyType)
 
     return (
-      <StackView
-        blurBackground
-        backgroundImage={backgroundImage}>
+      <StackView>
 
         <CardView
           title="Verification"

@@ -80,7 +80,7 @@ export default class MutableImage {
    */
   unblur() {
 
-    this.updateCallbacks.forEach(cb => (
+    this.updateCallbacks.forEach(cb => cb(
       this.getUri(),
       {
         blurType: null,
