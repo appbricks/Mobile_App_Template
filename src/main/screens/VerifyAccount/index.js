@@ -82,9 +82,9 @@ class VerifyAccount extends Component<Props> {
 
     // Delegate signing to HOC
     const { user, screenProps } = this.props;
-    const { onSignUpVerify } = screenProps;
+    const { session } = screenProps;
 
-    onSignUpVerify(user, this.state.verificationCode,
+    session.signUpVerify(user, this.state.verificationCode,
       // On success navigate back to sign-in screen
       (user) => {
         this._navigateToSignInScreen();
