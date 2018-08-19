@@ -2,7 +2,7 @@
  * Copyright 2018-2018 AppBricks, Inc. or its affiliates. All Rights Reserved.
  */
 import React, { Component } from "react";
-import { AppState, Alert } from "react-native";
+import { AppState } from "react-native";
 import { Provider } from "react-redux";
 
 import SplashScreen from 'react-native-splash-screen';
