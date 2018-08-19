@@ -9,22 +9,66 @@ import {
   SIGN_OUT
 } from "./types";
 
+import Logger from "../../../lib/utils/Logger";
+
 export const loadAuthState = () => {
-  return { type: LOAD_AUTH_STATE, data: {} };
+  return {
+    type: LOAD_AUTH_STATE,
+    data: {}
+  };
 };
 
-export const resetUser = () => {
-  return { type: RESET_USER, data: {} };
-};
+export const signInUser = (user) => {
 
-export const updateUser = () => {
-  return { type: UPDATE_USER, data: {} };
-};
+  if (user) {
 
-export const signInUser = () => {
-  return { type: SIGN_IN, data: { signInTime: Date.now() } };
+    return {
+      type: SIGN_IN,
+      data: {
+        user: user,
+        signInTime: Date.now()
+      }
+    };
+
+  } else {
+
+    Logger.error("signInUser",
+      "user instance for SIGN_IN redux action type cannot be null");
+
+    return {};
+  }
 };
 
 export const signOutUser = () => {
-  return { type: SIGN_OUT, data: {} };
+  return {
+    type: SIGN_OUT,
+    data: {}
+  };
+};
+
+export const updateUser = (user) => {
+
+  if (user) {
+
+    return {
+      type: UPDATE_USER,
+      data: {
+        user: user
+      }
+    };
+
+  } else {
+
+    Logger.error("updateUser",
+      "user instance for UPDATE_USER redux action type cannot be null");
+
+    return {};
+  }
+};
+
+export const resetUser = () => {
+  return {
+    type: RESET_USER,
+    data: {}
+  };
 };

@@ -114,7 +114,7 @@ class Profile extends AuthComponent<Props> {
     user.mobilePhoneVerified = this.state.mobilePhoneVerified;
 
     saveUserContactInfo(user);
-    updateUser();
+    updateUser(user);
 
     this.onResetContactInfo();
   }
@@ -125,7 +125,7 @@ class Profile extends AuthComponent<Props> {
     const { saveUserLoginPrefs } = screenProps;
 
     saveUserLoginPrefs(user);
-    updateUser();
+    updateUser(user);
 
     this.setState({});
   }
@@ -444,7 +444,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return mapAuthDispatchToProps(dispatch, {
-    updateUser: () => dispatch(updateUser())
+    updateUser: (user) => dispatch(updateUser(user))
   });
 };
 

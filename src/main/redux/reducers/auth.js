@@ -44,8 +44,6 @@ export const initialAuthState = (
 
 const reducer = (state, action) => {
 
-  let user;
-
   switch (action.type) {
 
     case LOAD_AUTH_STATE:
@@ -62,20 +60,27 @@ const reducer = (state, action) => {
       break;
 
     case SIGN_IN:
-      user = state.user;
+
+      let user = action.data.user;
       let signInTime = action.data.signInTime;
 
+      state.user = user;
       state.timestamp = signInTime;
-      password = user.password;
 
+      password = user.password;
       if (user.enableBiometric || user.rememberFor24h) {
         saveCredentials(user.username, password);
       } else {
         saveCredentials(user.username, "");
       }
+
+      authStore.setItem("user", user.toJSON());
       authStore.setItem("timestamp", state.timestamp);
+      break;
 
     case UPDATE_USER:
+
+      state.user = action.data.user;
       authStore.setItem("user", state.user.toJSON());
       break;
 

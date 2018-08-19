@@ -115,7 +115,7 @@ export default class AuthComponent<P> extends Component<P> {
         if (challange == AUTH_MFA_SMS) {
           this._showMFAChallenge("Please enter the multi-factor authentication code you received via SMS.")
         } else {
-          signInUser();
+          signInUser(user);
           navigation.navigate("AuthLoading");
         }
       },
@@ -238,7 +238,7 @@ export default class AuthComponent<P> extends Component<P> {
       () => {
         this.logger.trace("Successfully validated MFA code for user '" + user.username + "'.");
 
-        signInUser();
+        signInUser(user);
         navigation.navigate("AuthLoading");
       },
       (error) => {
@@ -323,7 +323,7 @@ export function mapAuthDispatchToProps(dispatch, map) {
 
   return Object.assign({
     loadAuthState: () => dispatch(loadAuthState()),
-    signInUser: () => dispatch(signInUser()),
+    signInUser: (user) => dispatch(signInUser(user)),
     signOutUser: () => dispatch(signOutUser()),
     resetUser: () => dispatch(resetUser())
   }, map);
