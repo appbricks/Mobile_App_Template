@@ -34,7 +34,7 @@ export default class Session {
     this.user = null;
   }
 
-  handleOnSignIn(user, successHandler?, errorHandler?, beforeWaitHandler?) {
+  signIn(user, successHandler?, errorHandler?, beforeWaitHandler?) {
 
     this._setWait(beforeWaitHandler);
     this.logger.trace("signing in user: ", user);
@@ -60,7 +60,7 @@ export default class Session {
       });
   }
 
-  handleOnSignInMFA(user, code, successHandler?, errorHandler?, beforeWaitHandler?) {
+  signInMFA(user, code, successHandler?, errorHandler?, beforeWaitHandler?) {
 
     this._setWait(beforeWaitHandler);
 
@@ -85,7 +85,7 @@ export default class Session {
       });
   }
 
-  handleOnSignOut(successHandler?, errorHandler?, beforeWaitHandler?) {
+  signOut(successHandler?, errorHandler?, beforeWaitHandler?) {
 
     this._setWait(beforeWaitHandler);
     this.navigateToAuthValidationRoute();
@@ -109,7 +109,7 @@ export default class Session {
       });
   }
 
-  handleOnResetPassword(user, successHandler?, errorHandler?, beforeWaitHandler?) {
+  resetPassword(user, successHandler?, errorHandler?, beforeWaitHandler?) {
 
     this._setWait(beforeWaitHandler);
 
@@ -131,7 +131,7 @@ export default class Session {
       });
   }
 
-  handleOnUpdatePassword(user, code, successHandler?, errorHandler?, beforeWaitHandler?) {
+  updatePassword(user, code, successHandler?, errorHandler?, beforeWaitHandler?) {
 
     this._setWait(beforeWaitHandler);
 
@@ -153,7 +153,7 @@ export default class Session {
       });
   }
 
-  handleOnSignUp(user, successHandler?, errorHandler?, beforeWaitHandler?) {
+  signUp(user, successHandler?, errorHandler?, beforeWaitHandler?) {
 
     this._setWait(beforeWaitHandler);
 
@@ -177,7 +177,7 @@ export default class Session {
       });
   }
 
-  handleOnSignUpVerify(user, code, successHandler?, errorHandler?, beforeWaitHandler?) {
+  signUpVerify(user, code, successHandler?, errorHandler?, beforeWaitHandler?) {
 
     this._setWait(beforeWaitHandler);
 
@@ -220,7 +220,7 @@ export default class Session {
       });
   }
 
-  handleOnResendSignUpCode(user) {
+  resendSignUpCode(user) {
 
     this._setWait();
 

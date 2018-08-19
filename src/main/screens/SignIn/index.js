@@ -158,11 +158,11 @@ class SignIn extends AuthComponent<props> {
       screenProps
     } = this.props;
 
-    const { onResetPassword } = screenProps;
+    const { session } = screenProps;
 
     if (user.username.length > 0) {
 
-      onResetPassword(user,
+      session.resetPassword(user,
         () => {
           this.props.navigation.navigate("PasswordReset");
         },

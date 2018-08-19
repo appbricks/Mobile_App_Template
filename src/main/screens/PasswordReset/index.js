@@ -55,9 +55,9 @@ class PasswordReset extends Component<Props> {
       screenProps
     } = this.props;
 
-    const { onUpdatePassword } = screenProps;
+    const { session } = screenProps;
 
-    onUpdatePassword(user, this.resetCode,
+    session.updatePassword(user, this.resetCode,
       // On success navigate back to sign-in screen
       (user) => {
         this._navigateToSignInScreen();

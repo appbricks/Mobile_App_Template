@@ -45,9 +45,9 @@ class SignUp extends Component<Props> {
 
     // Delegate signing to HOC
     const { user, screenProps } = this.props;
-    const { onSignUp } = screenProps;
+    const { session } = screenProps;
 
-    onSignUp(user,
+    session.signUp(user,
 
       (userConfirmed) => {
 

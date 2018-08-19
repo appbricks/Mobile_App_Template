@@ -70,7 +70,7 @@ export default class AuthComponent<P> extends Component<P> {
     if (AuthComponent.initialized) {
 
       const { user, resetUser, screenProps } = this.props;
-      const { ready, setReady, signedIn, validateUser } = screenProps;
+      const { ready, setReady, signedIn, session } = screenProps;
 
       this.logger.trace(
         "authentication state: signed in =", signedIn,
@@ -78,7 +78,7 @@ export default class AuthComponent<P> extends Component<P> {
 
       if (signedIn) {
 
-        switch (validateUser(user)) {
+        switch (session.validateUser(user)) {
           case USER_UNDEFINED:
             this.navigateToSignInScreen();
             break;
@@ -112,9 +112,9 @@ export default class AuthComponent<P> extends Component<P> {
       screenProps
     } = this.props;
 
-    const { onSignIn } = screenProps;
+    const { session } = screenProps;
 
-    onSignIn(user,
+    session.signIn(user,
 
       (challange) => {
         this.logger.trace("Challenge for user '" + user.username + "': ", challange);
@@ -163,9 +163,9 @@ export default class AuthComponent<P> extends Component<P> {
 
     // Delegate signing to HOC
     const { user, signOutUser, screenProps } = this.props;
-    const { onSignOut } = screenProps;
+    const { session } = screenProps;
 
-    onSignOut(
+    session.signOut(
       // On success navigate back to AuthLoading screen
       () => {
         signOutUser();
@@ -238,9 +238,9 @@ export default class AuthComponent<P> extends Component<P> {
       screenProps
     } = this.props;
 
-    const { onSignInMFA } = screenProps;
+    const { session } = screenProps;
 
-    onSignInMFA(user, code,
+    session.signInMFA(user, code,
 
       () => {
         this.logger.trace("Successfully validated MFA code for user '" + user.username + "'.");

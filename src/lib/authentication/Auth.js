@@ -148,14 +148,7 @@ export function withAuth(
       const { ready, signedIn } = this.state;
 
       const {
-        onSignIn,
-        onSignInMFA,
-        onSignOut,
-        onResetPassword,
-        onUpdatePassword,
-        onSignUp,
-        onSignUpVerify,
-        onResendSignUpCode,
+        session,
         ...otherProps
       } = this.props;
 
@@ -168,17 +161,7 @@ export function withAuth(
             ready={ready}
             setReady={() => this._setReady()}
             signedIn={signedIn}
-            onSignIn={onSignIn || this.session.handleOnSignIn.bind(this.session)}
-            onSignInMFA={onSignIn || this.session.handleOnSignInMFA.bind(this.session)}
-            onSignOut={onSignOut || this.session.handleOnSignOut.bind(this.session)}
-            onResetPassword={onResetPassword || this.session.handleOnResetPassword.bind(this.session)}
-            onUpdatePassword={onUpdatePassword || this.session.handleOnUpdatePassword.bind(this.session)}
-            onSignUp={onSignUp || this.session.handleOnSignUp.bind(this.session)}
-            onSignUpVerify={onSignUpVerify || this.session.handleOnSignUpVerify.bind(this.session)}
-            onResendSignUpCode={onResendSignUpCode || this.session.handleOnResendSignUpCode.bind(this.session)}
-            validateUser={this.session.validateUser.bind(this.session)}
-            saveUserLoginPrefs={this.session.saveUserLoginPrefs.bind(this.session)}
-            saveUserContactInfo={this.session.saveUserContactInfo.bind(this.session)}
+            session={session || this.session}
             backgroundImage={backgroundImage}
             {...otherProps}
           />

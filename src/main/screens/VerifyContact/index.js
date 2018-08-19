@@ -36,19 +36,29 @@ class VerifyContact extends AuthComponent<Props> {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      verificationCode: null,
+      verifyButtonDisabled: true
+    }
   }
 
-  _validateInput() {
+  onChangeVerificationCode(text) {
+    disable = (text.length == 0);
 
-    const { user } = this.props;
+    if (disable != this.state.verifyButtonDisabled) {
+      this.setState({ verifyButtonDisabled: disable });
+    }
+  }
 
-    // inputValid = (
-    //   user.isValid()
-    // );
+  onSetVerificationCode(event) {
+    this.setState({ verificationCode: event.nativeEvent.text });
+  }
 
-    // if (this.state.inputValid != inputValid) {
-    //   this.setState({ inputValid: inputValid })
-    // }
+  onSendCode() {
+  }
+
+  onVerifyCode() {
   }
 
   render() {
@@ -110,8 +120,8 @@ class VerifyContact extends AuthComponent<Props> {
               labelStyle={[dialogStyles.textLabel, { textAlign: "center" }]}
               inputStyle={[dialogStyles.textInput, dialogStyles.smsInput]}
 
-            // onChangeText={this.onChangeVerificationCode.bind(this)}
-            // onEndEditing={this.onSetVerificationCode.bind(this)}
+              onChangeText={this.onChangeVerificationCode.bind(this)}
+              onEndEditing={this.onSetVerificationCode.bind(this)}
             />
           </View>
 
@@ -124,7 +134,7 @@ class VerifyContact extends AuthComponent<Props> {
               ]}
               disabledStyle={dialogStyles.disabledButton}
               title="Send"
-            // onPress={this.onCancel.bind(this)}
+              onPress={this.onSendCode.bind(this)}
             />
             <Button
               icon={
@@ -141,8 +151,8 @@ class VerifyContact extends AuthComponent<Props> {
               ]}
               disabledStyle={dialogStyles.disabledButton}
               title="Verify"
-            // disabled={this.state.verifyButtonDisabled}
-            // onPress={this.onVerify.bind(this)}
+              disabled={this.state.verifyButtonDisabled}
+              onPress={this.onVerifyCode.bind(this)}
             />
           </View>
 

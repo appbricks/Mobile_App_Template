@@ -106,14 +106,14 @@ class Profile extends AuthComponent<Props> {
   onSaveUserContactInfo() {
 
     const { user, updateUser, screenProps } = this.props;
-    const { saveUserContactInfo } = screenProps;
+    const { session } = screenProps;
 
     user.emailAddress = this.state.emailAddress;
     user.emailAddressVerified = this.state.emailAddressVerified;
     user.mobilePhone = this.state.mobilePhone;
     user.mobilePhoneVerified = this.state.mobilePhoneVerified;
 
-    saveUserContactInfo(user);
+    session.saveUserContactInfo(user);
     updateUser(user);
 
     this.onResetContactInfo();
@@ -122,9 +122,9 @@ class Profile extends AuthComponent<Props> {
   _saveUserLoginPrefs() {
 
     const { user, updateUser, screenProps } = this.props;
-    const { saveUserLoginPrefs } = screenProps;
+    const { session } = screenProps;
 
-    saveUserLoginPrefs(user);
+    session.saveUserLoginPrefs(user);
     updateUser(user);
 
     this.setState({});
