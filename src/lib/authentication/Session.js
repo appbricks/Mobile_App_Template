@@ -394,21 +394,6 @@ export default class Session {
     return userState;
   }
 
-  signOut() {
-
-    this.navigateToAuthValidationRoute();
-
-    this.authSession.signOut().then(
-      async () => {
-
-        this.logger.trace("user log-in session has been terminated");
-        this.user = null;
-
-        this._setReady(await this.authSession.validateSession());
-      }
-    );
-  }
-
   _handleError(message, error, errorHandler?) {
 
     this._setReady();
