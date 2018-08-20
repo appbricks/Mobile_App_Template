@@ -350,7 +350,7 @@ export default class Session {
               user.username,
               "from state.");
 
-            this.signOut();
+            this._signOut();
 
           } else if (user.rememberSignIn()) {
 
@@ -369,7 +369,7 @@ export default class Session {
               user.username,
               "from state should not be remembered");
 
-            this.signOut();
+            this._signOut();
           }
         } else {
           userState = USER_UNDEFINED;
@@ -377,7 +377,7 @@ export default class Session {
           this.logger.trace(
             "existing session will be terminated as user being validated is undefined");
 
-          this.signOut();
+          this._signOut();
         }
 
       } else {
@@ -386,12 +386,27 @@ export default class Session {
           "signing out as user from state does not match user in context: ",
           this.user, user);
 
-        this.signOut();
+        this._signOut();
       }
     }
 
     this.logger.trace("current user state: ", userState);
     return userState;
+  }
+
+  _signOut() {
+
+    this.navigateToAuthValidationRoute();
+
+    this.authSession.signOut().then(
+      async () => {
+
+        this.logger.trace("user log-in session has been terminated");
+        this.user = null;
+
+        this._setReady(await this.authSession.validateSession());
+      }
+    );
   }
 
   _handleError(message, error, errorHandler?) {
