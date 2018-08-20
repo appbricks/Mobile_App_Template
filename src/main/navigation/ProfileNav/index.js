@@ -22,11 +22,6 @@ const ProfileNav = createStackNavigator(
 
         return (<VerifyContact
           verifyType="emailAddress"
-          screenProps={
-            {
-              ...screenProps
-            }
-          }
           {...props} />);
       },
       navigationOptions: stackHeader("Verify Email Address")
@@ -39,11 +34,6 @@ const ProfileNav = createStackNavigator(
 
         return (<VerifyContact
           verifyType="mobilePhone"
-          screenProps={
-            {
-              ...screenProps
-            }
-          }
           {...props} />);
       },
       navigationOptions: stackHeader("Verify Mobile Phone")
