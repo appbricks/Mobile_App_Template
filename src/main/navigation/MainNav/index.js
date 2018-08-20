@@ -16,7 +16,6 @@ import { createDrawerNavigator, SafeAreaView } from 'react-navigation';
 import { Icon } from "react-native-elements";
 
 import { DrawerItems, seperator } from "../../components/DrawerItems";
-
 import AvatarView from "../../components/AvatarView";
 
 import HomeNav from "../HomeNav";
@@ -34,7 +33,10 @@ const MainNav = createDrawerNavigator(
     Home: {
       screen: (props) => {
 
-        const { navigation, screenProps } = props;
+        const {
+          navigation,
+          screenProps
+        } = props;
 
         return (<HomeNav screenProps={
           {
