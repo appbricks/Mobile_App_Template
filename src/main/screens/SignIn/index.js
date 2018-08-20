@@ -60,7 +60,7 @@ type Props = {};
 class SignIn extends AuthComponent<props> {
 
   constructor(props) {
-    super(props);
+    super(props, false);
 
     this.state = {
       authType: 0,

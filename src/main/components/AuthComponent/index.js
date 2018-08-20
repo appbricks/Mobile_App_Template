@@ -33,7 +33,12 @@ import { IS_IOS } from "../../styles/common";
 
 export default class AuthComponent<P> extends Component<P> {
 
-  constructor(props: P) {
+  /**
+   * @param {*} props         react component properties
+   * @param {*} authRequired  indicates if the component which extends 
+   *                          this component requires authentication
+   */
+  constructor(props: P, authRequired = true) {
     super(props);
 
     if (typeof AuthComponent.initialized == 'undefined') {
@@ -41,6 +46,7 @@ export default class AuthComponent<P> extends Component<P> {
     }
 
     this.logger = new Logger("AuthComponent");
+    this.authRequired = authRequired;
   }
 
   async componentDidMount() {
@@ -69,8 +75,17 @@ export default class AuthComponent<P> extends Component<P> {
 
     if (AuthComponent.initialized) {
 
-      const { user, resetUser, screenProps } = this.props;
-      const { ready, setReady, signedIn, session } = screenProps;
+      const {
+        user,
+        resetUser,
+        screenProps
+      } = this.props;
+      const {
+        ready,
+        setReady,
+        signedIn,
+        session
+      } = screenProps;
 
       this.logger.trace(
         "authentication state: signed in =", signedIn,
@@ -96,7 +111,9 @@ export default class AuthComponent<P> extends Component<P> {
         if (user.isValid()) {
           resetUser();
         }
-        this.navigateToSignInScreen();
+        if (this.authRequired) {
+          this.navigateToSignInScreen();
+        }
       }
     }
   }
@@ -111,8 +128,9 @@ export default class AuthComponent<P> extends Component<P> {
       navigation,
       screenProps
     } = this.props;
-
-    const { session } = screenProps;
+    const {
+      session
+    } = screenProps;
 
     session.signIn(user,
 
@@ -162,8 +180,14 @@ export default class AuthComponent<P> extends Component<P> {
   onSignOut() {
 
     // Delegate signing to HOC
-    const { user, signOutUser, screenProps } = this.props;
-    const { session } = screenProps;
+    const {
+      user,
+      signOutUser,
+      screenProps
+    } = this.props;
+    const {
+      session
+    } = screenProps;
 
     session.signOut(
       // On success navigate back to AuthLoading screen
@@ -175,7 +199,19 @@ export default class AuthComponent<P> extends Component<P> {
   }
 
   navigateToSignInScreen() {
-    this.logger.trace("no-op on call to navigate to sign in screen");
+
+    const {
+      navigation,
+      screenProps
+    } = this.props;
+    const {
+      session
+    } = screenProps;
+
+    // if (navigation && navigation.popToTop) {
+    //   navigation.popToTop();
+    // }
+    session.navigateToAuthValidationRoute();
   }
 
   navigateToMainScreen() {
@@ -237,8 +273,9 @@ export default class AuthComponent<P> extends Component<P> {
       navigation,
       screenProps
     } = this.props;
-
-    const { session } = screenProps;
+    const {
+      session
+    } = screenProps;
 
     session.signInMFA(user, code,
 
@@ -285,8 +322,9 @@ export default class AuthComponent<P> extends Component<P> {
       resetUser,
       screenProps
     } = this.props;
-
-    const { setReady } = screenProps;
+    const {
+      setReady
+    } = screenProps;
 
     if (user.isTimedout(timestamp)) {
 

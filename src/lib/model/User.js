@@ -115,7 +115,7 @@ export default class User {
    * be remembered.
    */
   rememberSignIn() {
-    return this.rememberFor24h;
+    return this.enableBiometric || this.rememberFor24h;
   }
 
   /**

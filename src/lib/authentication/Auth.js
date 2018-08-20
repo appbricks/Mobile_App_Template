@@ -82,14 +82,7 @@ export function withAuth(
             //   this.logger.trace("timer check at: ", Date.now());
             // }, 3000);
 
-            if (this.state.signedIn
-              && this.session.user
-              && !this.session.user.rememberSignIn()) {
-
-              this.session.signOut();
-            } else {
-              this.session.user = null;
-            }
+            this.session.user = null;
             break;
 
           case "active":

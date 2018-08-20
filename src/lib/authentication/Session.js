@@ -33,7 +33,11 @@ export default class Session {
     this.isSignedIn = false;
     this._setReady = setReady;
     this._setWait = setWait;
-    this.navigateToAuthValidationRoute = navigateToAuthValidationRoute;
+
+    this.navigateToAuthValidationRoute = (beforeWaitHandler?) => {
+      this._setWait(beforeWaitHandler);
+      navigateToAuthValidationRoute();
+    }
 
     this.user = null;
   }
@@ -91,8 +95,7 @@ export default class Session {
 
   signOut(successHandler?, errorHandler?, beforeWaitHandler?) {
 
-    this._setWait(beforeWaitHandler);
-    this.navigateToAuthValidationRoute();
+    this.navigateToAuthValidationRoute(beforeWaitHandler);
 
     this.authSession.signOut()
       .then(async () => {
