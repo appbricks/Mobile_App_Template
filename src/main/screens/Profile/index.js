@@ -11,7 +11,6 @@ import AuthComponent, {
   mapAuthStateToProps,
   mapAuthDispatchToProps
 } from "../../components/AuthComponent";
-import LoadingView from "../../components/LoadingView";
 
 import {
   updateUser
@@ -208,7 +207,6 @@ class Profile extends AuthComponent<Props> {
       screenProps
     } = this.props;
     const {
-      ready,
       backgroundImage
     } = screenProps;
 
@@ -448,8 +446,6 @@ class Profile extends AuthComponent<Props> {
           }} >
 
         </CardView> */}
-
-        <LoadingView show={!ready} />
 
       </StackView>
     );

@@ -16,7 +16,6 @@ import AuthComponent, {
   mapAuthStateToProps,
   mapAuthDispatchToProps
 } from "../../components/AuthComponent";
-import LoadingView from "../../components/LoadingView";
 
 import {
   updateUser
@@ -121,8 +120,7 @@ class VerifyContact extends AuthComponent<Props> {
   }
 
   render() {
-    const { user, verifyType, screenProps } = this.props;
-    const { ready } = screenProps;
+    const { user, verifyType } = this.props;
 
     let sendIcon = (<View />);
     let message;
@@ -223,8 +221,6 @@ class VerifyContact extends AuthComponent<Props> {
           </View>
 
         </CardView>
-
-        <LoadingView show={!ready} />
 
       </StackView >
     );

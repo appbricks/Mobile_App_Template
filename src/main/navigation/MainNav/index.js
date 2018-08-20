@@ -12,10 +12,18 @@ import {
   Text
 } from "react-native";
 
-import { createDrawerNavigator, SafeAreaView } from 'react-navigation';
+import {
+  createDrawerNavigator,
+  SafeAreaView
+} from 'react-navigation';
 import { Icon } from "react-native-elements";
 
-import { DrawerItems, seperator } from "../../components/DrawerItems";
+import {
+  DrawerItems,
+  Seperator,
+  navWithLoadingOverlay
+} from "../../components/Navigation";
+
 import AvatarView from "../../components/AvatarView";
 
 import HomeNav from "../HomeNav";
@@ -25,8 +33,14 @@ import Settings from "../../screens/Settings";
 import Help from "../../screens/Help";
 import SignOut from "../../screens/SignOut";
 
-import common, { COLORS, THEME } from "../../styles/common";
-import styles, { drawerStyles, stackStyles } from "./styles";
+import common, {
+  COLORS,
+  THEME
+} from "../../styles/common";
+import styles, {
+  drawerStyles,
+  stackStyles
+} from "./styles";
 
 const MainNav = createDrawerNavigator(
   {
@@ -59,9 +73,9 @@ const MainNav = createDrawerNavigator(
         )
       }
     },
-    Section1: seperator,
+    Section1: Seperator,
     Profile: {
-      screen: ProfileNav,
+      screen: navWithLoadingOverlay(ProfileNav),
       navigationOptions: {
         drawerLabel: "Profile",
         drawerIcon: ({ tintColor }) => (
@@ -74,7 +88,7 @@ const MainNav = createDrawerNavigator(
       }
     },
     Account: {
-      screen: Account,
+      screen: navWithLoadingOverlay(Account),
       navigationOptions: {
         drawerLabel: "Account",
         drawerIcon: ({ tintColor }) => (
@@ -86,9 +100,9 @@ const MainNav = createDrawerNavigator(
         )
       }
     },
-    Section2: seperator,
+    Section2: Seperator,
     Settings: {
-      screen: Settings,
+      screen: navWithLoadingOverlay(Settings),
       navigationOptions: {
         drawerLabel: "Settings",
         drawerIcon: ({ tintColor }) => (
@@ -101,7 +115,7 @@ const MainNav = createDrawerNavigator(
       }
     },
     Help: {
-      screen: Help,
+      screen: navWithLoadingOverlay(Help),
       navigationOptions: {
         drawerLabel: "Help",
         drawerIcon: ({ tintColor }) => (
@@ -113,7 +127,7 @@ const MainNav = createDrawerNavigator(
         )
       }
     },
-    Section3: seperator,
+    Section3: Seperator,
     SignOut: {
       screen: SignOut,
       navigationOptions: {
