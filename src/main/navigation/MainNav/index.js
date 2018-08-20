@@ -20,8 +20,7 @@ import { Icon } from "react-native-elements";
 
 import {
   DrawerItems,
-  Seperator,
-  navWithLoadingOverlay
+  Seperator
 } from "../../components/Navigation";
 
 import AvatarView from "../../components/AvatarView";
@@ -75,7 +74,7 @@ const MainNav = createDrawerNavigator(
     },
     Section1: Seperator,
     Profile: {
-      screen: navWithLoadingOverlay(ProfileNav),
+      screen: ProfileNav,
       navigationOptions: {
         drawerLabel: "Profile",
         drawerIcon: ({ tintColor }) => (
@@ -88,7 +87,7 @@ const MainNav = createDrawerNavigator(
       }
     },
     Account: {
-      screen: navWithLoadingOverlay(Account),
+      screen: Account,
       navigationOptions: {
         drawerLabel: "Account",
         drawerIcon: ({ tintColor }) => (
@@ -102,7 +101,7 @@ const MainNav = createDrawerNavigator(
     },
     Section2: Seperator,
     Settings: {
-      screen: navWithLoadingOverlay(Settings),
+      screen: Settings,
       navigationOptions: {
         drawerLabel: "Settings",
         drawerIcon: ({ tintColor }) => (
@@ -115,7 +114,7 @@ const MainNav = createDrawerNavigator(
       }
     },
     Help: {
-      screen: navWithLoadingOverlay(Help),
+      screen: Help,
       navigationOptions: {
         drawerLabel: "Help",
         drawerIcon: ({ tintColor }) => (

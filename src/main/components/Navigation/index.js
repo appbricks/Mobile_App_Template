@@ -10,18 +10,21 @@ import DrawerItems from "./DrawerNavigatorItems";
 type Props = {};
 
 /**
- * Returns a navigation component with a
- * a LoadingView embedded that will show
- * whenever the screenProps.ready flag
- * is false.
+ * Returns a child navigation component within
+ * within a drawer navigator component. It contains
+ * a LoadingView embedded that will show whenever 
+ * the "screenProps.ready" flag is false. It also
+ * provides "screenProps.navigateNext" function
+ * that will lock the drawer before navigating to
+ * the next screen.
  * 
  * @param {*} C 
  */
-function navWithLoadingOverlay(Nav) {
+function drawerChildNav(Nav) {
 
   return (
 
-    class ProfileNav extends Component<Props> {
+    class extends Component<Props> {
 
       static router = Nav.router;
 
@@ -35,6 +38,11 @@ function navWithLoadingOverlay(Nav) {
           navigation,
           screenProps
         } = this.props;
+
+        screenProps.navigateNext = (route) => {
+          screenProps.drawerLockMode = "locked-closed";
+          navigation.navigate(route);
+        }
 
         return (
           <View style={{ flex: 1 }}>
@@ -66,5 +74,5 @@ const Seperator = {
 export {
   DrawerItems,
   Seperator,
-  navWithLoadingOverlay
+  drawerChildNav
 }

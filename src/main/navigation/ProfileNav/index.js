@@ -4,13 +4,16 @@
 import React from "react";
 import { createStackNavigator } from 'react-navigation';
 
-import Profile from "../../screens/Profile";
-import VerifyContact from "../../screens/VerifyContact"
+import { drawerChildNav } from "../../components/Navigation";
+
 import {
   stackFirstHeader,
   stackHeader,
   stackNavigatorConfig
 } from "../MainNav";
+
+import Profile from "../../screens/Profile";
+import VerifyContact from "../../screens/VerifyContact"
 
 const ProfileNav = createStackNavigator(
   {
@@ -21,9 +24,6 @@ const ProfileNav = createStackNavigator(
     VerifyEmailAddress: {
       screen: (props) => {
 
-        const { screenProps } = props;
-        screenProps.drawerLockMode = "locked-closed";
-
         return (<VerifyContact
           verifyType="emailAddress"
           {...props} />);
@@ -32,9 +32,6 @@ const ProfileNav = createStackNavigator(
     },
     VerifyMobilePhone: {
       screen: (props) => {
-
-        const { screenProps } = props;
-        screenProps.drawerLockMode = "locked-closed";
 
         return (<VerifyContact
           verifyType="mobilePhone"
@@ -46,4 +43,4 @@ const ProfileNav = createStackNavigator(
   stackNavigatorConfig("Profile")
 );
 
-export default ProfileNav;
+export default drawerChildNav(ProfileNav);

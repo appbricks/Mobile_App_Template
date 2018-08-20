@@ -343,7 +343,7 @@ class Profile extends AuthComponent<Props> {
                 color: THEME.cardBackground,
                 background: THEME.contextButtonColor,
                 disabled: this.state.emailAddressDirty,
-                onPress: () => navigation.navigate("VerifyEmailAddress"),
+                onPress: () => screenProps.navigateNext("VerifyEmailAddress"),
               }}
 
               value={this.state.emailAddress}
@@ -387,7 +387,7 @@ class Profile extends AuthComponent<Props> {
                 color: THEME.cardBackground,
                 background: THEME.contextButtonColor,
                 disabled: this.state.mobilePhoneDirty,
-                onPress: () => navigation.navigate("VerifyMobilePhone"),
+                onPress: () => screenProps.navigateNext("VerifyMobilePhone"),
               }}
 
               value={this.state.mobilePhone}
