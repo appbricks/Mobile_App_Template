@@ -37,19 +37,7 @@ export default class StackView extends Component<Props> {
         this.props.children.type.prototype.addChildLayout = this._addChildLayout.bind(this);
       }
 
-      this.marginTop = STATUS_BAR_HEIGHT + HEADER_HEIGHT;
-
-      if (
-        (!Array.isArray(this.props.children)
-          && this.props.children.type.displayName == "CardView"
-        )
-        || (this.props.children.length > 0
-          && this.props.children[0].type.displayName == "CardView"
-        )
-      ) {
-
-        this.marginTop += 5
-      }
+      this.marginTop = STATUS_BAR_HEIGHT + HEADER_HEIGHT + 5;
       this.viewHeight = this.marginTop;
     }
 
