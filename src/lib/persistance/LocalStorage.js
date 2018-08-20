@@ -41,7 +41,7 @@ export default class LocalStorage {
       console.error("Store ID cannot be null.");
     }
 
-    this.logger = new Logger(this);
+    this.logger = new Logger("LocalStorage");
 
     this.id = id;
     this.initialized = false;

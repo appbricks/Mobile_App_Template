@@ -24,7 +24,7 @@ class MyListings extends AuthComponent<Props> {
   constructor(props) {
     super(props);
 
-    this.logger = new Logger(this);
+    this.logger = new Logger("MyListings");
   }
 
   onContext() {

@@ -17,7 +17,7 @@ export default class MySpaces extends Component<Props> {
   constructor(props) {
     super(props);
 
-    this.logger = new Logger(this);
+    this.logger = new Logger("MySpaces");
   }
 
   onContext() {

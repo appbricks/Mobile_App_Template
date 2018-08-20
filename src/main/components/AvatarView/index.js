@@ -18,7 +18,7 @@ class AvatarView extends Component<Props> {
   constructor(props) {
     super(props);
 
-    this.logger = new Logger(this);
+    this.logger = new Logger("AvatarView");
     this.mounted = false;
 
     this.state = {

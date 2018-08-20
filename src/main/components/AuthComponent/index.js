@@ -40,7 +40,7 @@ export default class AuthComponent<P> extends Component<P> {
       AuthComponent.initialized = false;
     }
 
-    this.logger = new Logger(this);
+    this.logger = new Logger("AuthComponent");
   }
 
   async componentDidMount() {

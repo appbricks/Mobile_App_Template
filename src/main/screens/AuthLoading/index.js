@@ -23,7 +23,7 @@ class AuthLoading extends AuthComponent<props> {
   constructor(props) {
     super(props);
 
-    this.logger = new Logger(this);
+    this.logger = new Logger("AuthLoading");
   }
 
   navigateToSignInScreen() {
