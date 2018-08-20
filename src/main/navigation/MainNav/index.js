@@ -270,7 +270,7 @@ export function stackNavigatorConfig(initialRouteName) {
     cardStyle: {
       backgroundColor: "transparent"
     },
-    navigationOptions: params => ({
+    navigationOptions: props => ({
       gesturesEnabled: true
     }),
     transitionConfig: () => ({
