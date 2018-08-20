@@ -59,9 +59,9 @@ class Profile extends AuthComponent<Props> {
 
   componentDidMount() {
 
-    const { user } = this.props;
+    const { navigation, user } = this.props;
 
-    this.didFocusProfileScreen = this.props.navigation.addListener(
+    this.didFocusProfileScreen = navigation.addListener(
       "didFocus",
       payload => {
 
@@ -343,7 +343,7 @@ class Profile extends AuthComponent<Props> {
                 color: THEME.cardBackground,
                 background: THEME.contextButtonColor,
                 disabled: this.state.emailAddressDirty,
-                onPress: () => screenProps.navigateNext("VerifyEmailAddress"),
+                onPress: () => navigation.navigate("VerifyEmailAddress"),
               }}
 
               value={this.state.emailAddress}
@@ -387,7 +387,7 @@ class Profile extends AuthComponent<Props> {
                 color: THEME.cardBackground,
                 background: THEME.contextButtonColor,
                 disabled: this.state.mobilePhoneDirty,
-                onPress: () => screenProps.navigateNext("VerifyMobilePhone"),
+                onPress: () => navigation.navigate("VerifyMobilePhone"),
               }}
 
               value={this.state.mobilePhone}

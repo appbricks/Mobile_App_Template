@@ -39,9 +39,10 @@ function drawerChildNav(Nav) {
           screenProps
         } = this.props;
 
-        screenProps.navigateNext = (route) => {
-          screenProps.drawerLockMode = "locked-closed";
-          navigation.navigate(route);
+        if (navigation.state.routes.length > 1) {
+          screenProps.drawerLockMode = "locked-closed"
+        } else {
+          screenProps.drawerLockMode = "unlocked"
         }
 
         return (
