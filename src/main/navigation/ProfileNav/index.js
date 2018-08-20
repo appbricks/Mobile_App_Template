@@ -6,7 +6,11 @@ import { createStackNavigator } from 'react-navigation';
 
 import Profile from "../../screens/Profile";
 import VerifyContact from "../../screens/VerifyContact"
-import { stackFirstHeader, stackHeader, stackNavigatorConfig } from "../MainNav";
+import {
+  stackFirstHeader,
+  stackHeader,
+  stackNavigatorConfig
+} from "../MainNav";
 
 const ProfileNav = createStackNavigator(
   {
