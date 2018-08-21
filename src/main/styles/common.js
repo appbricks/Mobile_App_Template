@@ -81,6 +81,16 @@ export const THEME = {
   cardBackground: COLORS.white,
   cardSectionBorderColor: COLORS.silver,
 
+  homeCardStyle: {
+    borderWidth: 2,
+    borderColor: COLORS.silver
+  },
+  homeCardStyleTransparent: {
+    borderWidth: 2,
+    borderColor: COLORS.silver,
+    backgroundColor: hexToRgba(COLORS.white, 0.9)
+  },
+
   avatarViewHeight: 200,
   avatarBackground: COLORS.iconShade1,
   avatarColor: COLORS.white
