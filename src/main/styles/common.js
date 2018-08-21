@@ -72,6 +72,9 @@ export const THEME = {
   homeBarBackground: hexToRgba(COLORS.black, 0.8),
   homeBarActiveBackground: hexToRgba(COLORS.black, 0.4),
 
+  tabBarBackground: COLORS.black,
+  tabBarActiveBackground: COLORS.darkdarkGray,
+
   stackViewImageBlur: { type: "light", amount: 10 },
   stackViewStatusBar: "light-content",
 
@@ -88,7 +91,7 @@ export const { width: VIEWPORT_WIDTH, height: VIEWPORT_HEIGHT } = Dimensions.get
 
 export const STATUS_BAR_HEIGHT = 20;
 export const HEADER_HEIGHT = 40;
-export const BOTTOM_BAR_HEIGHT = 45;
+export const BOTTOM_BAR_HEIGHT = 50;
 
 export const BACKGROUND_IMAGE = require("../../images/background.png");
 

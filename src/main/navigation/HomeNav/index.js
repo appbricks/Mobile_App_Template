@@ -84,7 +84,8 @@ const HomeNav = createBottomTabNavigator(
       inactiveTintColor: tabStyles.inactiveTintColor,
       inactiveBackgroundColor: tabStyles.inactiveBackgroundColor,
       style: tabStyles.tabBarStyle,
-      labelStyle: tabStyles.textStyle
+      labelStyle: tabStyles.textStyle,
+      tabStyle: tabStyles.inactiveTabStyle
     }
   }
 );

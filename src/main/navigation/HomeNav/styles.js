@@ -24,10 +24,14 @@ export const tabStyles = {
     fontFamily: "Lato-Bold",
     fontSize: BAR_FONT_SIZE
   },
+  inactiveTabStyle: {
+    borderTopWidth: 5,
+    borderColor: THEME.tabBarActiveBackground
+  },
   activeTintColor: COLORS.white,
-  activeBackgroundColor: THEME.homeBarActiveBackground,
+  activeBackgroundColor: THEME.tabBarActiveBackground,
   inactiveTintColor: COLORS.silver,
-  inactiveBackgroundColor: THEME.homeBarBackground
+  inactiveBackgroundColor: THEME.tabBarBackground
 }
 
 export const stackStyles = {

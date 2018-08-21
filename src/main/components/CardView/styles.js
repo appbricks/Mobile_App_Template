@@ -3,10 +3,14 @@
  */
 import { StyleSheet } from "react-native";
 
+import { hexToRgba } from "../../../lib/utils/colors";
+
 import common, {
   COLORS,
   THEME
 } from "../../styles/common"
+
+export const TRANSPARENT = hexToRgba(THEME.cardBackground, 0.9);
 
 export default StyleSheet.create({
   container: {

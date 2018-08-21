@@ -18,6 +18,8 @@ export default class CardView extends Component<Props> {
 
     const {
       style,
+      title,
+      children,
       ...props
     } = this.props;
 
@@ -30,13 +32,17 @@ export default class CardView extends Component<Props> {
           style={[styles.container, styles.outerContainer, style]}
           {...props}
         >
-          <View style={[styles.container, styles.sectionBorder]}>
-            {this.props.children}
-          </View>
+          {title ? (
+            <View style={[styles.container, styles.sectionBorder]}>
+              {children}
+            </View>
+          ) : children}
 
-          <Text style={styles.sectionTitle}>
-            {this.props.title}
-          </Text>
+          {title ? (
+            <Text style={styles.sectionTitle}>
+              {title}
+            </Text>
+          ) : false}
 
         </View>
       )
@@ -48,11 +54,11 @@ export default class CardView extends Component<Props> {
           {...props}
         >
           <View style={[styles.container, styles.sectionBorder]}>
-            {this.props.children}
+            {children}
           </View>
 
           <Text style={styles.sectionTitle}>
-            {this.props.title}
+            {title}
           </Text>
 
         </View>
