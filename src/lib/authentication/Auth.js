@@ -132,12 +132,15 @@ export function withAuth(
 
       _setWait(beforeWaitHandler?) {
 
-        if (beforeWaitHandler) {
-          beforeWaitHandler(this.authSession)
-        }
+        if (this.state.ready) {
 
-        this.logger.trace("setting app wait state to true")
-        this.setState({ ready: false });
+          if (beforeWaitHandler) {
+            beforeWaitHandler(this.authSession)
+          }
+
+          this.logger.trace("setting app wait state to true")
+          this.setState({ ready: false });
+        }
       }
 
       _authValidationCallback() {
