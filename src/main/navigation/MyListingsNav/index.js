@@ -21,11 +21,11 @@ const MyListingsNav = createStackNavigator(
     MyListings: {
       screen: MyListings,
       navigationOptions: stackFirstHeader(
-        "MyListings",
+        "My Listings",
         {
           iconType: "font-awesome",
           iconName: "plus",
-          route: "MyListings"
+          route: "AddItem"
         })
     },
   },

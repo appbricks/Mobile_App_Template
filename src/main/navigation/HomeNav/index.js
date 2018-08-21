@@ -5,6 +5,8 @@ import React, { Component } from "react";
 import { createBottomTabNavigator } from 'react-navigation';
 import { Icon } from "react-native-elements";
 
+import Logger from "../../../lib/utils/Logger";
+
 import MyListingsNav from "../MyListingsNav";
 import MySpacesNav from "../MySpacesNav";
 import ScheduleNav from "../ScheduleNav";
@@ -128,7 +130,15 @@ export function stackFirstHeader(title, context?) {
             color={stackStyles.headerIconColor}
             underlayColor="transparent"
             containerStyle={styles.stackHeaderIcon}
-            onPress={() => navigation.navigate(context.route)}
+            onPress={() => {
+
+              Logger.trace(
+                "stackFirstHeader",
+                "navigating to context route: ",
+                context.route)
+
+              navigation.navigate(context.route)
+            }}
           />
         )
       })

@@ -20,7 +20,13 @@ const ScheduleNav = createStackNavigator(
   {
     Schedule: {
       screen: Schedule,
-      navigationOptions: stackFirstHeader("Schedule")
+      navigationOptions: stackFirstHeader(
+        "Schedule",
+        {
+          iconType: "font-awesome",
+          iconName: "plus",
+          route: "AddItem"
+        })
     },
   },
   stackNavigatorConfig("Schedule")

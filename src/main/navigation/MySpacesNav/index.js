@@ -20,7 +20,13 @@ const MySpacesNav = createStackNavigator(
   {
     MySpaces: {
       screen: MySpaces,
-      navigationOptions: stackFirstHeader("MySpaces")
+      navigationOptions: stackFirstHeader(
+        "My Spaces",
+        {
+          iconType: "font-awesome",
+          iconName: "plus",
+          route: "AddItem"
+        })
     },
   },
   stackNavigatorConfig("MySpaces")
