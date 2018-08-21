@@ -35,7 +35,7 @@ cp $SRC_PROJECT/index.js $DEST_PROJECT
 rm -fr $DEST_PROJECT/ios/$DEST_PROJECT
 cp -r $SRC_PROJECT/ios/$SRC_PROJECT $DEST_PROJECT/ios/$DEST_PROJECT
 
-sed -i '' "s|\"displayName\": \"$SRC_PROJECT\"|\"displayName\": \"$DEST_NAME\"|g" \
+sed -i '' "s|\"displayName\": \"$DEST_PROJECT\"|\"displayName\": \"$DEST_NAME\"|g" \
   $DEST_PROJECT/app.json
 
 for f in $(find $DEST_PROJECT/ios/$DEST_PROJECT -type f -print); do
@@ -61,27 +61,9 @@ sed -i '' -E -e "s|PRODUCT_NAME = $DEST_PROJECT;|PRODUCT_BUNDLE_IDENTIFIER = \"i
         PRODUCT_NAME = $DEST_PROJECT;|g" \
   $DEST_PROJECT/ios/$DEST_PROJECT.xcodeproj/project.pbxproj
 
+sed -i '' "s|<string>AppBricks</string>|<string>$DEST_NAME</string>|g" \
+  $DEST_PROJECT/ios/$DEST_PROJECT/Info.plist
+
 open $DEST_PROJECT/ios/$DEST_PROJECT.xcodeproj
 
 set +ex
-
-###################################################################################################
-# Additional Configuration
-#
-# From within XCode
-#
-# * Add ${DEST_PROJECT}/node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj to 
-#   the "Libraries" folder in the project tree view on left TOC
-#
-# * Navigate to project settings (first node in tree view on left TOC)
-#   - Within the "General" tab, for both "${DEST_PROJECT}" and "${$DEST_PROJECT}Tests" targets, 
-#     set the "Team" under the "Signing" topic
-#   - Within the "Capabilities" tab, set "Keychain Sharing" to "on"
-#   - Within the "Build Phases" tab, expand "Link Binary With Libraries" topic and drag
-#     "Libraries/RCTCameraRoll.xcodeproj/Products/libRCTCameraRoll.a" from project view to
-#     list of libraries to link with.
-#
-# * Execute Product -> Clean from main menu
-#
-# * Exeucte Product -> Build from main menu
-#

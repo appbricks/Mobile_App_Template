@@ -1,6 +1,6 @@
 # Mobile Application Template
 
-This React-Native application implements a skeleton application using a pluggable authentication capability and a navigation framework. The provided authentication plugin is for AWS cognito.
+This React-Native application implements a skeleton application using a pluggable authentication capability and a navigation structure. The provided authentication plugin is for AWS cognito.
 
 ## AWS Cognito User Pool Configuration
 
@@ -63,3 +63,33 @@ const config = {
   ```
   Your username is {username} and temporary password to access Rent-a-Space online services is {####}.
   ```
+
+## Using the Template
+
+You can clone the template to your own React-Native project as follows.
+
+* To initialize a React-Native project based on the template run the `init-from-template.sh` script as follows with the environments variables set to match your React-Native project and app.
+
+  ```
+  DEST_PROJECT="RaS_Mobile_App" \
+  DEST_NAME="Rent-a-Space Mobile" \
+  DEST_APP_ID="io.rent-a-space.RaS_Mobile_App" \
+  ./init-from-template.sh
+  ```
+
+* Once the script completes the XCode will launch and you will need to make the following manual configurations to the IOS project.
+
+  * Add ${DEST_PROJECT}/node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj to 
+    the "Libraries" folder in the project tree view on left TOC
+
+  * Navigate to project settings (first node in tree view on left TOC)
+    - Within the "General" tab, for both "${DEST_PROJECT}" and "${$DEST_PROJECT}Tests" targets, 
+      set the "Team" under the "Signing" topic
+    - Within the "Capabilities" tab, set "Keychain Sharing" to "on"
+    - Within the "Build Phases" tab, expand "Link Binary With Libraries" topic and drag
+      "Libraries/RCTCameraRoll.xcodeproj/Products/libRCTCameraRoll.a" from project view to
+      list of libraries to link with.
+ 
+  * Execute Product -> Clean from main menu
+ 
+  * Execute Product -> Build from main menu
