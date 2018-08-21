@@ -74,7 +74,7 @@ You can create your own React-Native project based on this template as follows.
 
   ```
   DEST_PROJECT="RaS_Mobile_App" \
-  DEST_NAME="Rent-a-Space Mobile" \
+  DEST_NAME="Rent-a-Space" \
   DEST_APP_ID="io.rent-a-space.RaS_Mobile_App" \
   ./init-from-template.sh
   ```
