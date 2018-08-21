@@ -66,7 +66,9 @@ const config = {
 
 ## Using the Template
 
-You can clone the template to your own React-Native project as follows.
+You can create your own React-Native project based on this template as follows.
+
+* Clone this repository.
 
 * To initialize a React-Native project based on the template run the `init-from-template.sh` script as follows with the environments variables set to match your React-Native project and app.
 
@@ -76,6 +78,8 @@ You can clone the template to your own React-Native project as follows.
   DEST_APP_ID="io.rent-a-space.RaS_Mobile_App" \
   ./init-from-template.sh
   ```
+
+  > Your new React-Native project will be created within the same parent folder as the template repository.
 
 * Once the script completes the XCode will launch and you will need to make the following manual configurations to the IOS project.
 
