@@ -32,11 +32,11 @@ class AvatarView extends Component<Props> {
 
   componentDidMount() {
     this.mounted = true;
-    this.avatarImage.addUpdateCallback(this._avatarUpdated);
+    this.avatarImage.addUpdateCallback(this._avatarUpdated.bind(this));
   }
 
   componentWillUnmount() {
-    this.avatarImage.removeUpdateCallback(this._avatarUpdated);
+    this.avatarImage.removeUpdateCallback(this._avatarUpdated.bind(this));
     this.mounted = false;
   }
 
