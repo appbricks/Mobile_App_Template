@@ -397,6 +397,8 @@ export default class Session {
 
   _signOut() {
 
+    this._setWait();
+
     this.authSession.signOut().then(
       async () => {
 
