@@ -11,6 +11,8 @@ import AuthComponent, {
   mapAuthDispatchToProps
 } from "../../components/AuthComponent";
 
+import LoadingView from "../../components/LoadingView";
+
 type Props = {};
 class SignOut extends AuthComponent<Props> {
 
@@ -22,8 +24,15 @@ class SignOut extends AuthComponent<Props> {
     super.onSignOut();
   }
 
+  componentDidUpdate() {
+  }
+
   render() {
-    return <View />;
+    return (
+      <View>
+        <LoadingView show={true} />
+      </View>
+    );
   }
 }
 
