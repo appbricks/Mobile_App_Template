@@ -13,19 +13,22 @@ import TextInput from "../../components/TextInput"
 
 import Logger from "../../../lib/utils/Logger";
 
-import common, { COLORS } from "../../styles/common";
-import dialogStyles, { DIALOG } from "../../components/Dialog/dialogStyles";
+import common, {
+  COLORS
+} from "../../styles/common";
+import dialogStyles, {
+  DIALOG
+} from "../../components/Dialog/dialogStyles";
 
 import styles from "./styles";
-
-const COLOR = false;
-const STYLE = true;
 
 type Props = {};
 class PasswordReset extends Component<Props> {
 
   constructor(props) {
     super(props);
+
+    this.logger = new Logger("PasswordReset");
 
     this.resetCode = "";
     this.verifiedPassword = "";

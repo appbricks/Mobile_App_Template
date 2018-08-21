@@ -11,7 +11,7 @@ import BackgroundTimer from 'react-native-background-timer';
 import Logger from "../utils/Logger";
 import Session from "./Session";
 
-var navigateToAuthValidationRoute = () => { };
+var authValidationCallback = () => { };
 
 type Props = {};
 
@@ -44,8 +44,10 @@ export function withAuth(
           authSession,
           this._setReady.bind(this),
           this._setWait.bind(this),
-          this._navigateToAuthValidationRoute.bind(this)
+          this._authValidationCallback.bind(this)
         );
+
+        this.appInBackground = false;
 
         this.state = {
           ready: false,
@@ -83,6 +85,7 @@ export function withAuth(
             // }, 3000);
 
             this.session.user = null;
+            this.appInBackground = true;
             break;
 
           case "active":
@@ -93,7 +96,10 @@ export function withAuth(
               this._setReady(await this.session.authSession.validateSession());
             };
 
-            validateSession();
+            if (this.appInBackground) {
+              validateSession();
+              this.appInBackground = false;
+            }
             break;
         }
       }
@@ -102,7 +108,7 @@ export function withAuth(
 
         if (typeof signedIn == "undefined") {
 
-          this.logger.trace(
+          this.logger.debug(
             "setting app ready state: signed in =", this.state.signedIn,
             ", ready =", ready);
 
@@ -112,7 +118,7 @@ export function withAuth(
 
         } else {
 
-          this.logger.trace(
+          this.logger.debug(
             "setting app ready state: signed in =", signedIn,
             ", ready =", ready);
 
@@ -134,8 +140,8 @@ export function withAuth(
         this.setState({ ready: false });
       }
 
-      _navigateToAuthValidationRoute() {
-        navigateToAuthValidationRoute();
+      _authValidationCallback() {
+        authValidationCallback();
       }
 
       render() {
@@ -183,7 +189,7 @@ export function registerAuthValidationRoute(
   // Navigators are available only at the child component 
   // level, so the callback needs to be updated with 
   // navigator in the properties of the wrapped component
-  navigateToAuthValidationRoute = () => {
+  authValidationCallback = () => {
 
     Logger.trace("withAuth",
       "navigating to auth validation screen: ",

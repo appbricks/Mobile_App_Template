@@ -2,43 +2,48 @@
  * Copyright 2018-2018 AppBricks, Inc. or its affiliates. All Rights Reserved.
  */
 import React, { Component } from "react";
-import { Text } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
 
-import { stackFirstHeader, stackNavigatorConfig } from "../../navigation/MainNav";
+import { connect } from "react-redux";
+
+import AuthComponent, {
+  mapAuthStateToProps,
+  mapAuthDispatchToProps
+} from "../../components/AuthComponent";
+
 import StackView from "../../components/StackView";
 
 import Logger from "../../../lib/utils/Logger";
 
-import common, { COLORS } from "../../styles/common";
 import styles from "./styles";
 
 type Props = {};
-class Help extends Component<Props> {
+class Help extends AuthComponent<Props> {
 
   constructor(props) {
-    super(props);
+    super("Help", props);
   }
 
   render() {
     const { backgroundImage } = this.props.screenProps;
 
     return (
-      <StackView backgroundImage={backgroundImage}>
+      <StackView
+        blurBackground
+        backgroundImage={backgroundImage}>
 
       </StackView>
     );
   }
 }
 
-const HelpNav = createStackNavigator(
-  {
-    Help: {
-      screen: Help,
-      navigationOptions: stackFirstHeader("Help")
-    }
-  },
-  stackNavigatorConfig("Help")
-);
+// **** Integration with redux store ****
 
-export default HelpNav;
+const mapStateToProps = state => {
+  return mapAuthStateToProps(state, {});
+};
+
+const mapDispatchToProps = dispatch => {
+  return mapAuthDispatchToProps(dispatch, {});
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Help);

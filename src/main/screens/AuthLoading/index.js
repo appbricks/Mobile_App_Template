@@ -14,24 +14,27 @@ import LoadingView from "../../components/LoadingView";
 
 import Logger from "../../../lib/utils/Logger";
 
-import common, { COLORS } from "../../styles/common";
+import common, {
+  COLORS
+} from "../../styles/common";
 import styles from "./styles";
 
 type Props = {};
 class AuthLoading extends AuthComponent<props> {
 
   constructor(props) {
-    super(props);
-
-    this.logger = new Logger("AuthLoading");
+    super("AuthLoading", props);
   }
 
-  navigateToSignInScreen() {
-    this.props.navigation.navigate("SignIn");
-  }
+  validateNavigationState(isSignedIn) {
 
-  navigateToMainScreen() {
-    this.props.navigation.navigate("Main");
+    if (isSignedIn) {
+      this.logger.trace("navigating to \"Main\" screen");
+      this.props.navigation.navigate("Main");
+    } else {
+      this.logger.trace("navigating to \"SignIn\" screen");
+      this.props.navigation.navigate("SignIn");
+    }
   }
 
   render() {

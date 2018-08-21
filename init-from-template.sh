@@ -13,7 +13,7 @@ echo -e "DEST_APP_ID = ${DEST_APP_ID}\n"
 
 SRC_PROJECT="Mobile_App_Template"
 SRC_NAME="AppBricks Mobile App Template"
-SRC_APP_ID="io.appbricks.$DEST_PROJECT"
+SRC_APP_ID="io.appbricks.$SRC_PROJECT"
 
 set +u
 

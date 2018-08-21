@@ -15,7 +15,7 @@ type Props = {};
 class SignOut extends AuthComponent<Props> {
 
   constructor(props) {
-    super(props);
+    super("SignOut", props);
   }
 
   componentDidMount() {

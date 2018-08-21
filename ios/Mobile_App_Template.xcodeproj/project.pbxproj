@@ -1694,7 +1694,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.rent-a-space.Mobile_App_Template";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.appbricks.Mobile_App_Template";
 				PRODUCT_NAME = Mobile_App_Template;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1724,7 +1724,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.rent-a-space.Mobile_App_Template";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.appbricks.Mobile_App_Template";
 				PRODUCT_NAME = Mobile_App_Template;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1768,7 +1768,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.rent-a-space.Mobile_App_Template-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.appbricks.Mobile_App_Template-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -1814,7 +1814,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.rent-a-space.Mobile_App_Template-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.appbricks.Mobile_App_Template-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -1859,7 +1859,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.rent-a-space.Mobile_App_Template-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.appbricks.Mobile_App_Template-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mobile_App_Template-tvOS.app/Mobile_App_Template-tvOS";
@@ -1904,7 +1904,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.rent-a-space.Mobile_App_Template-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.appbricks.Mobile_App_Template-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mobile_App_Template-tvOS.app/Mobile_App_Template-tvOS";

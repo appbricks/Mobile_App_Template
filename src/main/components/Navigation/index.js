@@ -2,12 +2,24 @@
  * Copyright 2018-2018 AppBricks, Inc. or its affiliates. All Rights Reserved.
  */
 import React, { Component } from "react";
-import { View } from 'react-native';
+import { Easing, Animated, View } from 'react-native';
 
 import LoadingView from "../LoadingView";
 import DrawerItems from "./DrawerNavigatorItems";
 
 type Props = {};
+
+/**
+ * Placeholder route config for a separator 
+ * to show within the items in a Drawer Navigator 
+ * component,
+ */
+const Seperator = {
+  screen: (props) => <View />,
+  navigationOptions: {
+    drawerLabel: "---"
+  }
+};
 
 /**
  * Returns a child navigation component within
@@ -62,15 +74,54 @@ function drawerChildNav(Nav) {
 }
 
 /**
- * Placeholder screen for a separator to 
- * show in a Drawer Navigator component,
+ * Returns a standard StackNavigatorConfig with
+ * the given route as the initial route. This
+ * configuration also enables a transparent 
+ * background and smoother animation of the 
+ * stack cards.
+ * 
+ * @param {*} initialRouteName 
  */
-const Seperator = {
-  screen: (props) => <View />,
-  navigationOptions: {
-    drawerLabel: "---"
-  }
-};
+export function stackNavigatorConfig(initialRouteName) {
+
+  return {
+    initialRouteName: initialRouteName,
+    headerMode: "screen",
+    cardStyle: {
+      backgroundColor: "transparent"
+    },
+    navigationOptions: props => ({
+      gesturesEnabled: true
+    }),
+    transitionConfig: () => ({
+      containerStyle: {
+      },
+      transitionSpec: {
+        duration: 500,
+        easing: Easing.out(Easing.poly(4)),
+        timing: Animated.timing,
+      },
+      screenInterpolator: sceneProps => {
+        const { layout, position, scene } = sceneProps;
+        const { index } = scene;
+        const width = layout.initWidth;
+
+        return {
+          opacity: position.interpolate({
+            inputRange: [index - 1, index, index + 1],
+            outputRange: [0, 1, 0],
+          }),
+          transform: [{
+            translateX: position.interpolate({
+              inputRange: [index - 1, index, index + 1],
+              outputRange: [width, 0, -width],
+            }),
+          }]
+        };
+      },
+    }),
+  };
+}
 
 export {
   DrawerItems,

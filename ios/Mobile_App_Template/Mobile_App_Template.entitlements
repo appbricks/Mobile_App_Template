@@ -4,7 +4,7 @@
 <dict>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)io.rent-a-space.Mobile_App_Template</string>
+		<string>$(AppIdentifierPrefix)io.appbricks.Mobile_App_Template</string>
 	</array>
 </dict>
 </plist>

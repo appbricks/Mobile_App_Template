@@ -34,7 +34,7 @@ export default class Session {
         if (!this.cognitoUser) {
           this.cognitoUser = await Auth.currentAuthenticatedUser();
         }
-        this.logger.trace("auth session is valid: ", session, this.cognitoUser);
+        this.logger.debug("auth session is valid: ", session, this.cognitoUser);
 
         return true;
       } else {
@@ -74,7 +74,7 @@ export default class Session {
       Auth.userAttributes(cognitoUser)
         .then(
           attributes => {
-            logger.trace("reading attributes", attribNames,
+            logger.debug("reading attributes", attribNames,
               " from user attributes:", attributes);
 
             attributes
@@ -108,7 +108,7 @@ export default class Session {
                 }
               })
 
-            logger.trace("read user: ", user);
+            logger.debug("read user: ", user);
             resolve(user);
           },
           error => {
@@ -179,7 +179,7 @@ export default class Session {
         }
       });
 
-    this.logger.trace("saving user attributes: ", attributes);
+    this.logger.debug("saving user attributes: ", attributes);
     await Auth.updateUserAttributes(this.cognitoUser, attributes);
   }
 
@@ -208,7 +208,7 @@ export default class Session {
             }
           },
           async error => {
-            logger.trace("sign in error: ", error);
+            logger.error("sign in error: ", error);
 
             message = (error.invalidCredentialsMessage || error.message || error);
             switch (message) {
@@ -253,7 +253,7 @@ export default class Session {
             resolve();
           },
           error => {
-            logger.trace("mfa code validation error: ", error);
+            logger.error("mfa code validation error: ", error);
 
             message = (error.invalidCredentialsMessage || error.message || error);
             if (message == "Invalid code or auth state for the user.") {
@@ -280,10 +280,11 @@ export default class Session {
       Auth.signOut()
         .then(
           () => {
-            logger.trace("successful sign out.");
+            logger.trace("successful sign-out.");
             resolve();
           },
           error => {
+            logger.error("unable sign-out: ", error);
             reject(error.message || error);
           }
         );
@@ -304,7 +305,7 @@ export default class Session {
             resolve();
           },
           error => {
-            logger.trace("password reset error: ", error);
+            logger.error("password reset error: ", error);
 
             message = (error.invalidCredentialsMessage || error.message || error);
             switch (message) {
@@ -337,6 +338,7 @@ export default class Session {
             resolve();
           },
           error => {
+            logger.error("unable update password: ", error);
             reject(error.message || error);
           }
         );
@@ -373,6 +375,7 @@ export default class Session {
             resolve(data.userConfirmed);
           },
           error => {
+            logger.error("unable sign up: ", error);
             reject(error.message || error);
           }
         );
@@ -395,6 +398,7 @@ export default class Session {
             resolve();
           },
           error => {
+            logger.error("unable send sign-up confirmation code: ", error);
             reject(error.message || error);
           }
         );
@@ -420,6 +424,7 @@ export default class Session {
             resolve(user);
           },
           error => {
+            logger.error("unable verify signup: ", error);
             reject(error.message || error);
           }
         );
@@ -447,7 +452,7 @@ export default class Session {
             resolve();
           },
           error => {
-            logger.trace("unable to configure MFA method: ", mfaMethod);
+            logger.error("unable to configure MFA method: ", mfaMethod, error);
             reject(error.message || error);
           }
         );
@@ -469,6 +474,7 @@ export default class Session {
             resolve();
           },
           error => {
+            logger.error("error sending confirmation code for attribute: ", attribute, error);
             reject(error.message || error);
           }
         );
@@ -488,6 +494,7 @@ export default class Session {
             resolve();
           },
           error => {
+            logger.error("error confirming verification code for attribute: ", attribute, error);
             reject(error.message || error);
           }
         );

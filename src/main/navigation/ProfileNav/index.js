@@ -4,12 +4,14 @@
 import React from "react";
 import { createStackNavigator } from 'react-navigation';
 
-import { drawerChildNav } from "../../components/Navigation";
+import {
+  drawerChildNav,
+  stackNavigatorConfig
+} from "../../components/Navigation";
 
 import {
   stackFirstHeader,
-  stackHeader,
-  stackNavigatorConfig
+  stackHeader
 } from "../MainNav";
 
 import Profile from "../../screens/Profile";

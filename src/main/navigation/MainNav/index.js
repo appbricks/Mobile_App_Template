@@ -2,20 +2,9 @@
  * Copyright 2018-2018 AppBricks, Inc. or its affiliates. All Rights Reserved.
  */
 import React, { Component } from "react";
-import {
-  Easing,
-  Animated,
-  View,
-  ScrollView,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-  Text
-} from "react-native";
+import { View, ScrollView, TouchableHighlight, TouchableWithoutFeedback, Text } from "react-native";
 
-import {
-  createDrawerNavigator,
-  SafeAreaView
-} from 'react-navigation';
+import { createDrawerNavigator, SafeAreaView } from 'react-navigation';
 import { Icon } from "react-native-elements";
 
 import {
@@ -27,13 +16,12 @@ import AvatarView from "../../components/AvatarView";
 
 import HomeNav from "../HomeNav";
 import ProfileNav from "../ProfileNav";
-import Account from "../../screens/Account";
-import Settings from "../../screens/Settings";
-import Help from "../../screens/Help";
+import AccountNav from "../AccountNav";
+import SettingsNav from "../SettingsNav";
+import HelpNav from "../HelpNav";
 import SignOut from "../../screens/SignOut";
 
 import common, {
-  COLORS,
   THEME
 } from "../../styles/common";
 import styles, {
@@ -87,7 +75,7 @@ const MainNav = createDrawerNavigator(
       }
     },
     Account: {
-      screen: Account,
+      screen: AccountNav,
       navigationOptions: {
         drawerLabel: "Account",
         drawerIcon: ({ tintColor }) => (
@@ -101,7 +89,7 @@ const MainNav = createDrawerNavigator(
     },
     Section2: Seperator,
     Settings: {
-      screen: Settings,
+      screen: SettingsNav,
       navigationOptions: {
         drawerLabel: "Settings",
         drawerIcon: ({ tintColor }) => (
@@ -114,7 +102,7 @@ const MainNav = createDrawerNavigator(
       }
     },
     Help: {
-      screen: Help,
+      screen: HelpNav,
       navigationOptions: {
         drawerLabel: "Help",
         drawerIcon: ({ tintColor }) => (
@@ -184,7 +172,7 @@ export default MainNav;
  */
 export function stackFirstHeader(title) {
 
-  return ({ navigation }) => {
+  return ({ navigation, screenProps }) => {
 
     return {
       headerTransparent: true,
@@ -243,61 +231,18 @@ export function stackHeader(title) {
               containerStyle={styles.stackHeaderIcon}
               onPress={() => onPress()}
             />
+
             <TouchableHighlight
               underlayColor="transparent"
-              onPress={() => onPress()}
-            >
+              onPress={() => onPress()} >
+
               <Text style={styles.stackHeaderBackTitleStyle}>{title}</Text>
+
             </TouchableHighlight>
           </View>
         )
       },
-      title: title,
+      title: title
     };
-  };
-}
-
-/**
- * 
- * @param {*} initialRouteName 
- */
-export function stackNavigatorConfig(initialRouteName) {
-
-  return {
-    initialRouteName: initialRouteName,
-    headerMode: "screen",
-    cardStyle: {
-      backgroundColor: "transparent"
-    },
-    navigationOptions: props => ({
-      gesturesEnabled: true
-    }),
-    transitionConfig: () => ({
-      containerStyle: {
-      },
-      transitionSpec: {
-        duration: 500,
-        easing: Easing.out(Easing.poly(4)),
-        timing: Animated.timing,
-      },
-      screenInterpolator: sceneProps => {
-        const { layout, position, scene } = sceneProps;
-        const { index } = scene;
-        const width = layout.initWidth;
-
-        return {
-          opacity: position.interpolate({
-            inputRange: [index - 1, index, index + 1],
-            outputRange: [0, 1, 0],
-          }),
-          transform: [{
-            translateX: position.interpolate({
-              inputRange: [index - 1, index, index + 1],
-              outputRange: [width, 0, -width],
-            }),
-          }]
-        };
-      },
-    }),
   };
 }

@@ -10,8 +10,8 @@ import prompt from 'react-native-prompt-android';
 import Logger from "../../../lib/utils/Logger";
 
 import {
-  USER_UNDEFINED,
-  USER_NEEDS_AUTH
+  USER_NEEDS_AUTH,
+  USER_LOGGED_OUT
 } from "../../../lib/authentication/Session";
 import { initAuthStore } from "../../redux/reducers/auth"
 
@@ -34,18 +34,21 @@ import { IS_IOS } from "../../styles/common";
 export default class AuthComponent<P> extends Component<P> {
 
   /**
+   * @param {*} name          the component name
    * @param {*} props         react component properties
    * @param {*} authRequired  indicates if the component which extends 
    *                          this component requires authentication
    */
-  constructor(props: P, authRequired = true) {
+  constructor(name, props: P, authRequired = true) {
     super(props);
 
     if (typeof AuthComponent.initialized == 'undefined') {
       AuthComponent.initialized = false;
     }
 
-    this.logger = new Logger("AuthComponent");
+    this.name = name;
+    this.logger = new Logger(name);
+
     this.authRequired = authRequired;
   }
 
@@ -94,15 +97,17 @@ export default class AuthComponent<P> extends Component<P> {
       if (signedIn) {
 
         switch (session.validateUser(user)) {
-          case USER_UNDEFINED:
-            this.navigateToSignInScreen();
-            break;
           case USER_NEEDS_AUTH:
             this._authenticateLoggedInUser();
             break;
+          case USER_LOGGED_OUT:
+            if (ready) {
+              this.validateNavigationState(false);
+            }
+            break;
           default:
             if (ready) {
-              this.navigateToMainScreen();
+              this.validateNavigationState(true);
             }
         }
       }
@@ -111,11 +116,32 @@ export default class AuthComponent<P> extends Component<P> {
         if (user.isValid()) {
           resetUser();
         }
-        if (this.authRequired) {
-          this.navigateToSignInScreen();
-        }
+        this.validateNavigationState(false);
       }
     }
+  }
+
+  /**
+   * Navigate to an authenticated screen. This would 
+   * be a no-op if the current screen is the valid 
+   * authenticated screen for the current app state.
+   * 
+   * @param {*} isSignedIn 
+   */
+  validateNavigationState(isSignedIn) {
+
+    if (this.authRequired && !isSignedIn) {
+
+      const {
+        session
+      } = this.props.screenProps;
+
+      session.validateSession();
+    }
+  }
+
+  navigateToAccountVerificationScreen() {
+    this.logger.trace("no-op on call to navigate to account verification screen");
   }
 
   onSignIn() {
@@ -125,7 +151,6 @@ export default class AuthComponent<P> extends Component<P> {
       user,
       signInUser,
       resetUser,
-      navigation,
       screenProps
     } = this.props;
     const {
@@ -141,7 +166,7 @@ export default class AuthComponent<P> extends Component<P> {
           this._showMFAChallenge("Please enter the multi-factor authentication code you received via SMS.")
         } else {
           signInUser(user);
-          navigation.navigate("AuthLoading");
+          this.validateNavigationState(true);
         }
       },
       (error) => {
@@ -157,7 +182,7 @@ export default class AuthComponent<P> extends Component<P> {
             { cancelable: true }
           );
 
-          this.props.navigation.navigate("VerifyAccount");
+          this.navigateToAccountVerificationScreen();
 
         } else {
           Alert.alert(
@@ -196,26 +221,6 @@ export default class AuthComponent<P> extends Component<P> {
         this.logger.info("User '" + user.username + "' has signed out.")
       }
     );
-  }
-
-  navigateToSignInScreen() {
-
-    const {
-      navigation,
-      screenProps
-    } = this.props;
-    const {
-      session
-    } = screenProps;
-
-    // if (navigation && navigation.popToTop) {
-    //   navigation.popToTop();
-    // }
-    session.navigateToAuthValidationRoute();
-  }
-
-  navigateToMainScreen() {
-    this.logger.trace("no-op on call to navigate to main screen");
   }
 
   _showMFAChallenge(message) {
@@ -270,7 +275,6 @@ export default class AuthComponent<P> extends Component<P> {
       user,
       signInUser,
       resetUser,
-      navigation,
       screenProps
     } = this.props;
     const {
@@ -283,7 +287,7 @@ export default class AuthComponent<P> extends Component<P> {
         this.logger.trace("Successfully validated MFA code for user '" + user.username + "'.");
 
         signInUser(user);
-        navigation.navigate("AuthLoading");
+        this.validateNavigationState(true);
       },
       (error) => {
 
@@ -316,7 +320,6 @@ export default class AuthComponent<P> extends Component<P> {
   async _authenticateLoggedInUser() {
 
     const {
-      navigation,
       user,
       timestamp,
       resetUser,
@@ -336,7 +339,7 @@ export default class AuthComponent<P> extends Component<P> {
           })
           .catch(error => {
             this.logger.error("biometric authentication error: ", error);
-            resetUser();
+            this.onSignOut();
           });
 
       } else if (user.enableMFA) {

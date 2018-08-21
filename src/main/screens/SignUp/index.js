@@ -13,10 +13,17 @@ import TextInput from "../../components/TextInput"
 
 import Logger from "../../../lib/utils/Logger";
 
-import { TERMS_OF_SERVICE_LINK, PRIVACY_POLICY_LINK } from "../../Legal"
+import {
+  TERMS_OF_SERVICE_LINK,
+  PRIVACY_POLICY_LINK
+} from "../../Legal"
 
-import common, { COLORS } from "../../styles/common"
-import dialogStyles, { DIALOG } from "../../components/Dialog/dialogStyles"
+import common, {
+  COLORS
+} from "../../styles/common"
+import dialogStyles, {
+  DIALOG
+} from "../../components/Dialog/dialogStyles"
 
 import styles from "./styles"
 
@@ -25,6 +32,8 @@ class SignUp extends Component<Props> {
 
   constructor(props) {
     super(props);
+
+    this.logger = new Logger("SignUp");
 
     this.verifiedPassword = "";
 

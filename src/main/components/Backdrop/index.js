@@ -16,6 +16,7 @@ export default class Backdrop extends Component<Props> {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
     this.imageBackground = null;
 
     this.state = {
@@ -29,19 +30,30 @@ export default class Backdrop extends Component<Props> {
 
     this.props.image.addUpdateCallback((uri, options?) => {
 
-      if (options) {
+      if (this.mounted) {
 
-        const { blurType, blurAmount } = options;
+        if (options) {
 
-        this.setState({
-          blurType: blurType,
-          blurAmount: blurAmount
-        });
+          const { blurType, blurAmount } = options;
 
-      } else {
-        this.setState({});
+          this.setState({
+            blurType: blurType,
+            blurAmount: blurAmount
+          });
+
+        } else {
+          this.setState({});
+        }
       }
     });
+  }
+
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   _imageLoaded() {

@@ -18,8 +18,13 @@ import IconButtonGroup from "../../components/IconButtonGroup";
 
 import Logger from "../../../lib/utils/Logger";
 
-import common, { COLORS, IS_IOS } from "../../styles/common";
-import dialogStyles, { DIALOG } from "../../components/Dialog/dialogStyles";
+import common, {
+  COLORS,
+  IS_IOS
+} from "../../styles/common";
+import dialogStyles, {
+  DIALOG
+} from "../../components/Dialog/dialogStyles";
 
 import styles from "./styles";
 
@@ -60,13 +65,34 @@ type Props = {};
 class SignIn extends AuthComponent<props> {
 
   constructor(props) {
-    super(props, false);
+    super("SignIn", props, false);
 
     this.state = {
       authType: 0,
       signInDisabled: true,
       signUpDisabled: false
     };
+  }
+
+  validateNavigationState(isSignedIn) {
+
+    if (isSignedIn) {
+      // If user has signed in then
+      // navigate to the AuthLoading
+      // screen which will determine
+      // the home screen.
+      this.logger.trace("navigating to \"AuthLoading\" screen");
+      this.props.navigation.navigate("AuthLoading");
+    }
+  }
+
+  navigateToAccountVerificationScreen() {
+    // If an attempt is made to sign
+    // in to an unconfirmed account
+    // then we need to forward to 
+    // the account verification screen.
+    this.logger.trace("navigating to \"VerifyAccount\" screen");
+    this.props.navigation.navigate("VerifyAccount");
   }
 
   onSetUsername(text) {

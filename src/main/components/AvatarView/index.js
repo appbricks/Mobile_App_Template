@@ -18,35 +18,38 @@ class AvatarView extends Component<Props> {
   constructor(props) {
     super(props);
 
-    this.logger = new Logger("AvatarView");
     this.mounted = false;
 
+    const { avatar } = this.props;
+    this.avatarImage = avatar.getImage();
+
+    uri = this.avatarImage.getUri();
     this.state = {
-      avatarUri: null,
-      avatarTitle: null
+      avatarUri: uri.uri,
+      avatarTitle: uri.title
     }
   }
 
   componentDidMount() {
-    const { avatar } = this.props;
     this.mounted = true;
-
-    avatarImage = avatar.getImage();
-    avatarImage.addUpdateCallback((uri) => {
-
-      if (this.mounted) {
-
-        this.setState({
-          avatarUri: uri.uri,
-          avatarTitle: uri.title
-        });
-      }
-    });
+    this.avatarImage.addUpdateCallback(this._avatarUpdated);
   }
 
   componentWillUnmount() {
+    this.avatarImage.removeUpdateCallback(this._avatarUpdated);
     this.mounted = false;
   }
+
+  _avatarUpdated(uri) {
+
+    if (this.mounted) {
+
+      this.setState({
+        avatarUri: uri.uri,
+        avatarTitle: uri.title
+      });
+    }
+  };
 
   render() {
 

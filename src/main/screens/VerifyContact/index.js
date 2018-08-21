@@ -7,15 +7,15 @@ import { Icon, Input, Button } from "react-native-elements";
 
 import { connect } from "react-redux";
 
-import {
-  ATTRIB_EMAIL_ADDRESS,
-  ATTRIB_MOBILE_PHONE
-} from "../../../lib/authentication/Session"
-
 import AuthComponent, {
   mapAuthStateToProps,
   mapAuthDispatchToProps
 } from "../../components/AuthComponent";
+
+import {
+  ATTRIB_EMAIL_ADDRESS,
+  ATTRIB_MOBILE_PHONE
+} from "../../../lib/authentication/Session"
 
 import {
   updateUser
@@ -28,23 +28,18 @@ import TextInput from "../../components/TextInput"
 import Logger from "../../../lib/utils/Logger";
 
 import common, {
-  COLORS,
-  THEME
+  COLORS
 } from "../../styles/common";
 import dialogStyles, {
-  DIALOG,
-  getCheckBoxColor
+  DIALOG
 } from "../../components/Dialog/dialogStyles";
 import styles from "./styles";
-
-const COLOR = false;
-const STYLE = true;
 
 type Props = {};
 class VerifyContact extends AuthComponent<Props> {
 
   constructor(props) {
-    super(props);
+    super("VerifyAccount", props);
 
     this.state = {
       verificationCode: null,

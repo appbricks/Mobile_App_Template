@@ -32,14 +32,11 @@ import dialogStyles, {
 } from "../../components/Dialog/dialogStyles";
 import styles from "./styles";
 
-const COLOR = false;
-const STYLE = true;
-
 type Props = {};
 class Profile extends AuthComponent<Props> {
 
   constructor(props) {
-    super(props);
+    super("Profile", props);
 
     this.emailAddressInputRef = null;
     this.mobilePhoneInputRef = null;

@@ -46,6 +46,10 @@ export default class StackView extends Component<Props> {
     };
   }
 
+  componentDidMount() {
+    this._blurBackgroundImage(true);
+  }
+
   componentDidUpdate() {
     this._blurBackgroundImage(true);
   }

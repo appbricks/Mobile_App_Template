@@ -8,10 +8,9 @@ export const AUTH_NO_MFA = 0;
 export const AUTH_MFA_SMS = 1;
 export const AUTH_MFA_TOTP = 2;
 
-export const USER_UNDEFINED = 0;
-export const USER_LOGGED_OUT = 1;
-export const USER_LOGGED_IN = 2;
-export const USER_NEEDS_AUTH = 3;
+export const USER_LOGGED_OUT = 0;
+export const USER_LOGGED_IN = 1;
+export const USER_NEEDS_AUTH = 2;
 
 export const ATTRIB_EMAIL_ADDRESS = "email";
 export const ATTRIB_MOBILE_PHONE = "phone_number";
@@ -25,7 +24,7 @@ export default class Session {
     authSession,
     setReady,
     setWait,
-    navigateToAuthValidationRoute
+    authValidationCallback
   ) {
     this.logger = new Logger("AuthSession");
 
@@ -33,11 +32,7 @@ export default class Session {
     this.isSignedIn = false;
     this._setReady = setReady;
     this._setWait = setWait;
-
-    this.navigateToAuthValidationRoute = (beforeWaitHandler?) => {
-      this._setWait(beforeWaitHandler);
-      navigateToAuthValidationRoute();
-    }
+    this._authValidationCallback = authValidationCallback;
 
     this.user = null;
   }
@@ -76,9 +71,9 @@ export default class Session {
       .then(async () => {
 
         await this.authSession.readUser(user);
-        this.logger.trace("signed in user: ", user);
 
         this.user = user;
+        this.logger.trace("signed in user: ", this.user.username);
 
         if (successHandler) {
           successHandler();
@@ -95,18 +90,19 @@ export default class Session {
 
   signOut(successHandler?, errorHandler?, beforeWaitHandler?) {
 
-    this.navigateToAuthValidationRoute(beforeWaitHandler);
+    this._setWait(beforeWaitHandler);
 
     this.authSession.signOut()
       .then(async () => {
 
+        this.logger.trace("signed out user: ", this.user.username);
         this.user = null;
-        this._setReady(await this.authSession.validateSession(), false);
 
         if (successHandler) {
           successHandler();
         }
-        this._setReady();
+        this._authValidationCallback();
+        this._setReady(await this.authSession.validateSession());
       })
       .catch(error => {
         this.logger.error("sign-out error: ", error);
@@ -375,8 +371,6 @@ export default class Session {
             this._signOut();
           }
         } else {
-          userState = USER_UNDEFINED;
-
           this.logger.trace(
             "existing session will be terminated as user being validated is undefined");
 
@@ -397,9 +391,11 @@ export default class Session {
     return userState;
   }
 
-  _signOut() {
+  validateSession() {
+    this._authValidationCallback();
+  }
 
-    this.navigateToAuthValidationRoute();
+  _signOut() {
 
     this.authSession.signOut().then(
       async () => {
