@@ -22,7 +22,8 @@ export default class StackView extends Component<Props> {
     this.childRefs = [];
     this.childLayouts = [];
 
-    if (typeof this.props.children != "undefined") {
+    if (!this.props.scrollHeight
+      && typeof this.props.children != "undefined") {
 
       if (Array.isArray(this.props.children)) {
 
@@ -35,13 +36,13 @@ export default class StackView extends Component<Props> {
         this.props.children.type.prototype.addChildRef = this._addChildRef.bind(this);
         this.props.children.type.prototype.addChildLayout = this._addChildLayout.bind(this);
       }
-
-      this.marginTop = HEADER_HEIGHT + 5;
-      this.viewHeight = this.marginTop;
     }
 
+    this.marginTop = HEADER_HEIGHT + 5;
+    this.viewHeight = this.marginTop;
+
     this.state = {
-      viewHeight: VIEWPORT_HEIGHT
+      viewHeight: this.props.scrollHeight || VIEWPORT_HEIGHT
     };
   }
 
