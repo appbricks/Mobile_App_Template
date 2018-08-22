@@ -9,11 +9,12 @@ import { hexToRgba } from "../../lib/utils/colors";
 export const COLORS = {
 
   white: "#FFFFFF",
-  black: "#000000",
-
   offWhite: "#FFF3E6",
   beige: "#F5F5DC",
   wheat: "#F5DEB3",
+
+  black: "#000000",
+  almostBlack: "#262626",
 
   blue: "#0000FF",
   mattBlue: "#0066CC",
@@ -73,7 +74,8 @@ export const THEME = {
   homeBarActiveBackground: hexToRgba(COLORS.black, 0.4),
 
   tabBarBackground: COLORS.black,
-  tabBarActiveBackground: COLORS.darkdarkGray,
+  tabBarActiveBackground: COLORS.almostBlack,
+  tabBarFontSize: 12,
 
   stackViewImageBlur: { type: "light", amount: 10 },
   stackViewStatusBar: "light-content",
@@ -100,8 +102,10 @@ export const IS_IOS = Platform.OS === "ios";
 export const { width: VIEWPORT_WIDTH, height: VIEWPORT_HEIGHT } = Dimensions.get("window");
 
 export const STATUS_BAR_HEIGHT = 20;
-export const HEADER_HEIGHT = 40;
-export const BOTTOM_BAR_HEIGHT = 50;
+export const TOP_BAR_HEIGHT = 40;
+export const BOTTOM_BAR_HEIGHT = 50 + THEME.tabBarFontSize;
+export const HEADER_HEIGHT = STATUS_BAR_HEIGHT + TOP_BAR_HEIGHT;
+export const HOME_VIEW_HEIGHT = VIEWPORT_HEIGHT - HEADER_HEIGHT - BOTTOM_BAR_HEIGHT;
 
 export const BACKGROUND_IMAGE = require("../../images/background.png");
 

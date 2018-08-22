@@ -24,11 +24,7 @@ import Logger from "../../../lib/utils/Logger";
 
 import {
   THEME,
-  VIEWPORT_WIDTH,
-  VIEWPORT_HEIGHT,
-  STATUS_BAR_HEIGHT,
-  HEADER_HEIGHT,
-  BOTTOM_BAR_HEIGHT
+  HOME_VIEW_HEIGHT
 } from "../../styles/common";
 import { TRANSPARENT } from "../../components/CardView/styles";
 import styles from "./styles";
@@ -147,7 +143,7 @@ class Schedule extends AuthComponent<Props> {
           style={[
             THEME.homeCardStyle,
             {
-              height: VIEWPORT_HEIGHT - STATUS_BAR_HEIGHT - HEADER_HEIGHT - BOTTOM_BAR_HEIGHT - 30
+              height: HOME_VIEW_HEIGHT - 20
             }
           ]}>
 

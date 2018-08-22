@@ -5,7 +5,6 @@ import { StyleSheet } from "react-native";
 
 import {
   VIEWPORT_WIDTH,
-  STATUS_BAR_HEIGHT,
   HEADER_HEIGHT,
   COLORS,
   THEME
@@ -16,7 +15,7 @@ export default StyleSheet.create({
     backgroundColor: THEME.homeBarBackground,
     position: "absolute",
     width: VIEWPORT_WIDTH,
-    height: STATUS_BAR_HEIGHT + HEADER_HEIGHT,
+    height: HEADER_HEIGHT,
     top: 0,
     left: 0,
     borderBottomWidth: 0

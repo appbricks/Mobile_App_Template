@@ -8,7 +8,7 @@ import { hexToRgba } from "../../../lib/utils/colors";
 import {
   COLORS,
   THEME,
-  HEADER_HEIGHT
+  TOP_BAR_HEIGHT
 } from "../../styles/common";
 
 export const drawerStyles = {
@@ -29,7 +29,7 @@ export const drawerStyles = {
 
 export const stackStyles = {
   header: {
-    height: HEADER_HEIGHT,
+    height: TOP_BAR_HEIGHT,
     backgroundColor: THEME.color
   },
   headerTitle: {
