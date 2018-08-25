@@ -49,6 +49,7 @@ class MySpaces extends AuthComponent<Props> {
         {data.map(d => (
 
           <CardView
+            key={"MyListing_" + d.value}
             style={THEME.homeCardStyleTransparent}>
 
             <View
