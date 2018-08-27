@@ -94,12 +94,14 @@ export default StyleSheet.create({
   item: {
     backgroundColor: THEME.cardBackground,
     flex: 1,
+    flexDirection: "row",
     borderRadius: 5,
     padding: 10,
     marginRight: 10,
     marginTop: 17
   },
   itemText: {
+    padding: 2,
     fontFamily: "Lato-Regular",
     fontSize: 12,
     color: THEME.color,

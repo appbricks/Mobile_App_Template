@@ -21,6 +21,8 @@ import { TRANSPARENT } from "../../components/CardView/styles";
 import { THEME } from "../../styles/common";
 import styles from "./styles";
 
+import { COLOR_LIST } from "../../styles/colors";
+
 type Props = {};
 class MyListings extends AuthComponent<Props> {
 
@@ -68,13 +70,13 @@ class MyListings extends AuthComponent<Props> {
                   fontSize: 20
                 }}
               >
-                My Listing
+                Listing for My Space
               </Text>
 
               <Badge
                 value={d.value}
                 containerStyle={{
-                  backgroundColor: THEME.color
+                  backgroundColor: COLOR_LIST[d.value + 7]
                 }}
                 textStyle={{
                   fontFamily: "Lato-Bold",
