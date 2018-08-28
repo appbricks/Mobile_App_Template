@@ -154,6 +154,7 @@ class Schedule extends AuthComponent<Props> {
     return (
       <StackView
         scrollHeight={HOME_VIEW_HEIGHT - 15}
+        scrollEnabled={false}
         backgroundImage={backgroundImage}>
 
         <Agenda
