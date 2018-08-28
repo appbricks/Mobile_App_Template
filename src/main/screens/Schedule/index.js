@@ -78,11 +78,19 @@ class Schedule extends AuthComponent<Props> {
             let k = Math.floor(Math.random() * 10);
 
             items[strTime].push({
+              date: strTime,
               value: k,
               height: 50
             });
-            markedDates[strTime]
-              .dots.push(this.dateMarkers[k]);
+
+            // Date marker keys must be unique
+
+            let dots = markedDates[strTime].dots;
+            let key = this.dateMarkers[k].key;
+
+            if (!dots.find(m => m.key == key)) {
+              dots.push(this.dateMarkers[k]);
+            }
           }
         } else {
           items[strTime] = this.state.items[strTime];
@@ -117,7 +125,7 @@ class Schedule extends AuthComponent<Props> {
         />
 
         <Text style={styles.itemText}>
-          My Listing
+          My Listing on {item.date}
         </Text>
       </View>
     );
