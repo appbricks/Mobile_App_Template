@@ -3,6 +3,7 @@
  */
 import React, { Component } from "react";
 import { createBottomTabNavigator } from 'react-navigation';
+import { BottomTabBar } from 'react-navigation-tabs';
 import { Icon } from "react-native-elements";
 
 import Logger from "../../../lib/utils/Logger";
@@ -78,12 +79,16 @@ const HomeNav = createBottomTabNavigator(
   },
   {
     initialRouteName: "MyListingsNav",
+    tabBarComponent: props =>
+      <BottomTabBar
+        {...props}
+        style={styles.tabBarStyle}
+      />,
     tabBarOptions: {
       activeTintColor: tabStyles.activeTintColor,
       activeBackgroundColor: tabStyles.activeBackgroundColor,
       inactiveTintColor: tabStyles.inactiveTintColor,
       inactiveBackgroundColor: tabStyles.inactiveBackgroundColor,
-      style: tabStyles.tabBarStyle,
       labelStyle: tabStyles.textStyle,
       tabStyle: tabStyles.inactiveTabStyle
     }

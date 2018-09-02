@@ -103,7 +103,7 @@ export const { width: VIEWPORT_WIDTH, height: VIEWPORT_HEIGHT } = Dimensions.get
 
 export const STATUS_BAR_HEIGHT = 20;
 export const TOP_BAR_HEIGHT = 40;
-export const BOTTOM_BAR_HEIGHT = 50 + THEME.tabBarFontSize;
+export const BOTTOM_BAR_HEIGHT = 55 + THEME.tabBarFontSize;
 export const HEADER_HEIGHT = STATUS_BAR_HEIGHT + TOP_BAR_HEIGHT;
 export const HOME_VIEW_HEIGHT = VIEWPORT_HEIGHT - HEADER_HEIGHT - BOTTOM_BAR_HEIGHT;
 

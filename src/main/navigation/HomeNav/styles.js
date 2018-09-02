@@ -11,14 +11,11 @@ import {
 } from "../../styles/common"
 
 export const tabStyles = {
-  tabBarStyle: {
-    height: BOTTOM_BAR_HEIGHT,
-    backgroundColor: "transparent"
-  },
   iconStyle: {
     paddingTop: 4
   },
   textStyle: {
+    paddingBottom: 5,
     fontFamily: "Lato-Bold",
     fontSize: THEME.tabBarFontSize
   },
@@ -48,6 +45,10 @@ export const stackStyles = {
 }
 
 export default StyleSheet.create({
+  tabBarStyle: {
+    height: BOTTOM_BAR_HEIGHT,
+    backgroundColor: THEME.tabBarBackground
+  },
   stackHeaderIcon: {
     marginTop: 5,
     marginLeft: 10,
