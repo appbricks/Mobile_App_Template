@@ -79,11 +79,27 @@ const HomeNav = createBottomTabNavigator(
   },
   {
     initialRouteName: "MyListingsNav",
-    tabBarComponent: props =>
-      <BottomTabBar
-        {...props}
-        style={styles.tabBarStyle}
-      />,
+    tabBarComponent: props => {
+
+      const C = class extends Component {
+        constructor(props) {
+          super(props);
+        }
+
+        render() {
+
+          return (
+            <BottomTabBar
+              adaptive={false}
+              {...this.props}
+              style={styles.tabBarStyle}
+            />);
+        }
+      }
+
+      return <C {...props} />
+    }
+    ,
     tabBarOptions: {
       activeTintColor: tabStyles.activeTintColor,
       activeBackgroundColor: tabStyles.activeBackgroundColor,
