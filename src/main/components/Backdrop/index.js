@@ -3,7 +3,7 @@
  */
 import React, { Component } from "react";
 import { ImageBackground, findNodeHandle } from "react-native";
-import { BlurView } from 'react-native-blur';
+import { BlurView } from "react-native-blur";
 
 import MutableImage from "../../../lib/presentation/MutableImage"
 
