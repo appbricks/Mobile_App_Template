@@ -29,7 +29,7 @@ import {
   AUTH_MFA_TOTP
 } from "../../../lib/authentication/Session";
 
-import { IS_IOS } from "../../styles/common";
+import { DEVICE } from "../../styles/common";
 
 export default class AuthComponent<P> extends Component<P> {
 
@@ -225,7 +225,7 @@ export default class AuthComponent<P> extends Component<P> {
 
   _showMFAChallenge(message) {
 
-    if (IS_IOS) {
+    if (DEVICE.isIOS) {
       AlertIOS.prompt(
         "Authentication Code", message,
         [

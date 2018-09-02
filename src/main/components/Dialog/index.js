@@ -13,8 +13,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import LoadingView from "../LoadingView"
 
 import {
-  VIEWPORT_WIDTH,
-  VIEWPORT_HEIGHT,
+  DEVICE,
   APP_ICON,
   APP_ICON_SIZE,
   THEME
@@ -53,8 +52,8 @@ export default class Dialog extends Component<Props> {
           {
             width: dialogWidth,
             height: dialogHeight,
-            top: (VIEWPORT_HEIGHT - dialogHeight) / 2,
-            left: (VIEWPORT_WIDTH - dialogWidth) / 2,
+            top: (DEVICE.viewportHeight - dialogHeight) / 2,
+            left: (DEVICE.viewportWidth - dialogWidth) / 2,
             opacity: dialogOpacity
           }
         ]}>
@@ -69,8 +68,8 @@ export default class Dialog extends Component<Props> {
             {
               width: iconSize,
               height: iconSize,
-              top: (VIEWPORT_HEIGHT - dialogHeight - iconSize) / 2,
-              left: (VIEWPORT_WIDTH - iconSize) / 2
+              top: (DEVICE.viewportHeight - dialogHeight - iconSize) / 2,
+              left: (DEVICE.viewportWidth - iconSize) / 2
             }
           ]} />
 

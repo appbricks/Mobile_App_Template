@@ -20,7 +20,7 @@ import Logger from "../../../lib/utils/Logger";
 
 import common, {
   COLORS,
-  IS_IOS
+  DEVICE
 } from "../../styles/common";
 import dialogStyles, {
   DIALOG
@@ -139,7 +139,7 @@ class SignIn extends AuthComponent<props> {
 
     this.onSignUp();
 
-    // if (IS_IOS) {
+    // if (DEVICE.isIOS) {
     //   AlertIOS.prompt(
     //     "Invitation Code",
     //     "You need an invitation code in order to  be able to sign-up",

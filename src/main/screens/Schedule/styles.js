@@ -7,9 +7,7 @@ import { hexToRgba } from "../../../lib/utils/colors";
 
 import {
   COLORS,
-  THEME,
-  HEADER_HEIGHT,
-  HOME_VIEW_HEIGHT
+  THEME
 } from "../../styles/common";
 
 export const agendaViewTheme = {
@@ -86,7 +84,6 @@ export default StyleSheet.create({
     borderWidth: 2,
     borderRadius: 5,
     borderColor: COLORS.silver,
-    height: HOME_VIEW_HEIGHT - 20,
     marginTop: 5,
     marginLeft: 10,
     marginRight: 10

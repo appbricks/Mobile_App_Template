@@ -4,18 +4,17 @@
 import { StyleSheet } from "react-native";
 
 import {
-  VIEWPORT_WIDTH,
-  HEADER_HEIGHT,
   COLORS,
-  THEME
+  THEME,
+  DEVICE
 } from "../../styles/common"
 
 export default StyleSheet.create({
   outerContainer: {
     backgroundColor: THEME.homeBarBackground,
     position: "absolute",
-    width: VIEWPORT_WIDTH,
-    height: HEADER_HEIGHT,
+    width: DEVICE.viewportWidth,
+    height: DEVICE.headerHeight,
     top: 0,
     left: 0,
     borderBottomWidth: 0

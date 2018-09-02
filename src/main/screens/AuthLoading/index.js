@@ -3,6 +3,7 @@
  */
 import React from "react";
 import { View, StatusBar, Alert } from 'react-native';
+import Orientation from "react-native-orientation";
 
 import { connect } from "react-redux";
 
@@ -30,9 +31,13 @@ class AuthLoading extends AuthComponent<props> {
 
     if (isSignedIn) {
       this.logger.trace("navigating to \"Main\" screen");
+
+      Orientation.unlockAllOrientations();
       this.props.navigation.navigate("Main");
     } else {
       this.logger.trace("navigating to \"SignIn\" screen");
+
+      Orientation.lockToPortrait();
       this.props.navigation.navigate("SignIn");
     }
   }

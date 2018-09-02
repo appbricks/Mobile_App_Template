@@ -4,8 +4,7 @@
 import { StyleSheet } from "react-native";
 
 import {
-  VIEWPORT_WIDTH,
-  VIEWPORT_HEIGHT,
+  DEVICE,
 } from "../../styles/common"
 
 export const LOADING_ICON_SIZE = 60;
@@ -17,8 +16,8 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: "absolute",
-    width: VIEWPORT_WIDTH,
-    height: VIEWPORT_HEIGHT,
+    width: DEVICE.viewportWidth,
+    height: DEVICE.viewportHeight,
     top: 0,
     left: 0
   }

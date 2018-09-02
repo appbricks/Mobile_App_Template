@@ -20,7 +20,7 @@ import Logger from "../../../lib/utils/Logger";
 
 import {
   THEME,
-  HOME_VIEW_HEIGHT
+  DEVICE
 } from "../../styles/common";
 import styles, {
   agendaViewTheme
@@ -153,13 +153,13 @@ class Schedule extends AuthComponent<Props> {
 
     return (
       <StackView
-        scrollHeight={HOME_VIEW_HEIGHT - 15}
+        scrollHeight={DEVICE.homeViewHeight - 15}
         scrollEnabled={false}
         backgroundImage={backgroundImage}>
 
         <Agenda
           theme={agendaViewTheme}
-          style={styles.scheduleCard}
+          style={[styles.scheduleCard, { height: DEVICE.homeViewHeight - 20 }]}
           items={this.state.items}
           loadItemsForMonth={this.loadItems.bind(this)}
           selected={this.timeToString(new Date())}

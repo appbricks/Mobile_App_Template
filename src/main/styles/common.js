@@ -2,9 +2,10 @@
  * Common stylesheets and styling related constants
  */
 
-import { StyleSheet, Dimensions, Platform } from "react-native";
+import { StyleSheet } from "react-native";
 
 import { hexToRgba } from "../../lib/utils/colors";
+import Device from "../../lib/presentation/Device";
 
 export const COLORS = {
 
@@ -70,12 +71,14 @@ export const THEME = {
   menuBackground: COLORS.white,
   menuOpacity: 0.8,
 
+  topBarHeight: 40,
   homeBarBackground: hexToRgba(COLORS.black, 0.8),
   homeBarActiveBackground: hexToRgba(COLORS.black, 0.4),
 
+  bottomBarHeight: 70,
+  tabBarFontSize: 12,
   tabBarBackground: COLORS.black,
   tabBarActiveBackground: COLORS.almostBlack,
-  tabBarFontSize: 12,
 
   stackViewImageBlur: { type: "light", amount: 10 },
   stackViewStatusBar: "light-content",
@@ -98,14 +101,10 @@ export const THEME = {
   avatarColor: COLORS.white
 }
 
-export const IS_IOS = Platform.OS === "ios";
-export const { width: VIEWPORT_WIDTH, height: VIEWPORT_HEIGHT } = Dimensions.get("window");
-
-export const STATUS_BAR_HEIGHT = 20;
-export const TOP_BAR_HEIGHT = 40;
-export const BOTTOM_BAR_HEIGHT = 55 + THEME.tabBarFontSize;
-export const HEADER_HEIGHT = STATUS_BAR_HEIGHT + TOP_BAR_HEIGHT;
-export const HOME_VIEW_HEIGHT = VIEWPORT_HEIGHT - HEADER_HEIGHT - BOTTOM_BAR_HEIGHT;
+export const DEVICE = new Device(
+  THEME.topBarHeight,
+  THEME.bottomBarHeight
+);
 
 export const BACKGROUND_IMAGE = require("../../images/background.png");
 
