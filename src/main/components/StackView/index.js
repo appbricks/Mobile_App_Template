@@ -3,6 +3,7 @@
  */
 import React, { Component } from "react";
 import { StatusBar } from "react-native";
+import { SafeAreaView } from "react-navigation";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
@@ -114,24 +115,30 @@ export default class StackView extends Component<Props> {
     } = this.props;
 
     return (
-      <KeyboardAwareScrollView
-        contentContainerStyle={[
-          {
-            marginTop: this.state.topMargin,
-            height: this.state.topMargin + this.state.scrollHeight
-          },
-          styles.container,
-          style
-        ]}
-        resetScrollToCoords={{ x: 0, y: 0 }}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        pinchGestureEnabled={false}
-        {...props}
-      >
-        <StatusBar barStyle={THEME.stackViewStatusBar} />
-        {this.props.children}
-      </KeyboardAwareScrollView>
+      <SafeAreaView
+        forceInset={{ top: "never", horizontal: "always" }}
+        style={{ flex: 1 }}>
+
+        <KeyboardAwareScrollView
+          contentContainerStyle={[
+            {
+              marginTop: this.state.topMargin,
+              height: this.state.topMargin + this.state.scrollHeight
+            },
+            styles.container,
+            style
+          ]}
+          resetScrollToCoords={{ x: 0, y: 0 }}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          pinchGestureEnabled={false}
+          {...props}
+        >
+          <StatusBar barStyle={THEME.stackViewStatusBar} />
+          {this.props.children}
+        </KeyboardAwareScrollView>
+
+      </SafeAreaView>
     )
   }
 }
