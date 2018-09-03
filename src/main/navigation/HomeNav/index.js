@@ -18,6 +18,8 @@ import styles, {
   stackStyles
 } from "./styles";
 
+type Props = {};
+
 const HomeNav = createBottomTabNavigator(
   {
     MyListingsNav: {
@@ -81,7 +83,7 @@ const HomeNav = createBottomTabNavigator(
     initialRouteName: "MyListingsNav",
     tabBarComponent: props => {
 
-      const C = class extends Component {
+      const C = class extends Component<Props> {
         constructor(props) {
           super(props);
         }
