@@ -4,7 +4,7 @@
 import React, { Component } from "react";
 import { View, ScrollView, TouchableHighlight, TouchableWithoutFeedback, Text } from "react-native";
 
-import { createDrawerNavigator, SafeAreaView } from 'react-navigation';
+import { createDrawerNavigator, SafeAreaView } from "react-navigation";
 import { Icon } from "react-native-elements";
 
 import {
