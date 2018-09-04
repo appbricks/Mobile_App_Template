@@ -4,6 +4,7 @@
  * The Device object contains device display parameters 
  * along with other usefule device information. 
  */
+import React, { Component } from "react";
 import {
   Dimensions,
   Platform,
@@ -15,6 +16,8 @@ import {
 import Orientation from "react-native-orientation";
 
 import { functionKey } from "../utils/functions";
+
+type Props = {};
 
 // Iphone X Dimensions
 // https://mediag.com/news/popular-screen-resolutions-designing-for-all/
@@ -68,6 +71,45 @@ export default class Device {
 
   removeOrientationListener(listener: (orientation: String) => void) {
     delete this.orientationListeners[functionKey(listener)];
+  }
+
+  orientationAware(
+    C: Component,
+    onChange?: (props, orientation) => (void)
+  ): Component {
+
+    const device = this;
+
+    return class extends Component<Props> {
+
+      constructor(props) {
+        super(props);
+        this.state = { orientation: device.orientation }
+        this._onChange = onChange;
+        this._orientationListenerFn = this._orientationListener.bind(this);
+      }
+      componentDidMount() {
+        device.addOrientationListener(this._orientationListenerFn);
+      }
+      componentWillUnmount() {
+        device.removeOrientationListener(this._orientationListenerFn);
+      }
+      _orientationListener(orientation) {
+        if (this._onChange) {
+          if (this._onChange(orientation, this.props)) {
+            this.setState({});
+          }
+
+        } else {
+          this.setState({});
+        }
+      }
+      render() {
+        return (
+          <C {...this.props} />
+        );
+      }
+    }
   }
 
   _isIPhoneX() {
