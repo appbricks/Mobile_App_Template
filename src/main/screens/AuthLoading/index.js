@@ -3,7 +3,6 @@
  */
 import React from "react";
 import { View, StatusBar, Alert } from 'react-native';
-import Orientation from "react-native-orientation";
 
 import { connect } from "react-redux";
 
@@ -16,7 +15,8 @@ import LoadingView from "../../components/LoadingView";
 import Logger from "../../../lib/utils/Logger";
 
 import common, {
-  COLORS
+  COLORS,
+  DEVICE
 } from "../../styles/common";
 import styles from "./styles";
 
@@ -32,12 +32,12 @@ class AuthLoading extends AuthComponent<props> {
     if (isSignedIn) {
       this.logger.trace("navigating to \"Main\" screen");
 
-      Orientation.unlockAllOrientations();
+      DEVICE.unlockAllOrientations();
       this.props.navigation.navigate("Main");
     } else {
       this.logger.trace("navigating to \"SignIn\" screen");
 
-      Orientation.lockToPortrait();
+      DEVICE.lockToPortrait();
       this.props.navigation.navigate("SignIn");
     }
   }

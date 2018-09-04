@@ -58,6 +58,8 @@ export default class Device {
 
     this.orientationListeners = {};
     this._calculateDynamicDimensions(this.orientation);
+
+    this.orientationLocked = false;
   }
 
   isOrientationPotrait() {
@@ -71,6 +73,16 @@ export default class Device {
 
   removeOrientationListener(listener: (orientation: String) => void) {
     delete this.orientationListeners[functionKey(listener)];
+  }
+
+  unlockAllOrientations() {
+    Orientation.unlockAllOrientations();
+    this.orientationLocked = false;
+  }
+
+  lockToPortrait() {
+    this.orientationLocked = true;
+    Orientation.lockToPortrait();
   }
 
   orientationAware(
@@ -138,8 +150,11 @@ export default class Device {
   }
 
   _orientationDidChange(orientation) {
-    this.orientation = orientation;
-    this._calculateDynamicDimensions(orientation);
+
+    if (!this.orientationLocked) {
+      this.orientation = orientation;
+      this._calculateDynamicDimensions(orientation);
+    }
   }
 
   _calculateDynamicDimensions(orientation) {

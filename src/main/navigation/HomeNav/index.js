@@ -45,7 +45,11 @@ const HomeNav = createBottomTabNavigator(
             color={tintColor}
             containerStyle={tabStyles.iconStyle}
           />
-        )
+        ),
+        tabBarOnPress: ({ navigation, defaultHandler }) => {
+          DEVICE.unlockAllOrientations();
+          defaultHandler();
+        }
       }
     },
     MySpacesNav: {
@@ -59,7 +63,11 @@ const HomeNav = createBottomTabNavigator(
             color={tintColor}
             containerStyle={tabStyles.iconStyle}
           />
-        )
+        ),
+        tabBarOnPress: ({ navigation, defaultHandler }) => {
+          DEVICE.unlockAllOrientations();
+          defaultHandler();
+        }
       }
     },
     ScheduleNav: {
@@ -73,7 +81,11 @@ const HomeNav = createBottomTabNavigator(
             color={tintColor}
             containerStyle={tabStyles.iconStyle}
           />
-        )
+        ),
+        tabBarOnPress: ({ navigation, defaultHandler }) => {
+          DEVICE.lockToPortrait();
+          defaultHandler();
+        }
       }
     },
     AlertsNav: {
@@ -87,7 +99,11 @@ const HomeNav = createBottomTabNavigator(
             color={tintColor}
             containerStyle={tabStyles.iconStyle}
           />
-        )
+        ),
+        tabBarOnPress: ({ navigation, defaultHandler }) => {
+          DEVICE.unlockAllOrientations();
+          defaultHandler();
+        }
       }
     }
   },
