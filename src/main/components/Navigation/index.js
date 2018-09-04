@@ -5,7 +5,12 @@ import React, { Component } from "react";
 import { Easing, Animated, View } from 'react-native';
 
 import LoadingView from "../LoadingView";
-import DrawerItems from "./DrawerNavigatorItems";
+
+// React-Navigation modifications and patches
+import DrawerItems from "./patch/react-navigation-drawer/DrawerNavigatorItems";
+import BottomTabBar from "./patch/react-navigation-tabs/BottomTabBar";
+
+import { DEVICE } from "../../styles/common";
 
 type Props = {};
 
@@ -42,8 +47,18 @@ function drawerChildNav(Nav) {
 
       constructor(props) {
         super(props);
+        this.state = { orientation: DEVICE.orientation }
+        this._orientationListenerFn = this._orientationListener.bind(this);
       }
-
+      componentDidMount() {
+        DEVICE.addOrientationListener(this._orientationListenerFn);
+      }
+      componentWillUnmount() {
+        DEVICE.removeOrientationListener(this._orientationListenerFn);
+      }
+      _orientationListener(orientation) {
+        this.setState({ orientation });
+      }
       render() {
 
         const {
@@ -53,8 +68,13 @@ function drawerChildNav(Nav) {
 
         if (navigation.state.routes.length > 1) {
           screenProps.drawerLockMode = "locked-closed"
+
         } else {
-          screenProps.drawerLockMode = "unlocked"
+          screenProps.drawerLockMode = (
+            this.state.orientation === "LANDSCAPE"
+              ? "locked-closed"
+              : "unlocked"
+          );
         }
 
         return (
@@ -82,7 +102,7 @@ function drawerChildNav(Nav) {
  * 
  * @param {*} initialRouteName 
  */
-export function stackNavigatorConfig(initialRouteName) {
+function stackNavigatorConfig(initialRouteName) {
 
   return {
     initialRouteName: initialRouteName,
@@ -124,7 +144,24 @@ export function stackNavigatorConfig(initialRouteName) {
 }
 
 export {
+
+  // Patches BottomTabBar so that 
+  // it's device rotation behavior
+  // is disabled. This causes red
+  // warnings when customizing the
+  // tabbar to disappear in when
+  // the device is in landscape
+  // orientation.
+  BottomTabBar,
+
+  // Adds separator item
+  // to list of items in 
+  // a Drawer navigation
+  // component
   DrawerItems,
   Seperator,
-  drawerChildNav
+
+  // Navigation helpers
+  drawerChildNav,
+  stackNavigatorConfig
 }

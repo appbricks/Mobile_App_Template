@@ -2,17 +2,29 @@
  * Copyright 2018-2018 AppBricks, Inc. or its affiliates. All Rights Reserved.
  */
 import React, { Component } from "react";
-import { createBottomTabNavigator } from 'react-navigation';
-import { BottomTabBar } from 'react-navigation-tabs';
+import { View } from "react-native";
+import { createBottomTabNavigator, SafeAreaView } from "react-navigation";
 import { Icon } from "react-native-elements";
 
 import Logger from "../../../lib/utils/Logger";
+
+// Modified react-navigation "BottomTabBar" that does not
+// display red-warnings when it is removed from navigation
+// when device is in landscape. This happens as the
+// "withDimensions" HOC that wraps the "react-navigation"
+// "TabBarBottom" registers callbacks for Dimensions "change" 
+// event which are fired after component has been removed.
+import { BottomTabBar } from "../../components/Navigation";
 
 import MyListingsNav from "../MyListingsNav";
 import MySpacesNav from "../MySpacesNav";
 import ScheduleNav from "../ScheduleNav";
 import AlertsNav from "../AlertsNav";
 
+import {
+  THEME,
+  DEVICE
+} from "../../styles/common";
 import styles, {
   tabStyles,
   stackStyles
@@ -87,15 +99,23 @@ const HomeNav = createBottomTabNavigator(
         constructor(props) {
           super(props);
         }
-
         render() {
+          if (DEVICE.orientation === "LANDSCAPE") {
+            return (
+              <SafeAreaView
+                style={{ backgroundColor: THEME.tabBarBackground }}
+              />
+            );
 
-          return (
-            <BottomTabBar
-              adaptive={false}
-              {...this.props}
-              style={styles.tabBarStyle}
-            />);
+          } else {
+            return (
+              <BottomTabBar
+                adaptive={false}
+                {...this.props}
+                style={styles.tabBarStyle}
+              />
+            );
+          }
         }
       }
 
@@ -113,7 +133,7 @@ const HomeNav = createBottomTabNavigator(
   }
 );
 
-export default HomeNav;
+export default DEVICE.orientationAware(HomeNav);
 
 // Stack navigation helpers
 
@@ -131,22 +151,27 @@ export function stackFirstHeader(title, context?) {
       headerStyle: stackStyles.header,
       headerTitleStyle: stackStyles.headerTitle,
       headerBackTitleStyle: stackStyles.headerBackTitle,
-      headerLeft: (
-        <Icon
-          type="font-awesome"
-          name="bars"
-          color={stackStyles.headerIconColor}
-          underlayColor="transparent"
-          containerStyle={styles.stackHeaderIcon}
-          onPress={screenProps.mainNavigator.openDrawer}
-        />
-      ),
       title: title
     };
 
+    if (DEVICE.isOrientationPotrait()) {
+      options = Object.assign(options, {
+        headerLeft: (
+          <Icon
+            type="font-awesome"
+            name="bars"
+            color={stackStyles.headerIconColor}
+            underlayColor="transparent"
+            containerStyle={styles.stackHeaderIcon}
+            onPress={screenProps.mainNavigator.openDrawer}
+          />
+        )
+      });
+    } else {
+      setTimeout(() => screenProps.mainNavigator.closeDrawer());
+    }
     if (context) {
-
-      return Object.assign(options, {
+      options = Object.assign(options, {
         headerRight: (
           <Icon
             type={context.iconType}
@@ -166,9 +191,8 @@ export function stackFirstHeader(title, context?) {
           />
         )
       })
-    } else {
-      return options;
     }
+    return options;
   };
 }
 
