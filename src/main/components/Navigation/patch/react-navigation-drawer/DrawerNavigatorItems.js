@@ -6,7 +6,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import TouchableItem from './TouchableItem';
 
-import { COLORS } from "../../styles/common";
+import { COLORS } from "../../../../styles/common";
 
 /**
  * Component that renders the navigation list in the drawer.
