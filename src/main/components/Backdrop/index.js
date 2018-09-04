@@ -106,7 +106,7 @@ export function withBackdrop(image, C, key = "N/A") {
 
       return (
         <Backdrop image={image}>
-          <C navigation={navigation} {...this.props} />;
+          <C navigation={navigation} {...this.props} />
         </Backdrop>
       );
     }

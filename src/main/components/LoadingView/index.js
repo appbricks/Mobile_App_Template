@@ -25,7 +25,7 @@ export default class LoadingView extends Component<Props> {
             <MaterialIndicator color={COLORS.white} size={LOADING_ICON_SIZE} />
           </View>
         )
-        : ""
+        : false
     );
   }
 }
