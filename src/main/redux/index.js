@@ -9,8 +9,7 @@ import { reduxLogger } from "../../lib/utils/Logger";
 import { initAuthStore } from "./reducers/auth"
 
 import {
-  updateAvatar,
-  setHomeContext
+  updateAvatar
 } from "./actions/ui";
 import {
   loadAuthState,
@@ -42,6 +41,5 @@ export {
   updateUser,
 
   // UI action dispatch creators
-  updateAvatar,
-  setHomeContext
+  updateAvatar
 }

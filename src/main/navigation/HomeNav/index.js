@@ -16,11 +16,6 @@ import Logger from "../../../lib/utils/Logger";
 // event which are fired after component has been removed.
 import { BottomTabBar } from "../../components/Navigation";
 
-import {
-  reduxStore,
-  setHomeContext
-} from "../../redux";
-
 import MyListingsNav from "../MyListingsNav";
 import MySpacesNav from "../MySpacesNav";
 import ScheduleNav from "../ScheduleNav";
@@ -165,21 +160,6 @@ export default DEVICE.orientationAware(HomeNav);
 export function stackFirstHeader(title, context?) {
 
   return ({ navigation, screenProps }) => {
-
-    switch (title) {
-      case "My Listings":
-        reduxStore.dispatch(setHomeContext("listings"));
-        break;
-      case "My Spaces":
-        reduxStore.dispatch(setHomeContext("spaces"));
-        break;
-      case "Schedule":
-        reduxStore.dispatch(setHomeContext("schedule"));
-        break;
-      case "Alerts":
-        reduxStore.dispatch(setHomeContext("alerts"));
-        break;
-    }
 
     let options = {
       headerTransparent: true,

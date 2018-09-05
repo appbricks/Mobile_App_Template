@@ -13,4 +13,3 @@ export const UPDATE_USER = "UPDATE_USER";
 // User interface action types
 
 export const UPDATE_AVATAR = "UPDATE_AVATAR";
-export const SET_HOME_CONTEXT = "SET_HOME_CONTEXT";

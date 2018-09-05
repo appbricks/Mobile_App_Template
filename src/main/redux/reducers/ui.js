@@ -4,21 +4,16 @@
 import {
   SIGN_IN,
   UPDATE_USER,
-  UPDATE_AVATAR,
-  SET_HOME_CONTEXT
+  UPDATE_AVATAR
 } from "../actions/types";
 
 import Avatar from "../../../lib/presentation/Avatar";
 
 export const initialUIState = (
-  avatar = new Avatar(),
-  navigation = {
-    home: undefined,
-  }
+  avatar = new Avatar()
 ) => {
   return {
-    avatar,
-    navigation
+    avatar
   };
 };
 
@@ -32,10 +27,6 @@ const reducer = (state, action) => {
 
       state.avatar.updateAvatar(action.data.user);
       break;
-
-    case SET_HOME_CONTEXT:
-
-      state.navigation.home = action.data.name;
   }
   return state;
 };

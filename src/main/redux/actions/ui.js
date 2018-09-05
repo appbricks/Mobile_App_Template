@@ -4,8 +4,7 @@
  * UI action dispatch creators
  */
 import {
-  UPDATE_AVATAR,
-  SET_HOME_CONTEXT
+  UPDATE_AVATAR
 } from "./types";
 
 import Logger from "../../../lib/utils/Logger";
@@ -29,12 +28,3 @@ export const updateAvatar = (user) => {
     return {};
   }
 };
-
-export const setHomeContext = (name) => {
-  return {
-    type: SET_HOME_CONTEXT,
-    data: {
-      name
-    }
-  }
-}
