@@ -153,13 +153,13 @@ class Schedule extends AuthComponent<Props> {
 
     return (
       <StackView
-        scrollHeight={DEVICE.homeViewHeight - 15}
+        scrollHeight={DEVICE.homeViewHeight + DEVICE.headerHeight}
         scrollEnabled={false}
         backgroundImage={backgroundImage}>
 
         <Agenda
           theme={agendaViewTheme}
-          style={[styles.scheduleCard, { height: DEVICE.homeViewHeight - 20 }]}
+          style={[styles.scheduleCard, { marginTop: DEVICE.headerHeight + 10, marginBottom: 10 }]}
           items={this.state.items}
           loadItemsForMonth={this.loadItems.bind(this)}
           selected={this.timeToString(new Date())}

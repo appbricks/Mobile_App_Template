@@ -21,7 +21,8 @@ export default class StackView extends Component<Props> {
 
     this.childRefs = [];
 
-    if (this.props.children) {
+    if (!this.props.scrollHeight
+      && this.props.children) {
 
       if (Array.isArray(this.props.children)) {
         this.props.children.forEach(child => {
