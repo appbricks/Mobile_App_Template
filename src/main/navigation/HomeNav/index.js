@@ -16,6 +16,11 @@ import Logger from "../../../lib/utils/Logger";
 // event which are fired after component has been removed.
 import { BottomTabBar } from "../../components/Navigation";
 
+import {
+  reduxStore,
+  setHomeContext
+} from "../../redux";
+
 import MyListingsNav from "../MyListingsNav";
 import MySpacesNav from "../MySpacesNav";
 import ScheduleNav from "../ScheduleNav";
@@ -29,8 +34,6 @@ import styles, {
   tabStyles,
   stackStyles
 } from "./styles";
-
-type Props = {};
 
 const HomeNav = createBottomTabNavigator(
   {
@@ -111,6 +114,7 @@ const HomeNav = createBottomTabNavigator(
     initialRouteName: "MyListingsNav",
     tabBarComponent: props => {
 
+      type Props = {};
       const C = class extends Component<Props> {
         constructor(props) {
           super(props);
@@ -161,6 +165,21 @@ export default DEVICE.orientationAware(HomeNav);
 export function stackFirstHeader(title, context?) {
 
   return ({ navigation, screenProps }) => {
+
+    switch (title) {
+      case "My Listings":
+        reduxStore.dispatch(setHomeContext("listings"));
+        break;
+      case "My Spaces":
+        reduxStore.dispatch(setHomeContext("spaces"));
+        break;
+      case "Schedule":
+        reduxStore.dispatch(setHomeContext("schedule"));
+        break;
+      case "Alerts":
+        reduxStore.dispatch(setHomeContext("alerts"));
+        break;
+    }
 
     let options = {
       headerTransparent: true,
