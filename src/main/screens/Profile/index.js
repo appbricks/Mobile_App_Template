@@ -14,7 +14,7 @@ import AuthComponent, {
 
 import {
   updateUser
-} from "../../redux/actions/creators"
+} from "../../redux";
 
 import StackView from "../../components/StackView";
 import CardView from "../../components/CardView";

@@ -2,7 +2,6 @@
  * Copyright 2018-2018 AppBricks, Inc. or its affiliates. All Rights Reserved.
  */
 
-
 import UIReducer, { initialUIState } from "./ui"
 import AuthReducer, { initialAuthState } from "./auth"
 

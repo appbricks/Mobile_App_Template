@@ -21,7 +21,7 @@ import {
   signInUser,
   signOutUser,
   updateAvatar
-} from "../../redux/actions/creators"
+} from "../../redux";
 
 import {
   AUTH_NO_MFA,

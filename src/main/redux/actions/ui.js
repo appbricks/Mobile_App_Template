@@ -5,6 +5,7 @@
  */
 import {
   UPDATE_AVATAR,
+  SET_HOME_CONTEXT
 } from "./types";
 
 import Logger from "../../../lib/utils/Logger";
@@ -16,7 +17,7 @@ export const updateAvatar = (user) => {
     return {
       type: UPDATE_AVATAR,
       data: {
-        user: user
+        user
       }
     };
 
@@ -28,3 +29,12 @@ export const updateAvatar = (user) => {
     return {};
   }
 };
+
+export const setHomeContext = (name) => {
+  return {
+    type: SET_HOME_CONTEXT,
+    data: {
+      name
+    }
+  }
+}

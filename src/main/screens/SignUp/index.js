@@ -6,7 +6,7 @@ import { View, Text, Linking } from 'react-native';
 import { Icon, Button, Badge } from "react-native-elements";
 
 import { connect } from "react-redux";
-import { resetUser } from "../../redux/actions/creators"
+import { resetUser } from "../../redux";
 
 import Dialog from "../../components/Dialog"
 import TextInput from "../../components/TextInput"
