@@ -17,8 +17,6 @@ import Orientation from "react-native-orientation";
 
 import { functionKey } from "../utils/functions";
 
-type Props = {};
-
 // Iphone X Dimensions
 // https://mediag.com/news/popular-screen-resolutions-designing-for-all/
 
@@ -92,6 +90,7 @@ export default class Device {
 
     const device = this;
 
+    type Props = {};
     return class extends Component<Props> {
 
       constructor(props) {
