@@ -1,0 +1,4 @@
+[submodule "vendor/react-native-calendars"]
+	path = vendor/react-native-calendars
+	url = https://github.com/mevansam/react-native-calendars.git
+	branch = ab-dev

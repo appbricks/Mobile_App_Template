@@ -24,11 +24,13 @@ export const agendaViewTheme = {
   textDisabledColor: THEME.disabledColor,
 
   monthTextColor: THEME.color,
-  textDayFontFamily: "Lato-Regular",
   textMonthFontFamily: "Lato-Bold",
   textMonthFontWeight: "bold",
-  textDayFontSize: 16,
   textMonthFontSize: 16,
+  textDayHeaderFontFamily: "Lato-Bold",
+  textDayHeaderFontSize: 13,
+  textDayFontFamily: "Lato-Regular",
+  textDayFontSize: 16,
 
   dotColor: COLORS.red,
   selectedDotColor: COLORS.white,
@@ -41,35 +43,6 @@ export const agendaViewTheme = {
   agendaKnobColor: COLORS.iconShade1,
   agendaDayNumColor: COLORS.white,
   agendaDayTextColor: COLORS.white,
-
-  "stylesheet.agenda.main": {
-    weekdays: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      marginLeft: 2,
-      paddingTop: 15,
-      paddingBottom: 7,
-      backgroundColor: THEME.cardBackground,
-    },
-    weekday: {
-      width: 32,
-      textAlign: 'center',
-      color: THEME.color,
-      fontSize: 14,
-      fontFamily: "Lato-Regular",
-    },
-    reservations: {
-      flex: 1,
-      marginTop: 100,
-      paddingTop: 2,
-      paddingBottom: 2,
-      backgroundColor: THEME.homeBarBackground,
-    },
-  },
 
   "stylesheet.calendar-list.main": {
     calendar: {
@@ -95,7 +68,8 @@ export default StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginRight: 10,
-    marginTop: 17
+    marginTop: 8,
+    marginBottom: 8
   },
   itemText: {
     padding: 2,
