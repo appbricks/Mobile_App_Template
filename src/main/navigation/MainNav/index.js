@@ -183,6 +183,8 @@ export function stackFirstHeader(title) {
 
   return ({ navigation, screenProps }) => {
 
+    DEVICE.unlockAllOrientations();
+
     let options = {
       headerTransparent: true,
       headerStyle: stackStyles.header,
