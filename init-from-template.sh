@@ -29,6 +29,7 @@ rm -fr $DEST_PROJECT
 react-native init $DEST_PROJECT
 rm $DEST_PROJECT/App.js
 cp -r $SRC_PROJECT/src $DEST_PROJECT
+cp -r $SRC_PROJECT/vendor $DEST_PROJECT
 cp $SRC_PROJECT/package.json $DEST_PROJECT
 cp $SRC_PROJECT/index.js $DEST_PROJECT
 
