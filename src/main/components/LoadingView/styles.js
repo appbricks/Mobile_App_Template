@@ -3,10 +3,6 @@
  */
 import { StyleSheet } from "react-native";
 
-import {
-  DEVICE,
-} from "../../styles/common"
-
 export const LOADING_ICON_SIZE = 60;
 
 export default StyleSheet.create({
@@ -16,8 +12,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: "absolute",
-    width: DEVICE.viewportWidth,
-    height: DEVICE.viewportHeight,
     top: 0,
     left: 0
   }

@@ -6,7 +6,10 @@ import { View } from 'react-native';
 
 import { MaterialIndicator } from "react-native-indicators";
 
-import common, { COLORS } from "../../styles/common"
+import common, {
+  COLORS,
+  DEVICE
+} from "../../styles/common"
 import styles, { LOADING_ICON_SIZE } from "./styles";
 
 type Props = {};
@@ -21,7 +24,18 @@ export default class LoadingView extends Component<Props> {
     return (
       this.props.show
         ? (
-          <View style={styles.container}>
+          <View style={[
+            styles.container,
+            DEVICE.isOrientationPotrait()
+              ? {
+                width: DEVICE.viewportWidth,
+                height: DEVICE.viewportHeight
+              }
+              : {
+                width: DEVICE.viewportHeight,
+                height: DEVICE.viewportWidth
+              }
+          ]}>
             <MaterialIndicator color={COLORS.white} size={LOADING_ICON_SIZE} />
           </View>
         )

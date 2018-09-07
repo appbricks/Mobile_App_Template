@@ -34,8 +34,16 @@ export default class Device {
       height
     } = Dimensions.get("window");
 
-    this.viewportWidth = width;
-    this.viewportHeight = height;
+    this.orientation = Orientation.getInitialOrientation();
+    Orientation.addOrientationListener(this._orientationDidChange.bind(this));
+
+    if (this.orientation === "LANDSCAPE") {
+      this.viewportWidth = height;
+      this.viewportHeight = width;
+    } else {
+      this.viewportWidth = width;
+      this.viewportHeight = height;
+    }
 
     this.topBarHeight = topBarHeight;
     this.bottomBarHeight = bottomBarHeight;
@@ -50,9 +58,6 @@ export default class Device {
     this.isWeb = (Platform.OS === "web")
 
     this.isIPhoneX = this._isIPhoneX();
-
-    this.orientation = Orientation.getInitialOrientation();
-    Orientation.addOrientationListener(this._orientationDidChange.bind(this));
 
     this.orientationListeners = {};
     this._calculateDynamicDimensions(this.orientation);
