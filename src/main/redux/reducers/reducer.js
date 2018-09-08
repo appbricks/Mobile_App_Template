@@ -2,8 +2,8 @@
  * Copyright 2018-2018 AppBricks, Inc. or its affiliates. All Rights Reserved.
  */
 
-import UIReducer, { initialUIState } from "./ui"
-import AuthReducer, { initialAuthState } from "./auth"
+import uiReducer, { initialUIState } from "./ui"
+import authReducer, { initialAuthState } from "./auth"
 
 /** 
  * Initial state
@@ -29,7 +29,7 @@ const initialState = () => {
 export const reducer = (state = initialState(), action) => {
 
   return {
-    ui: UIReducer(state.ui, action),
-    auth: AuthReducer(state.auth, action)
+    ui: uiReducer(state.ui, action),
+    auth: authReducer(state.auth, action)
   };
 };
