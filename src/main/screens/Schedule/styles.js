@@ -47,7 +47,7 @@ export const agendaViewTheme = {
   "stylesheet.calendar-list.main": {
     calendar: {
       paddingLeft: 2,
-      paddingRight: 24
+      paddingRight: 4
     }
   }
 }
